@@ -14,3 +14,13 @@
 #       methods: [:get, :post, :put, :patch, :delete, :options, :head]
 #   end
 # end
+
+Rails.application.config.middleware.insert_before 0, Rack::Cors do
+  allow do
+    origins '127.0.0.1:4000', 'localhost:4000', '127.0.0.1:4001', 'localhost:4001', 'https://tsuku-katsu.vercel.app/'
+
+    resource '*',
+      headers: :any,
+      methods: [:get, :post, :put, :patch, :delete, :options, :head]
+  end
+end
