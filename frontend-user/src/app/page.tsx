@@ -1,40 +1,39 @@
-"use client";
+"use server";
 
 import CompanyCard from "@/components/elements/CompanyCard";
 import HomeView from "@/components/elements/HomeView";
-import { useEffect, useState } from "react";
+import { getAllCompanies } from "@/libs/fetchCompanies";
+// import { useEffect, useState } from "react";
 
 type Company = {
   image: string;
   name: string;
-  student: {
-    name: string;
-    info: string;
-  };
+  student_name: string;
+  student_info: string;
   description: string;
-  detailLink: string;
+  detail_link: string;
 };
 
-export default function Home() {
-  const [companies, setCompanies] = useState<Company[]>([]);
+export default async function Home() {
+  const companies: Company[] = await getAllCompanies();
+  console.log('Fetched Companies:', companies);
+  // const [companies, setCompanies] = useState<Company[]>([]);
+  // useEffect(() => {
+  //   const fetchCompanies = async () => {
+  //     try {
+  //       const response = await fetch('/api/companies');
+  //       if (!response.ok) {
+  //         throw new Error("Failed to fetch companies");
+  //       }
+  //       const data = await response.json();
+  //       setCompanies(data);
+  //     } catch (error) {
+  //       console.error("Error fetching companies:", error);
+  //     }
+  //   };
 
-  useEffect(() => {
-    // APIからデータを取得する
-    const fetchCompanies = async () => {
-      try {
-        const response = await fetch('/api/companies'); // ここは実際のAPIのエンドポイントに変更
-        if (!response.ok) {
-          throw new Error("Failed to fetch companies");
-        }
-        const data = await response.json();
-        setCompanies(data);
-      } catch (error) {
-        console.error("Error fetching companies:", error);
-      }
-    };
-
-    fetchCompanies();
-  }, []);
+  //   fetchCompanies();
+  // }, []);
 
   return (
     <div>
@@ -50,10 +49,10 @@ export default function Home() {
               key={index}
               companyImage={company.image}
               companyName={company.name}
-              userName={company.student.name}
-              userInfo={company.student.info}
+              userName={company.student_name}
+              userInfo={company.student_info}
               companyDescription={company.description}
-              detailLink={company.detailLink}
+              detailLink={company.detail_link}
             />
           ))
         ) : (
