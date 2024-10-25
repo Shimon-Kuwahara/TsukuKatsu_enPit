@@ -6,11 +6,18 @@ const Header = () => {
       <div className="text-3xl font-light text-blue-500">つくかつ</div>
 
       <div className="flex items-center space-x-2">
+        {/* <Link href="/signin" className="bg-main-col text-white py-1 px-2 rounded">
+          口コミ投稿
+        </Link>
+
+        <Link href="/mypage" className="border border-main-col py-1 px-2 rounded">
+          マイページ
+        </Link> */}
         <Link href="/signin" className="bg-main-col text-white py-1 px-2 rounded">
           ログイン
         </Link>
 
-        <Link href="/signout" className="border border-main-col py-1 px-2 rounded">
+        <Link href="/signup" className="border border-main-col py-1 px-2 rounded">
           会員登録
         </Link>
 
