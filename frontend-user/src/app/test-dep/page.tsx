@@ -32,7 +32,7 @@ const DeployTestPage: React.FC = () => {
   }
 
   if (error) {
-    return <div>Error: {error}</div>;
+    console.error(error);
   }
 
   return (
