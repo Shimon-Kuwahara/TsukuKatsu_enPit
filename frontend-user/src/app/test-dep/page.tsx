@@ -3,7 +3,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { redirect } from "next/navigation";
 
 const DeployTestPage: React.FC = () => {
-  const [data, setData] = useState<any>(null);
+  const [data, setData] = useState<unknown>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
   const ref = useRef<HTMLFormElement>(null);
@@ -18,7 +18,7 @@ const DeployTestPage: React.FC = () => {
         const result = await response.json();
         setData(result);
       } catch (error) {
-        setError(error.message);
+        setError((error as Error).message);
       } finally {
         setLoading(false);
       }
