@@ -4,6 +4,11 @@ class RecruitmentsController < ApplicationController
   # GET /recruitments
   def index
     @recruitments = Recruitment.all
+    if @recruitments.empty?
+      render json: { message: "No recruitments found" }, status: :not_found
+    else
+      render json: @recruitments
+    end
   end
 
   # GET /recruitments/1
