@@ -30,7 +30,9 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <Sidebar />
-        {children}
+        <div className="pl-64">
+         {children}
+        </div>
       </body>
     </html>
   );
