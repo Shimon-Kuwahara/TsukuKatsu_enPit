@@ -50,7 +50,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_11_06_021930) do
     t.string "last_name_kana", null: false
     t.string "first_name_kana", null: false
     t.integer "gender", null: false
-    t.integer "university_id", null: false
+    t.integer "university", null: false
     t.string "department", null: false
     t.integer "grade", null: false
     t.integer "graduation_year", null: false
