@@ -5,7 +5,7 @@ class AddFieldsToUsers < ActiveRecord::Migration[6.0]
     add_column :users, :last_name_kana, :string, null: false
     add_column :users, :first_name_kana, :string, null: false
     add_column :users, :gender, :integer, null: false # Enumとして設定
-    add_column :users, :university_id, :integer, null: false
+    add_column :users, :university, :integer, null: false
     add_column :users, :department, :string, null: false
     add_column :users, :grade, :integer, null: false # Enumとして設定
     add_column :users, :graduation_year, :integer, null: false

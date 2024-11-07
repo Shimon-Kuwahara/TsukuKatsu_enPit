@@ -6,7 +6,7 @@ module Auth
     def sign_up_params
       params.permit(
         :email, :password, :password_confirmation, :last_name, :first_name,
-        :last_name_kana, :first_name_kana, :gender, :university_id,
+        :last_name_kana, :first_name_kana, :gender, :university,
         :department, :grade, :graduation_year, :graduation_month
       )
     end
