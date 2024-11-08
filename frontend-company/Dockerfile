@@ -4,9 +4,9 @@ ENV TZ Asia/Tokyo
 
 WORKDIR /app
 
-COPY package.json yarn.lock /app/
-RUN yarn install
+COPY package.json package-lock.json /app/
+RUN npm install
 
 COPY . /app
 
-CMD ["yarn", "dev", "-p", "4000"]
+CMD ["npm", "run", "dev", "--", "-p", "4000"]
