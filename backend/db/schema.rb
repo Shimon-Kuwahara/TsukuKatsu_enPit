@@ -10,17 +10,17 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_11_08_025442) do
+ActiveRecord::Schema[7.0].define(version: 2024_11_08_103406) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "companies", force: :cascade do |t|
-    t.string "name"
-    t.text "description"
-    t.string "website_url"
-    t.string "location"
-    t.string "email"
-    t.string "phone_number"
+    t.string "name", null: false
+    t.text "description", null: false
+    t.string "website_url", null: false
+    t.string "location", null: false
+    t.string "email", null: false
+    t.string "phone_number", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "provider", default: "email", null: false
@@ -35,6 +35,8 @@ ActiveRecord::Schema[7.0].define(version: 2024_11_08_025442) do
     t.datetime "confirmation_sent_at"
     t.string "unconfirmed_email"
     t.json "tokens"
+    t.string "logo_url"
+    t.string "picture_url"
     t.index ["confirmation_token"], name: "index_companies_on_confirmation_token", unique: true
     t.index ["email"], name: "index_companies_on_email", unique: true
     t.index ["reset_password_token"], name: "index_companies_on_reset_password_token", unique: true
@@ -46,6 +48,34 @@ ActiveRecord::Schema[7.0].define(version: 2024_11_08_025442) do
     t.text "description"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "company_id", null: false
+    t.string "industry", null: false
+    t.text "benefits", null: false
+    t.text "job_description", null: false
+    t.text "job_titles", null: false
+    t.boolean "job_engineer", default: false, null: false
+    t.boolean "job_designer", default: false, null: false
+    t.boolean "job_sales", default: false, null: false
+    t.boolean "job_planning", default: false, null: false
+    t.boolean "job_marketing", default: false, null: false
+    t.boolean "job_writer", default: false, null: false
+    t.boolean "job_others", default: false, null: false
+    t.text "skills_acquired", null: false
+    t.string "wage", null: false
+    t.text "salary_notes", null: false
+    t.string "work_location", null: false
+    t.string "min_work_period", null: false
+    t.string "min_work_days", null: false
+    t.string "min_work_hours", null: false
+    t.string "commute_support", null: false
+    t.text "required_skills", null: false
+    t.text "welcome_skills", null: false
+    t.string "promotion_system", null: false
+    t.string "remote_policy", null: false
+    t.text "selection_flow", null: false
+    t.string "deadline", null: false
+    t.text "welfare_benefits", null: false
+    t.string "apply_url", null: false
   end
 
   create_table "users", force: :cascade do |t|
@@ -103,4 +133,5 @@ ActiveRecord::Schema[7.0].define(version: 2024_11_08_025442) do
     t.index ["uid", "provider"], name: "index_users_on_uid_and_provider", unique: true
   end
 
+  add_foreign_key "recruitments", "companies"
 end
