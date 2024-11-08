@@ -7,4 +7,8 @@ Rails.application.routes.draw do
     registrations: 'auth/registrations'
   }
 
+  mount_devise_token_auth_for 'Company', at: 'auth_company', controllers: {
+    registrations: 'auth/registrations_company'
+  }
+
 end
