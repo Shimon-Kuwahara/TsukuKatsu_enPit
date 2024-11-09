@@ -4,7 +4,12 @@ class CompaniesController < ApplicationController
   # GET /companies
   def index
     @companies = Company.all
-  end
+    if @companies.empty?
+      render json: { message: "No companies found" }, status: :not_found
+    else
+      render json: @companies
+    end
+  end 
 
   # GET /companies/1
   def show
