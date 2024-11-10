@@ -10,7 +10,7 @@ export default function Recruitments() {
     const fetchRecruitments = async () => {
       try {
         const response = await fetch(
-          `${process.env.NEXT_PUBLIC_API_URL}/recruitments`
+          `${process.env.NEXT_PUBLIC_API_URL}recruitments`
         );
         if (!response.ok) {
           throw new Error("Network response was not ok");
