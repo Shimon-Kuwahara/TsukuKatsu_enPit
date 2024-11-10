@@ -37,13 +37,11 @@ const SignupCompany = () => {
         }
       );
       console.log("Company account created successfully:", response.data);
-      Cookies.set("id", response.headers["id"]);
       Cookies.set("uid", response.headers["uid"]);
       Cookies.set("client", response.headers["client"]);
       Cookies.set("access-token", response.headers["access-token"]);
       router.push("/"); // Redirect to homepage or another desired page
     } catch (error) {
-      Cookies.remove("id");
       Cookies.remove("uid");
       Cookies.remove("client");
       Cookies.remove("access-token");

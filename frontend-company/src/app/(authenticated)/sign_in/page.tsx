@@ -32,15 +32,12 @@ const CompanyLogin = (): ReactElement => {
         email: data.email,
         password: data.password,
       });
-      // Set tokens in Cookie
-      Cookies.set("id", response.headers["id"]);
       Cookies.set("uid", response.headers["uid"]);
       Cookies.set("client", response.headers["client"]);
       Cookies.set("access-token", response.headers["access-token"]);
       router.push("/");
     } catch (error) {
       if (axios.isAxiosError(error)) {
-        Cookies.remove("id");
         Cookies.remove("uid");
         Cookies.remove("client");
         Cookies.remove("access-token");
