@@ -11,8 +11,14 @@ class RecruitmentsController < ApplicationController
     end
   end
 
-  # GET /recruitments/1
+  # GET /recruitments/:id
   def show
+    @recruitment = Recruitment.find_by(id: params[:id])
+    if @recruitment
+      render json: @recruitment
+    else
+      render json: { message: "Recruitment not found" }, status: :not_found
+    end
   end
 
   # GET /recruitments/new
