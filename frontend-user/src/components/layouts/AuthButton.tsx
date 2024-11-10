@@ -11,11 +11,11 @@ export default function AuthButton() {
   }, []);
 
   return (
-    <div>
+    <div className="space-x-1">
       {isUidPresent ? (
         <Link
           href="/"
-          className="border border-main-col hover:bg-gray-100 py-1 px-2 rounded"
+          className="border border-main-col hover:bg-gray-100 py-2 px-2 rounded"
         >
           ログイン済
         </Link>
@@ -23,13 +23,13 @@ export default function AuthButton() {
         <>
           <Link
             href="/sign_in"
-            className="bg-main-col hover:bg-purple-700 text-white py-1 px-2 rounded"
+            className="bg-main-col hover:bg-purple-700 text-white py-2 px-2 rounded"
           >
             ログイン
           </Link>
           <Link
             href="/sign_up"
-            className="border border-main-col hover:bg-gray-100 py-1 px-2 rounded"
+            className="border border-main-col hover:bg-gray-100 py-2 px-2 rounded"
           >
             会員登録
           </Link>
