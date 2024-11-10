@@ -37,11 +37,13 @@ const SignupCompany = () => {
         }
       );
       console.log("Company account created successfully:", response.data);
+      Cookies.set("id", response.headers["id"]);
       Cookies.set("uid", response.headers["uid"]);
       Cookies.set("client", response.headers["client"]);
       Cookies.set("access-token", response.headers["access-token"]);
       router.push("/"); // Redirect to homepage or another desired page
     } catch (error) {
+      Cookies.remove("id");
       Cookies.remove("uid");
       Cookies.remove("client");
       Cookies.remove("access-token");
@@ -52,7 +54,10 @@ const SignupCompany = () => {
   return (
     <>
       <h1 className="text-2xl font-bold text-center pt-4">会社登録</h1>
-      <form onSubmit={handleSubmit(onSubmit)} className="max-w-lg mx-auto p-8 m-8">
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        className="max-w-lg mx-auto p-8 m-8"
+      >
         <div className="mb-4">
           <label className="block text-gray-700">会社名</label>
           <input
@@ -64,7 +69,9 @@ const SignupCompany = () => {
             placeholder="会社名を入力してください"
           />
           {errors.name && (
-            <span className="text-red-500">{errors.name.message as React.ReactNode}</span>
+            <span className="text-red-500">
+              {errors.name.message as React.ReactNode}
+            </span>
           )}
         </div>
 
@@ -78,7 +85,9 @@ const SignupCompany = () => {
             placeholder="会社の説明を入力してください"
           />
           {errors.description && (
-            <span className="text-red-500">{errors.description.message as React.ReactNode}</span>
+            <span className="text-red-500">
+              {errors.description.message as React.ReactNode}
+            </span>
           )}
         </div>
 
@@ -93,7 +102,9 @@ const SignupCompany = () => {
             placeholder="ウェブサイトのURLを入力してください"
           />
           {errors.websiteUrl && (
-            <span className="text-red-500">{errors.websiteUrl.message as React.ReactNode}</span>
+            <span className="text-red-500">
+              {errors.websiteUrl.message as React.ReactNode}
+            </span>
           )}
         </div>
 
@@ -108,7 +119,9 @@ const SignupCompany = () => {
             placeholder="所在地を入力してください"
           />
           {errors.location && (
-            <span className="text-red-500">{errors.location.message as React.ReactNode}</span>
+            <span className="text-red-500">
+              {errors.location.message as React.ReactNode}
+            </span>
           )}
         </div>
 
@@ -123,7 +136,9 @@ const SignupCompany = () => {
             placeholder="メールアドレスを入力してください"
           />
           {errors.email && (
-            <span className="text-red-500">{errors.email.message as React.ReactNode}</span>
+            <span className="text-red-500">
+              {errors.email.message as React.ReactNode}
+            </span>
           )}
         </div>
 
@@ -138,7 +153,9 @@ const SignupCompany = () => {
             placeholder="電話番号を入力してください"
           />
           {errors.phoneNumber && (
-            <span className="text-red-500">{errors.phoneNumber.message as React.ReactNode}</span>
+            <span className="text-red-500">
+              {errors.phoneNumber.message as React.ReactNode}
+            </span>
           )}
         </div>
 
@@ -152,7 +169,9 @@ const SignupCompany = () => {
             className="w-full p-2 border rounded"
           />
           {errors.password && (
-            <span className="text-red-500">{errors.password.message as React.ReactNode}</span>
+            <span className="text-red-500">
+              {errors.password.message as React.ReactNode}
+            </span>
           )}
         </div>
 
