@@ -2,6 +2,7 @@
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import Image from "next/image";
+import Link from "next/link"; // Importing Link
 import { Recruitment } from "../../../types/recruitment";
 import { Company } from "../../../types/company"; // 型定義ファイルをインポート
 
@@ -49,14 +50,14 @@ const RecruitmentDetailPage = () => {
       <div className="mb-6 space-y-4">
         <p className="text-sm text-main-col">{recruitment.title}</p>
         <p className="">所在地: {company.location}</p>
-        <a
+        <Link
           href={company.website_url}
           target="_blank"
           rel="noopener noreferrer"
           className="text-blue-500 underline"
         >
           {company.website_url}
-        </a>
+        </Link>
       </div>
 
       {/* Description Section */}
@@ -73,13 +74,6 @@ const RecruitmentDetailPage = () => {
       <div className="mb-6">
         <h3 className="text-lg font-bold text-main-col mb-2">特徴</h3>
         <p className="text-sm">{recruitment.benefits}</p>
-        {/* <ul className="list-disc pl-6 space-y-1">
-          {recruitment.benefits.split(",").map((benefit, index) => (
-            <li key={index} className="text-gray-700">
-              {benefit.trim()}
-            </li>
-          ))}
-        </ul> */}
       </div>
 
       {/* Job Information */}
@@ -129,12 +123,12 @@ const RecruitmentDetailPage = () => {
 
       {/* Apply Button */}
       <div className="text-center">
-        <a
+        <Link
           href={recruitment.apply_url}
           className="bg-main-col text-white px-4 py-2 rounded hover:bg-purple-700"
         >
           応募画面へ
-        </a>
+        </Link>
       </div>
     </div>
   );
