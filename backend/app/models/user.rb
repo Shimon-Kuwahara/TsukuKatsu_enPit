@@ -6,20 +6,6 @@ class User < ActiveRecord::Base
   enum university: { 筑波大学: 0, 筑波大学大学院: 1, 筑波技術大学: 2 }
   enum desired_company_size: { small: 0, medium: 1, large: 2 } #適切に書き換える
   enum desired_job: { engineer: 0, designer: 1, product_manager: 2 } #適切に書き換える
-  enum graduation_month: {
-    january: 1,
-    february: 2,
-    march: 3,
-    april: 4,
-    may: 5,
-    june: 6,
-    july: 7,
-    august: 8,
-    september: 9,
-    october: 10,
-    november: 11,
-    december: 12
-  }
 
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
