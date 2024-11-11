@@ -1,6 +1,7 @@
 # 既存のデータを削除
 Recruitment.destroy_all # まずRecruitmentを削除して、Companyに関連する外部キー制約エラーを回避
 Company.destroy_all
+User.destroy_all
 
 # 会社データとリクルートメントデータを含む配列を定義
 companies = [
@@ -256,5 +257,22 @@ companies.each do |data|
     puts "エラーが発生しました: #{e.record.errors.full_messages.join(', ')}"
   end
 end
+
+# ユーザーデータの作成
+user = User.create!(
+  email: "test@example.com",
+  password: "password",
+  confirmed_at: Time.current,
+  last_name: "山田",
+  first_name: "太郎",
+  last_name_kana: "ヤマダ",
+  first_name_kana: "タロウ",
+  gender: 1, 
+  university: 1,
+  department: "工学部",
+  grade: 3,
+  graduation_year: 2025,
+  graduation_month: 3,
+)
 
 puts "シードデータの作成が完了しました！"
