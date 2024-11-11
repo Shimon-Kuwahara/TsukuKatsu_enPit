@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_11_08_103406) do
+ActiveRecord::Schema[7.0].define(version: 2024_11_11_161651) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -35,8 +35,8 @@ ActiveRecord::Schema[7.0].define(version: 2024_11_08_103406) do
     t.datetime "confirmation_sent_at"
     t.string "unconfirmed_email"
     t.json "tokens"
-    t.string "logo_url"
-    t.string "picture_url"
+    t.string "logo_url", default: ""
+    t.string "picture_url", default: ""
     t.index ["confirmation_token"], name: "index_companies_on_confirmation_token", unique: true
     t.index ["email"], name: "index_companies_on_email", unique: true
     t.index ["reset_password_token"], name: "index_companies_on_reset_password_token", unique: true
@@ -76,6 +76,23 @@ ActiveRecord::Schema[7.0].define(version: 2024_11_08_103406) do
     t.string "deadline", null: false
     t.text "welfare_benefits", null: false
     t.string "apply_url", null: false
+  end
+
+  create_table "reviews", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "company_id", null: false
+    t.text "job_description", null: false
+    t.text "joining_reason_gap"
+    t.text "work_life_balance"
+    t.text "work_environment"
+    t.text "selection_process"
+    t.text "work_atmosphere"
+    t.text "intern_relations"
+    t.text "support"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["company_id"], name: "index_reviews_on_company_id"
+    t.index ["user_id"], name: "index_reviews_on_user_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -134,4 +151,6 @@ ActiveRecord::Schema[7.0].define(version: 2024_11_08_103406) do
   end
 
   add_foreign_key "recruitments", "companies"
+  add_foreign_key "reviews", "companies"
+  add_foreign_key "reviews", "users"
 end
