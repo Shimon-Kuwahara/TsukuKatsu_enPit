@@ -11,18 +11,28 @@ class RecruitmentsController < ApplicationController
     end
   end
 
-  # GET /recruitments/:id
-def show
-  @recruitment = Recruitment.includes(:company).find_by(id: params[:id])
-  if @recruitment
-    render json: {
-      recruitment: @recruitment,
-      company: @recruitment.company
-    }
-  else
-    render json: { message: "Recruitment not found" }, status: :not_found
+  def by_company_uid
+    company = Company.find_by(uid: params[:uid])
+    if company
+      recruitments = company.recruitments
+      render json: recruitments
+    else
+      render json: { error: "Company not found" }, status: :not_found
+    end
   end
-end
+
+  # GET /recruitments/:id
+  def show
+    @recruitment = Recruitment.includes(:company).find_by(id: params[:id])
+    if @recruitment
+      render json: {
+        recruitment: @recruitment,
+        company: @recruitment.company
+      }
+    else
+      render json: { message: "Recruitment not found" }, status: :not_found
+    end
+  end
 
 
   # GET /recruitments/new
