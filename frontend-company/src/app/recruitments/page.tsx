@@ -5,12 +5,12 @@ import { Recruitment } from "@/types/recruitment";
 
 export default function Recruitments() {
   const [recruitments, setRecruitments] = useState<Recruitment[]>([]);
-  const currnt_company_uid = Cookies.get("uid");
+  const currnt_company_id = Cookies.get("id");
 
   useEffect(() => {
     const fetchRecruitments = async () => {
       try {
-        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}recruitments/by_company_uid?uid=${currnt_company_uid}`);
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}recruitments/by_company_id?id=${currnt_company_id}`);
         if (!response.ok) {
           throw new Error("Failed to fetch recruitments");
         }
@@ -21,15 +21,18 @@ export default function Recruitments() {
       }
     };
 
-    if (currnt_company_uid) {
+    if (currnt_company_id) {
       fetchRecruitments();
     }
-  }, [currnt_company_uid]);
+  }, [currnt_company_id]);
 
   const handleDelete = async (recruitmentId: number) => {
     try {
       const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}recruitments/${recruitmentId}`, {
         method: 'DELETE',
+        headers: {
+          "Content-Type": "application/json",
+        },
       });
 
       if (!response.ok) {
