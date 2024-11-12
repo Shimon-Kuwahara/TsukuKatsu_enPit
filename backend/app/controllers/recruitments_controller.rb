@@ -11,18 +11,28 @@ class RecruitmentsController < ApplicationController
     end
   end
 
-  # GET /recruitments/:id
-def show
-  @recruitment = Recruitment.includes(:company).find_by(id: params[:id])
-  if @recruitment
-    render json: {
-      recruitment: @recruitment,
-      company: @recruitment.company
-    }
-  else
-    render json: { message: "Recruitment not found" }, status: :not_found
+  def by_company_uid
+    company = Company.find_by(uid: params[:uid])
+    if company
+      recruitments = company.recruitments
+      render json: recruitments
+    else
+      render json: { error: "Company not found" }, status: :not_found
+    end
   end
-end
+
+  # GET /recruitments/:id
+  def show
+    @recruitment = Recruitment.includes(:company).find_by(id: params[:id])
+    if @recruitment
+      render json: {
+        recruitment: @recruitment,
+        company: @recruitment.company
+      }
+    else
+      render json: { message: "Recruitment not found" }, status: :not_found
+    end
+  end
 
 
   # GET /recruitments/new
@@ -66,8 +76,15 @@ end
       @recruitment = Recruitment.find(params[:id])
     end
 
-    # Only allow a list of trusted parameters through.
     def recruitment_params
-      params.require(:recruitment).permit(:title, :description)
+      params.require(:recruitment).permit(
+        :title, :description, :company_id, :industry, :benefits, :job_description,
+        :job_titles, :job_engineer, :job_designer, :job_sales, :job_planning,
+        :job_marketing, :job_writer, :job_others, :skills_acquired, :wage,
+        :salary_notes, :work_location, :min_work_period, :min_work_days,
+        :min_work_hours, :commute_support, :required_skills, :welcome_skills,
+        :promotion_system, :remote_policy, :selection_flow, :deadline,
+        :welfare_benefits, :apply_url
+      )
     end
 end

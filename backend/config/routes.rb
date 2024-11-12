@@ -1,8 +1,13 @@
 Rails.application.routes.draw do
   resources :companies
-  resources :recruitments
+  resources :recruitments do
+    collection do
+      get 'by_company_uid', to: 'recruitments#by_company_uid'
+    end
+  end
 
   get 'users', to: 'users#index'
+
   mount_devise_token_auth_for 'User', at: 'auth', controllers: {
     registrations: 'auth/registrations'
   }
@@ -10,5 +15,4 @@ Rails.application.routes.draw do
   mount_devise_token_auth_for 'Company', at: 'auth_company', controllers: {
     registrations: 'auth/registrations_company'
   }
-
 end

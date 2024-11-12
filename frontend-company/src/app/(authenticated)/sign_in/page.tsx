@@ -32,14 +32,12 @@ const CompanyLogin = (): ReactElement => {
         email: data.email,
         password: data.password,
       });
-      // Set tokens in Cookies
       Cookies.set("uid", response.headers["uid"]);
       Cookies.set("client", response.headers["client"]);
       Cookies.set("access-token", response.headers["access-token"]);
-      router.push("/"); // Redirect as needed
+      router.push("/");
     } catch (error) {
       if (axios.isAxiosError(error)) {
-        // Remove tokens from Cookies
         Cookies.remove("uid");
         Cookies.remove("client");
         Cookies.remove("access-token");
@@ -91,7 +89,10 @@ const CompanyLogin = (): ReactElement => {
               className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             />
           </div>
-          <Link href="/company_sign_up" className="text-sm text-sub-col hover:text-blue-900">
+          <Link
+            href="/company_sign_up"
+            className="text-sm text-sub-col hover:text-blue-900"
+          >
             アカウントをお持ちでない方はこちら
           </Link>
           <div className="flex items-center justify-between">
