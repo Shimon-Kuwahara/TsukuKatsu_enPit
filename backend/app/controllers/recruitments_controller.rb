@@ -11,8 +11,8 @@ class RecruitmentsController < ApplicationController
     end
   end
 
-  def by_company_uid
-    company = Company.find_by(uid: params[:uid])
+  def by_company_id
+    company = Company.find_by(id: params[:id])
     if company
       recruitments = company.recruitments
       render json: recruitments

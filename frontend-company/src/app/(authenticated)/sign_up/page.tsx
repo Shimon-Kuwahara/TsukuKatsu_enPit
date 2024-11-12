@@ -36,15 +36,16 @@ const SignupCompany = () => {
           password: data.password,
         }
       );
-      console.log("Company account created successfully:", response.data);
-      Cookies.set("uid", response.headers["uid"]);
+      
+      Cookies.set("id", response.data.data.id);
       Cookies.set("client", response.headers["client"]);
       Cookies.set("access-token", response.headers["access-token"]);
       router.push("/"); // Redirect to homepage or another desired page
     } catch (error) {
-      Cookies.remove("uid");
-      Cookies.remove("client");
-      Cookies.remove("access-token");
+      Cookies.remove("id");
+      // Cookies.remove("uid");
+      // Cookies.remove("client");
+      // Cookies.remove("access-token");
       console.error("Company account creation failed:", error);
     }
   };

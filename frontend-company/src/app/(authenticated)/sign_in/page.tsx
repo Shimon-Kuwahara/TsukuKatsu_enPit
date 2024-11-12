@@ -32,15 +32,11 @@ const CompanyLogin = (): ReactElement => {
         email: data.email,
         password: data.password,
       });
-      Cookies.set("uid", response.headers["uid"]);
-      Cookies.set("client", response.headers["client"]);
-      Cookies.set("access-token", response.headers["access-token"]);
+      Cookies.set("id", response.data.data.id);
       router.push("/");
     } catch (error) {
       if (axios.isAxiosError(error)) {
-        Cookies.remove("uid");
-        Cookies.remove("client");
-        Cookies.remove("access-token");
+        Cookies.remove("id");
         setIsError(true);
         setErrorMessage(
           error.response?.data.errors[0] || "ログインに失敗しました"

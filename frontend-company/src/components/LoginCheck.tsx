@@ -4,7 +4,7 @@ import Cookies from "js-cookie";
 import Link from "next/link";
 
 export default function LoginCheck() {
-  const currnt_company_id = Cookies.get("uid");
+  const currnt_company_id = Cookies.get("id");
 
   return (
     <div className="flex justify-center text-xl p-12">

@@ -2,7 +2,7 @@ Rails.application.routes.draw do
   resources :companies
   resources :recruitments do
     collection do
-      get 'by_company_uid', to: 'recruitments#by_company_uid'
+      get 'by_company_id', to: 'recruitments#by_company_id'
     end
   end
 

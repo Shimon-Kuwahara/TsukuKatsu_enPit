@@ -16,5 +16,12 @@ module Auth
         :website_url, :location, :phone_number
       )
     end
+
+    def render_create_success
+      render json: {
+        status: 'success',
+        data: resource_data(resource_json: @resource.token_validation_response)
+      }
+    end
   end
 end
