@@ -1,4 +1,4 @@
-export interface User {
+export interface UserForReview {
   last_name: string;
   first_name: string;
   university: string;
@@ -17,7 +17,7 @@ export interface Review {
   work_atmosphere: string | null;
   intern_relations: string | null;
   support: string | null;
-  user: User;
+  user: UserForReview;
   created_at: string;
   updated_at: string;
 }
