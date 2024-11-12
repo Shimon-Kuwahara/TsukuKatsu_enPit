@@ -6,13 +6,13 @@ import Recruitment from "../contents/Recruitment";
 import Review from "../contents/Review";
 
 export default function Contents() {
-	const { tabIndex } = useContext(TabContext);
-	return (
-		<>
-			<Menu />
-			{tabIndex === 0 && <Recruitment />}
-			{tabIndex === 1 && <Review />}
-			{tabIndex === 2 && <Blog />}
-		</>
-	);
+  const { tabIndex } = useContext(TabContext);
+  return (
+    <>
+      <Menu />
+      {tabIndex === 0 && <Recruitment />}
+      {tabIndex === 1 && <Review />}
+      {tabIndex === 2 && <Blog />}
+    </>
+  );
 }
