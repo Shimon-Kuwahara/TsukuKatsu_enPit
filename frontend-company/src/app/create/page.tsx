@@ -1,7 +1,8 @@
 "use client";
 import React from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
-import { Recruitment } from "@/types/recruitment"; // 型定義をインポート
+import { Recruitment } from "@/types/recruitment";
+import Cookies from "js-cookie";
 
 export default function Create() {
   const {
@@ -13,6 +14,12 @@ export default function Create() {
 
   const onSubmit: SubmitHandler<Recruitment> = async (data) => {
     try {
+      const companyId = Cookies.get("id");
+
+      if (!companyId) {
+        alert("会社IDが見つかりません。ログインしてください。");
+        return;
+      }
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_API_URL}recruitments`,
         {
@@ -20,7 +27,12 @@ export default function Create() {
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({ recruitment: data }),
+          body: JSON.stringify({
+            recruitment: {
+              ...data,
+              company_id: parseInt(companyId, 10),
+            },
+          }),
         }
       );
 
@@ -60,21 +72,6 @@ export default function Create() {
           ></textarea>
           {errors.description && (
             <p className="text-red-500">{errors.description.message}</p>
-          )}
-        </div>
-
-        <div className="mb-4">
-          <label className="block mb-2">会社ID</label>
-          <input
-            type="number"
-            {...register("company_id", {
-              required: "会社IDは必須です",
-              valueAsNumber: true,
-            })}
-            className="border p-2 w-full"
-          />
-          {errors.company_id && (
-            <p className="text-red-500">{errors.company_id.message}</p>
           )}
         </div>
 
@@ -340,7 +337,9 @@ export default function Create() {
           <label className="block mb-2">福利厚生</label>
           <input
             type="text"
-            {...register("welfare_benefits", { required: "福利厚生は必須です" })}
+            {...register("welfare_benefits", {
+              required: "福利厚生は必須です",
+            })}
             className="border p-2 w-full"
           />
           {errors.welfare_benefits && (
