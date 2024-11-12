@@ -54,7 +54,7 @@ export default function Recruitments() {
               <p>{recruitment.created_at}</p>
               {/* 削除ボタン */}
               <button
-                onClick={() => handleDelete(recruitment.id)}
+                onClick={() => handleDelete(recruitment.id!)}
                 className="bg-red-500 text-white px-4 py-2 mt-2 rounded hover:bg-red-700"
               >
                 削除

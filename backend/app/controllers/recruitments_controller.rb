@@ -76,8 +76,15 @@ class RecruitmentsController < ApplicationController
       @recruitment = Recruitment.find(params[:id])
     end
 
-    # Only allow a list of trusted parameters through.
     def recruitment_params
-      params.require(:recruitment).permit(:title, :description)
+      params.require(:recruitment).permit(
+        :title, :description, :company_id, :industry, :benefits, :job_description,
+        :job_titles, :job_engineer, :job_designer, :job_sales, :job_planning,
+        :job_marketing, :job_writer, :job_others, :skills_acquired, :wage,
+        :salary_notes, :work_location, :min_work_period, :min_work_days,
+        :min_work_hours, :commute_support, :required_skills, :welcome_skills,
+        :promotion_system, :remote_policy, :selection_flow, :deadline,
+        :welfare_benefits, :apply_url
+      )
     end
 end
