@@ -1,5 +1,3 @@
-import Image from "next/image";
-import Link from "next/link";
 import { Button } from "../ui/Button";
 import { Card, CardContent } from "../ui/Card";
 
@@ -45,7 +43,7 @@ export default function HomeView() {
         <h2 className="text-center text-2xl font-medium mb-10">
           こんな
           <span className="relative mx-1">
-            "悩み"
+            &quot悩み&quot
             <span className="absolute -bottom-1 left-0 w-full border-b-2 border-gray-800"></span>
           </span>
           ありませんか？
