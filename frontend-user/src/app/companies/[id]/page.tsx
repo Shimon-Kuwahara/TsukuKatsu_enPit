@@ -10,6 +10,7 @@ export const TabContext = createContext(
 	{} as {
 		tabIndex: number;
 		setTabIndex: React.Dispatch<React.SetStateAction<number>>;
+		reviews: Review[];
 	}
 );
 
@@ -55,7 +56,7 @@ const CompanyDetailPage = () => {
 			</div>
 			<p className="text-sm text-main-col font-bold">{company.description}</p>
 
-			<TabContext.Provider value={{ tabIndex, setTabIndex }}>
+			<TabContext.Provider value={{ tabIndex, setTabIndex, reviews }}>
 				<Contents />
 			</TabContext.Provider>
 		</div>

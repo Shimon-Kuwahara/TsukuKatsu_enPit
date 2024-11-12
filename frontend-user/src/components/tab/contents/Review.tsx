@@ -1,3 +1,21 @@
-export default function Blog() {
-	return <>review</>;
+import { useContext } from "react";
+import { TabContext } from "@/app/companies/[id]/page";
+import ReviewCard from "@/components/elements/ReviewCard";
+
+export default function Review() {
+	const { reviews } = useContext(TabContext);
+
+	return (
+		<>
+			<div className="flex flex-wrap justify-center">
+				{reviews.length > 0 ? (
+					reviews.map((review) => (
+						<ReviewCard key={review.id} review={review} />
+					))
+				) : (
+					<p>Loading recruitments...</p>
+				)}
+			</div>
+		</>
+	);
 }
