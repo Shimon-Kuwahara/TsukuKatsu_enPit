@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
-import { Button } from "../ui/button";
-import { Card, CardContent } from "../ui/card";
+import { Button } from "../ui/Button";
+import { Card, CardContent } from "../ui/Card";
 
 export default function HomeView() {
   return (
@@ -138,89 +138,11 @@ export default function HomeView() {
 
       {/* Job Listings Section */}
       <section className="px-4 py-10 bg-white text-center">
-        <h2 className="text-2xl font-bold mb-8 relative inline-block">
+        <h2 className="text-2xl font-bold mb-4 relative inline-block">
           掲載している求人の例
           <span className="absolute -bottom-1 left-0 w-full h-1 bg-gradient-to-r from-white to-[#7CC1D8]"></span>
         </h2>
-        <div className="max-w-2xl mx-auto space-y-6">
-          <Card className="border-none shadow-md rounded-[24px] overflow-hidden">
-            <CardContent className="p-0">
-              <Image
-                src="/test1.png"
-                alt="Tech house internship"
-                width={600}
-                height={400}
-                className="w-full h-60 object-cover"
-              />
-              <div className="p-6 space-y-4">
-                <div className="space-y-1">
-                  <p className="text-sm text-gray-600">応募締め切り：2025年1月31日</p>
-                  <p className="text-sm text-gray-600">時給：1,200円</p>
-                  <p className="text-sm text-gray-700 leading-relaxed mt-2">
-                    &lt;実務未経験OK / エンジニア長期インターン&gt;研修制度・教育支援制度充実!自社プロダクトのWeb開発業務を"PM"として「設計から実装まで」お任せします・
-                    株式会社Techouseの長期・有給インターンシップ
-                  </p>
-                </div>
-                <Button className="w-full border border-[#6D28D9] hover:bg-[#6D28D9] hover:text-white rounded-full py-4 text-sm font-medium ">
-                  この求人について詳しく見る
-                </Button>
-              </div>
-            </CardContent>
-          </Card>
-
-          <Card className="border-none shadow-md rounded-[24px] overflow-hidden">
-            <CardContent className="p-0">
-              <Image
-                src="/test3.png"
-                alt="Group internship"
-                width={600}
-                height={400}
-                className="w-full h-60 object-cover"
-              />
-              <div className="p-6 space-y-4">
-                <div className="space-y-1">
-                  <p className="text-sm text-gray-600">応募締め切り：2025年1月31日</p>
-                  <p className="text-sm text-gray-600">時給：1,200円</p>
-                  <p className="text-sm text-gray-700 leading-relaxed mt-2">
-                    &lt;未経験も大歓迎&gt;Saas製品や社内教育コンテンツの動画編集アシスタントを募集!
-                  </p>
-                </div>
-                <Button className="w-full border border-[#6D28D9] hover:bg-[#6D28D9] hover:text-white rounded-full py-4 text-sm font-medium ">
-                  この求人について詳しく見る
-                </Button>
-              </div>
-            </CardContent>
-          </Card>
-        </div>
       </section>
-
-      {/* Footer */}
-      <footer className="bg-white px-4 py-10 border-t">
-        <div className="max-w-4xl mx-auto grid grid-cols-3 gap-6">
-          <div>
-            <h3 className="font-bold mb-4">学生向け</h3>
-            <ul className="space-y-3">
-              <li><Link href="#" className="text-gray-600 hover:text-[#7C3AED] transition-colors">サービス紹介</Link></li>
-              <li><Link href="#" className="text-gray-600 hover:text-[#7C3AED] transition-colors">特徴</Link></li>
-              <li><Link href="#" className="text-gray-600 hover:text-[#7C3AED] transition-colors">掲載企業一覧</Link></li>
-            </ul>
-          </div>
-          <div>
-            <h3 className="font-bold mb-4">企業様向け</h3>
-            <ul className="space-y-3">
-              <li><Link href="#" className="text-gray-600 hover:text-[#7C3AED] transition-colors">求人を掲載する</Link></li>
-              <li><Link href="#" className="text-gray-600 hover:text-[#7C3AED] transition-colors">お問い合わせ</Link></li>
-            </ul>
-          </div>
-          <div>
-            <h3 className="font-bold mb-4">サポート</h3>
-            <ul className="space-y-3">
-              <li><Link href="#" className="text-gray-600 hover:text-[#7C3AED] transition-colors">利用規約</Link></li>
-              <li><Link href="#" className="text-gray-600 hover:text-[#7C3AED] transition-colors">プライバシーポリシー</Link></li>
-            </ul>
-          </div>
-        </div>
-      </footer>
     </div>
   );
 }
