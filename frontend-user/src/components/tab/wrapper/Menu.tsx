@@ -1,6 +1,6 @@
 import { useContext } from "react";
 import "@/styles/tabstyle.css";
-import { TabContext } from "@/app/companies/[id]/page";
+import { TabContext } from "@/components/tab/context/TabContext";
 
 export default function Menu() {
 	const { tabIndex, setTabIndex } = useContext(TabContext);

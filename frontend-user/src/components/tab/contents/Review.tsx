@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import { TabContext } from "@/app/companies/[id]/page";
+import { TabContext } from "@/components/tab/context/TabContext";
 import ReviewCard from "@/components/elements/ReviewCard";
 
 export default function Review() {

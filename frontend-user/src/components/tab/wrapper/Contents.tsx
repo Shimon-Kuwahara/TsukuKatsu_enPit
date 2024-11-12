@@ -1,6 +1,6 @@
 import { useContext } from "react";
 import Menu from "./Menu";
-import { TabContext } from "@/app/companies/[id]/page";
+import { TabContext } from "@/components/tab/context/TabContext";
 import Blog from "../contents/Blog";
 import Recruitment from "../contents/Recruitment";
 import Review from "../contents/Review";

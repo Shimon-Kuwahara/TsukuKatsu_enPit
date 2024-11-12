@@ -1,18 +1,11 @@
 "use client";
 import { useParams } from "next/navigation";
-import { createContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Image from "next/image";
 import { Company } from "../../../types/company"; // 型定義ファイルをインポート
 import { Review } from "../../../types/review"; // 型定義ファイルをインポート
 import Contents from "@/components/tab/wrapper/Contents";
-
-export const TabContext = createContext(
-	{} as {
-		tabIndex: number;
-		setTabIndex: React.Dispatch<React.SetStateAction<number>>;
-		reviews: Review[];
-	}
-);
+import { TabContext } from "@/components/tab/context/TabContext";
 
 interface CompanyWithReviews {
 	company: Company;
