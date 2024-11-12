@@ -1,5 +1,5 @@
-import { Button } from "../ui/Button";
-import { Card, CardContent } from "../ui/Card";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
 
 export default function HomeView() {
   return (
@@ -43,7 +43,7 @@ export default function HomeView() {
         <h2 className="text-center text-2xl font-medium mb-10">
           こんな
           <span className="relative mx-1">
-            &quot悩み&quot
+            &quot;悩み&quot;
             <span className="absolute -bottom-1 left-0 w-full border-b-2 border-gray-800"></span>
           </span>
           ありませんか？
