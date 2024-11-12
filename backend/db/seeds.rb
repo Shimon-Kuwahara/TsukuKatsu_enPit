@@ -2,6 +2,7 @@
 Recruitment.destroy_all # まずRecruitmentを削除して、Companyに関連する外部キー制約エラーを回避
 Company.destroy_all
 User.destroy_all
+Review.destroy_all
 
 # 会社データとリクルートメントデータを含む配列を定義
 companies = [
@@ -274,5 +275,8 @@ user = User.create!(
   graduation_year: 2025,
   graduation_month: 3,
 )
+
+# 口コミデータの作成
+Review.create!(company_id: Company.first.id, user_id: user.id, job_description: "Railsを用いたバックエンド開発")
 
 puts "シードデータの作成が完了しました！"
