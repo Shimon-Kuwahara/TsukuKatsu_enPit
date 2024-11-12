@@ -13,11 +13,20 @@ class CompaniesController < ApplicationController
 
   # GET /companies/1
   def show
-    @company = Company.includes(:reviews).find_by(id: params[:id])
+    @company = Company.includes(reviews: :user).find_by(id: params[:id])
     if @company
       render json: {
         company: @company,
-        reviews: @company.reviews
+        reviews: @company.reviews.map do |review|
+          review.as_json.merge({
+            user: {
+              last_name: review.user.last_name,
+              first_name: review.user.first_name,
+              university: review.user.university,
+              department: review.user.department,
+            }
+          })
+        end
       }
     else
       render json: { message: "Company not found" }, status: :not_found

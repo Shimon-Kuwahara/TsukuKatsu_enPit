@@ -1,3 +1,10 @@
+export interface User {
+	last_name: string;
+	first_name: string;
+	university: string;
+	department: string;
+}
+
 export interface Review {
 	id: number;
 	user_id: number;
@@ -10,6 +17,7 @@ export interface Review {
 	work_atmosphere: string | null;
 	intern_relations: string | null;
 	support: string | null;
+	user: User;
 	created_at: string;
 	updated_at: string;
 }
