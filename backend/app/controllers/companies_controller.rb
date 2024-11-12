@@ -13,6 +13,15 @@ class CompaniesController < ApplicationController
 
   # GET /companies/1
   def show
+    @company = Company.includes(:reviews).find_by(id: params[:id])
+    if @company
+      render json: {
+        company: @company,
+        reviews: @company.reviews
+      }
+    else
+      render json: { message: "Company not found" }, status: :not_found
+    end
   end
 
   # GET /companies/new
