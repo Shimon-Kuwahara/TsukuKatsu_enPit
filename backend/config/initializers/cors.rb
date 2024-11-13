@@ -7,14 +7,18 @@
 
 Rails.application.config.middleware.insert_before 0, Rack::Cors do
   allow do
-    origins '127.0.0.1:4000', 'localhost:4000', '127.0.0.1:4001', 'localhost:4001',
-    'tsukukatsu-test.vercel.app', 'tsukukatsu-company.vercel.app'
-    # 手元でAPIの返値を確認する時に使う⇩
-    # origins '*'
+    origins '127.0.0.1:4000',
+            'localhost:4000',
+            '127.0.0.1:4001',
+            'localhost:4001',
+            'tsukukatsu-test.vercel.app',
+            'tsukukatsu-company.vercel.app',
+            /\Atsukukatsu-.*\.vercel\.app\z/
 
     resource '*',
-      headers: :any,
-      expose: %w[access-token uid client],
-      methods: [:get, :post, :put, :patch, :delete, :options, :head]
+             headers: :any,
+             expose: %w[access-token uid client],
+             methods: %i[get post put patch delete options head]
   end
 end
+
