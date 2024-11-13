@@ -1,6 +1,8 @@
 # 既存のデータを削除
 Recruitment.destroy_all # まずRecruitmentを削除して、Companyに関連する外部キー制約エラーを回避
 Company.destroy_all
+User.destroy_all
+Review.destroy_all
 
 # 会社データとリクルートメントデータを含む配列を定義
 companies = [
@@ -256,5 +258,36 @@ companies.each do |data|
     puts "エラーが発生しました: #{e.record.errors.full_messages.join(', ')}"
   end
 end
+
+# ユーザーデータの作成
+user = User.create!(
+  email: "test@example.com",
+  password: "password",
+  confirmed_at: Time.current,
+  last_name: "山田",
+  first_name: "太郎",
+  last_name_kana: "ヤマダ",
+  first_name_kana: "タロウ",
+  gender: 1, 
+  university: 1,
+  department: "工学部",
+  grade: 3,
+  graduation_year: 2025,
+  graduation_month: 3,
+)
+
+# 口コミデータの作成
+Review.create!(
+  company_id: Company.first.id,
+  user_id: user.id,
+  job_description: "Railsを用いたバックエンド開発",
+  joining_reason_gap: "実際の開発現場での経験を積みたかった、バックエンドで入ったが実際に入るとフロントエンドにも携わることができた",
+  work_life_balance: "学校の忙しさに合わせて柔軟に勤務することができた",
+  work_environment: "オフィスにいくとモニターも用意されていて、社員さんに質問もしやすいので快適に働くことができた",
+  selection_process: "人事面接の後、1ヶ月の研修の後に再度研修終了面談を行い、採用が決定した",
+  work_atmosphere: "社員さんがフレンドリーで、質問しやすかった",
+  intern_relations: "インターン生同士の交流も盛んで、定期的にインターン生だけの飲み会も開催される",
+  support: "わからないところを社員さんに質問できるし、研修中は毎日質問の時間が設けられていた"
+)
 
 puts "シードデータの作成が完了しました！"
