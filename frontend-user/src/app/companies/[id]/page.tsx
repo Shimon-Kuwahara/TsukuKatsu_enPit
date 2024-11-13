@@ -2,6 +2,7 @@
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { Company } from "../../../types/company"; // 型定義ファイルをインポート
 import { Review } from "../../../types/review"; // 型定義ファイルをインポート
 import Contents from "@/components/tab/wrapper/Contents";
@@ -37,6 +38,12 @@ const CompanyDetailPage = () => {
       {/* Company Header */}
       <div className="flex items-center p-4 text-white bg-main-col rounded-lg">
         <div className="flex-grow text-2xl font-bold">{`${company.name}`}</div>
+        <Link
+          href={`/companies/${company.id}/reviews/new`}
+          className="bg-sub-col text-white font-bold px-4 py-2 rounded"
+        >
+          口コミ投稿
+        </Link>
       </div>
       <div className="w-full mb-6">
         <Image
