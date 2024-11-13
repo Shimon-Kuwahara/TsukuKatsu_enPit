@@ -35,6 +35,12 @@ const RecruitmentDetailPage = () => {
       {/* Company Header */}
       <div className="flex items-center p-4 text-white bg-main-col rounded-lg">
         <div className="flex-grow text-2xl font-bold">{`${company.name}`}</div>
+        <Link
+          href={`/companies/${company.id}`}
+          className="bg-white text-main-col px-4 py-2 rounded hover:bg-gray-100"
+        >
+          企業詳細
+        </Link>
       </div>
       <div className="w-full mb-6">
         <Image
@@ -64,9 +70,11 @@ const RecruitmentDetailPage = () => {
       <div className="mb-4">
         <p className="text-sm">{recruitment.description}</p>
       </div>
-      
+
       <div className="mb-4">
-        <h3 className="text-lg font-bold text-main-col mb-2">獲得できるスキル</h3>
+        <h3 className="text-lg font-bold text-main-col mb-2">
+          獲得できるスキル
+        </h3>
         <p className="text-sm">{recruitment.skills_acquired}</p>
       </div>
 
