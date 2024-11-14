@@ -1,7 +1,8 @@
 Rails.application.routes.draw do
-  resources :companies do
-    resources :reviews, only: [:create]
-  end
+  resources :companies
+
+  resources :reviews, only: [:create]
+
   resources :recruitments do
     collection do
       get 'by_company_id', to: 'recruitments#by_company_id'
