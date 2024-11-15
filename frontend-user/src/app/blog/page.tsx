@@ -1,3 +1,4 @@
+import Image from "next/image";
 export default function Component() {
   return (
     <div className="max-w-3xl mx-auto px-4 py-8">
@@ -11,8 +12,14 @@ export default function Component() {
       </header>
 
       {/* Main Image */}
-      <div className="aspect-video bg-pink-200 mb-12 rounded-lg flex items-center justify-center text-gray-600">
-        写真
+      <div className="w-full mb-6">
+        <Image
+          src={`/test2.png`}
+          alt="Company Logo"
+          width={400}
+          height={300}
+          className="w-full object-cover"
+        />
       </div>
 
       {/* Profile Section */}
@@ -59,9 +66,15 @@ export default function Component() {
             </p>
           </div>
 
-          <div className="aspect-video bg-green-200 mb-12 rounded-lg flex items-center justify-center text-gray-600">
-            写真
-          </div>
+          <div className="w-full mb-6">
+        <Image
+          src={`/test1.png`}
+          alt="Company Logo"
+          width={400}
+          height={300}
+          className="w-full object-cover"
+        />
+      </div>
 
           <h2 className="text-xl font-bold border-b-2 border-indigo-600 pb-2 mb-8">
             研修制度が充実しています
@@ -89,8 +102,14 @@ export default function Component() {
               </p>
             </div>
   
-            <div className="aspect-video bg-blue-200 mb-12 rounded-lg flex items-center justify-center text-gray-600">
-              写真
+            <div className="w-full mb-6">
+              <Image
+                src={`/techouse3.png`}
+                alt="Company Logo"
+                width={400}
+                height={300}
+                className="w-full object-cover"
+              />
             </div>
 
             <h2 className="text-xl font-bold border-b-2 border-indigo-600 pb-2 mb-8">
@@ -119,8 +138,14 @@ export default function Component() {
                 </p>
               </div>
   
-              <div className="aspect-video bg-purple-200 mb-12 rounded-lg flex items-center justify-center text-gray-600">
-                写真
+              <div className="w-full mb-6">
+                <Image
+                  src={`/techouse4.png`}
+                  alt="Company Logo"
+                  width={400}
+                  height={300}
+                  className="w-full object-cover"
+                />
               </div>
   
               <h2 className="text-xl font-bold border-b-2 border-indigo-600 pb-2 mb-8">
@@ -143,8 +168,14 @@ export default function Component() {
                 </div>
               </div>
   
-              <div className="aspect-video bg-blue-200 mb-12 rounded-lg flex items-center justify-center text-gray-600">
-                写真
+              <div className="w-full mb-6">
+                <Image
+                  src={`/techouse5.png`}
+                  alt="Company Logo"
+                  width={400}
+                  height={300}
+                  className="w-full object-cover"
+                />
               </div>
   
               <h2 className="text-xl font-bold border-b-2 border-indigo-600 pb-2 mb-8">

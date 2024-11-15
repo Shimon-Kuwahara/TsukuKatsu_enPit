@@ -35,8 +35,8 @@ ActiveRecord::Schema[7.0].define(version: 2024_11_11_161651) do
     t.datetime "confirmation_sent_at"
     t.string "unconfirmed_email"
     t.json "tokens"
-    t.string "logo_url", default: ""
-    t.string "picture_url", default: ""
+    t.string "logo_url"
+    t.string "picture_url"
     t.index ["confirmation_token"], name: "index_companies_on_confirmation_token", unique: true
     t.index ["email"], name: "index_companies_on_email", unique: true
     t.index ["reset_password_token"], name: "index_companies_on_reset_password_token", unique: true
