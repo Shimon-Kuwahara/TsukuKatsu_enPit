@@ -67,11 +67,13 @@ const Signup = () => {
       Cookies.set("uid", response.headers["uid"]);
       Cookies.set("client", response.headers["client"]);
       Cookies.set("access-token", response.headers["access-token"]);
+      window.dispatchEvent(new Event("cookieUpdated")); // cookie更新時にカスタムイベントを発火
       router.push("/"); // 登録に成功したらマイページに遷移するように変更する
     } catch (error) {
       Cookies.remove("uid");
       Cookies.remove("client");
       Cookies.remove("access-token");
+      window.dispatchEvent(new Event("cookieUpdated")); // cookie更新時にカスタムイベントを発火
       console.error("Account creation failed:", error);
     }
   };

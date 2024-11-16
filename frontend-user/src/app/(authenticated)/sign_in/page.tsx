@@ -36,6 +36,7 @@ const Login = (): ReactElement => {
       Cookies.set("uid", response.headers["uid"]);
       Cookies.set("client", response.headers["client"]);
       Cookies.set("access-token", response.headers["access-token"]);
+      window.dispatchEvent(new Event("cookieUpdated")); // cookie保存時にカスタムイベントを発火
       router.push("/");
     } catch (error) {
       if (axios.isAxiosError(error)) {
