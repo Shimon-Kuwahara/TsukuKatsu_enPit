@@ -136,7 +136,7 @@ const Signup = () => {
           <label className="block text-gray-700">パスワード (確認用)</label>
           <div className="relative">
             <input
-              type="password"
+              type={showPasswordConfirmation ? "text" : "password"}
               {...register("passwordConfirmation", {
                 required: "パスワード (確認用) を入力してください",
                 minLength: {
