@@ -1,6 +1,6 @@
 "use client";
 import { useForm } from "react-hook-form";
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
@@ -27,6 +27,17 @@ const Signup = () => {
   const router = useRouter();
   const [showPassword, setShowPassword] = useState(false);
   const [showPasswordConfirmation, setShowPasswordConfirmation] = useState(false);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+
+  const errorRef = useRef<HTMLDivElement>(null);
+
+  // エラーメッセージ変更時にスクロールを実行
+  useEffect(() => {
+    if (errorMessage && errorRef.current) {
+      errorRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+  }, [errorMessage]);
+
   const {
     register,
     handleSubmit,
@@ -67,20 +78,34 @@ const Signup = () => {
       Cookies.set("uid", response.headers["uid"]);
       Cookies.set("client", response.headers["client"]);
       Cookies.set("access-token", response.headers["access-token"]);
+      
       window.dispatchEvent(new Event("cookieUpdated")); // cookie更新時にカスタムイベントを発火
-      router.push("/"); // 登録に成功したらマイページに遷移するように変更する
-    } catch (error) {
+      
+      router.push("/mypage");
+
+    } catch (error: any) {
       Cookies.remove("uid");
       Cookies.remove("client");
       Cookies.remove("access-token");
       window.dispatchEvent(new Event("cookieUpdated")); // cookie更新時にカスタムイベントを発火
       console.error("Account creation failed:", error);
+
+      if (axios.isAxiosError(error) && error.response?.data.errors) {
+        // エラーが配列の場合、最初のメッセージを取得
+        const errorMessages = error.response.data.errors.full_messages || [];
+        setErrorMessage(`アカウントの作成に失敗しました\n${errorMessages.join("\n")}`);
+      } else {
+        setErrorMessage("アカウントの作成に失敗しました");
+      }
     }
   };
 
   return (
     <>
-      <h1 className="text-2xl font-bold text-center pt-4">新規登録</h1>
+      <h1 ref={errorRef} className="text-2xl font-bold text-center pt-4">新規登録</h1>
+      {errorMessage && (
+        <div className="text-red-500 text-center mb-4 whitespace-pre-wrap">{errorMessage}</div>
+      )}
       <form onSubmit={handleSubmit(onSubmit)} className="max-w-lg mx-auto p-8 m-8">
         <div className="mb-4">
           <label className="block text-gray-700">大学のメールアドレス</label>
