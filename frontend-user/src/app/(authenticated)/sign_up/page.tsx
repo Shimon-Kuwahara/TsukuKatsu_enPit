@@ -7,6 +7,7 @@ import Cookies from "js-cookie";
 type FormData = {
   email: string;
   password: string;
+  passwordConfirmation: string;
   lastName: string;
   firstName: string;
   lastNameKana: string;
@@ -24,6 +25,7 @@ const Signup = () => {
   const {
     register,
     handleSubmit,
+    watch,
     formState: { errors },
   } = useForm<FormData>();
 
@@ -43,6 +45,7 @@ const Signup = () => {
         {
           email: formattedData.email,
           password: formattedData.password,
+          password_confirmation: formattedData.passwordConfirmation,
           last_name: formattedData.lastName,
           first_name: formattedData.firstName,
           last_name_kana: formattedData.lastNameKana,
@@ -59,7 +62,7 @@ const Signup = () => {
       Cookies.set("uid", response.headers["uid"]);
       Cookies.set("client", response.headers["client"]);
       Cookies.set("access-token", response.headers["access-token"]);
-      router.push("/");
+      router.push("/"); // 登録に成功したらマイページに遷移するように変更する
     } catch (error) {
       Cookies.remove("uid");
       Cookies.remove("client");
@@ -78,6 +81,10 @@ const Signup = () => {
             type="email"
             {...register("email", {
               required: "メールアドレスを入力してください",
+              pattern: {
+                value: /^[^@\s]+@[^@\s]+$/,
+                message: "正しいの形式のメールアドレスを入力してください",
+              },
             })}
             className="w-full p-2 border rounded"
             placeholder="大学のメールアドレスを入力してください"
@@ -95,12 +102,37 @@ const Signup = () => {
             type="password"
             {...register("password", {
               required: "パスワードを入力してください",
+              minLength: {
+                value: 6,
+                message: "パスワードは6文字以上で入力してください",
+              },
             })}
             className="w-full p-2 border rounded"
             />
           {errors.password && (
             <span className="text-red-500">
               {errors.password.message as React.ReactNode}
+            </span>
+          )}
+        </div>
+
+        <div className="mb-4">
+          <label className="block text-gray-700">パスワード (確認用)</label>
+          <input
+            {...register("passwordConfirmation", {
+              required: "パスワード (確認用) を入力してください",
+              minLength: {
+                value: 6,
+                message: "パスワードは6文字以上で入力してください",
+              },
+              validate: (value) =>
+                value === watch("password") || "パスワードが一致しません",
+            })}
+            className="w-full p-2 border rounded"
+            />
+          {errors.passwordConfirmation && (
+            <span className="text-red-500">
+              {errors.passwordConfirmation.message as React.ReactNode}
             </span>
           )}
         </div>
@@ -206,11 +238,11 @@ const Signup = () => {
         </div>
 
         <div className="mb-4">
-          <label className="block text-gray-700">学類/学部/専攻 (例：メディア創成学類)</label>
+          <label className="block text-gray-700">学群/学類/専攻 (例：情報学群メディア創成学類)</label>
           <input
             type="text"
             {...register("department", {
-              required: "学部/学科/専攻を入力してください",
+              required: "学群/学類/専攻を入力してください",
             })}
             className="w-full p-2 border rounded"
             />
