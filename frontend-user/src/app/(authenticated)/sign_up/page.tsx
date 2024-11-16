@@ -290,8 +290,8 @@ const Signup = () => {
             <option value="1">学部2年</option>
             <option value="2">学部3年</option>
             <option value="3">学部4年</option>
-            <option value="4">大学院1年</option>
-            <option value="5">大学院2年</option>
+            <option value="4">修士1年</option>
+            <option value="5">修士2年</option>
             <option value="6">博士1年</option>
             <option value="7">博士2年</option>
             <option value="8">博士3年</option>
