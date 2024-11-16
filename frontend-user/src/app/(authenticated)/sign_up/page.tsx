@@ -262,7 +262,7 @@ const Signup = () => {
         </div>
 
         <div className="mb-4">
-          <label className="block text-gray-700">学群/学類/専攻 (例：情報学群メディア創成学類)</label>
+          <label className="block text-gray-700">学群/学類/専攻 (例：情報学群情報科学類)</label>
           <input
             type="text"
             {...register("department", {
