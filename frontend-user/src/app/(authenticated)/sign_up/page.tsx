@@ -1,6 +1,9 @@
 "use client";
 import { useForm } from "react-hook-form";
+import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
 import Cookies from "js-cookie";
 
@@ -22,6 +25,8 @@ type FormData = {
 
 const Signup = () => {
   const router = useRouter();
+  const [showPassword, setShowPassword] = useState(false);
+  const [showPasswordConfirmation, setShowPasswordConfirmation] = useState(false);
   const {
     register,
     handleSubmit,
@@ -98,17 +103,26 @@ const Signup = () => {
 
         <div className="mb-4">
           <label className="block text-gray-700">パスワード</label>
-          <input
-            type="password"
-            {...register("password", {
-              required: "パスワードを入力してください",
-              minLength: {
-                value: 6,
-                message: "パスワードは6文字以上で入力してください",
-              },
-            })}
-            className="w-full p-2 border rounded"
-            />
+          <div className="relative">
+            <input
+              type={showPassword ? "text" : "password"}
+              {...register("password", {
+                required: "パスワードを入力してください",
+                minLength: {
+                  value: 6,
+                  message: "パスワードは6文字以上で入力してください",
+                },
+              })}
+              className="w-full p-2 border rounded"
+              />
+              <button
+                type="button"
+                onClick={() => setShowPassword(!showPassword)}
+                className="absolute right-2 top-2 text-gray-600"
+              >
+                <FontAwesomeIcon icon={showPassword ? faEyeSlash : faEye} />
+              </button>
+            </div>
           {errors.password && (
             <span className="text-red-500">
               {errors.password.message as React.ReactNode}
@@ -118,18 +132,28 @@ const Signup = () => {
 
         <div className="mb-4">
           <label className="block text-gray-700">パスワード (確認用)</label>
-          <input
-            {...register("passwordConfirmation", {
-              required: "パスワード (確認用) を入力してください",
-              minLength: {
-                value: 6,
-                message: "パスワードは6文字以上で入力してください",
-              },
-              validate: (value) =>
-                value === watch("password") || "パスワードが一致しません",
-            })}
-            className="w-full p-2 border rounded"
+          <div className="relative">
+            <input
+              type="password"
+              {...register("passwordConfirmation", {
+                required: "パスワード (確認用) を入力してください",
+                minLength: {
+                  value: 6,
+                  message: "パスワードは6文字以上で入力してください",
+                },
+                validate: (value) =>
+                  value === watch("password") || "パスワードが一致しません",
+              })}
+              className="w-full p-2 border rounded"
             />
+            <button
+              type="button"
+              onClick={() => setShowPasswordConfirmation(!showPasswordConfirmation)}
+              className="absolute right-2 top-2 text-gray-600"
+            >
+              <FontAwesomeIcon icon={showPasswordConfirmation ? faEyeSlash : faEye} />
+            </button>
+          </div>
           {errors.passwordConfirmation && (
             <span className="text-red-500">
               {errors.passwordConfirmation.message as React.ReactNode}
