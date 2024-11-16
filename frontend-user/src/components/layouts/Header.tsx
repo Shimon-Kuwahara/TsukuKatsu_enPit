@@ -10,11 +10,11 @@ const Header: React.FC = () => {
   const [isUidPresent, setIsUidPresent] = useState(false);
 
   useEffect(() => {
-    setIsUidPresent(doesCookieExist("uid"));
-
     const handleUidChange = () => {
       setIsUidPresent(doesCookieExist("uid"));
     };
+
+    handleUidChange();
 
     // cookieが更新されたタイミングでhandleUidChangeを実行するイベントリスナーを登録
     window.addEventListener("cookieUpdated", handleUidChange);
