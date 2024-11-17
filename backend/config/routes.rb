@@ -11,6 +11,8 @@ Rails.application.routes.draw do
 
   get 'users', to: 'users#index'
 
+  get '/mypage', to: 'users#mypage'
+
   mount_devise_token_auth_for 'User', at: 'auth', controllers: {
     registrations: 'auth/registrations'
   }

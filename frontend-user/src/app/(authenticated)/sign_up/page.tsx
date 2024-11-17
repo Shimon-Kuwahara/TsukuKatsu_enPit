@@ -1,12 +1,16 @@
 "use client";
 import { useForm } from "react-hook-form";
+import { useState, useRef, useEffect } from "react";
 import { useRouter } from "next/navigation";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
 import Cookies from "js-cookie";
 
 type FormData = {
   email: string;
   password: string;
+  passwordConfirmation: string;
   lastName: string;
   firstName: string;
   lastNameKana: string;
@@ -21,9 +25,23 @@ type FormData = {
 
 const Signup = () => {
   const router = useRouter();
+  const [showPassword, setShowPassword] = useState(false);
+  const [showPasswordConfirmation, setShowPasswordConfirmation] = useState(false);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+
+  const errorRef = useRef<HTMLDivElement>(null);
+
+  // エラーメッセージ変更時にスクロールを実行
+  useEffect(() => {
+    if (errorMessage && errorRef.current) {
+      errorRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+  }, [errorMessage]);
+
   const {
     register,
     handleSubmit,
+    watch,
     formState: { errors },
   } = useForm<FormData>();
 
@@ -43,6 +61,7 @@ const Signup = () => {
         {
           email: formattedData.email,
           password: formattedData.password,
+          password_confirmation: formattedData.passwordConfirmation,
           last_name: formattedData.lastName,
           first_name: formattedData.firstName,
           last_name_kana: formattedData.lastNameKana,
@@ -59,18 +78,34 @@ const Signup = () => {
       Cookies.set("uid", response.headers["uid"]);
       Cookies.set("client", response.headers["client"]);
       Cookies.set("access-token", response.headers["access-token"]);
-      router.push("/");
-    } catch (error) {
+      
+      window.dispatchEvent(new Event("cookieUpdated")); // cookie更新時にカスタムイベントを発火
+      
+      router.push("/mypage");
+
+    } catch (error: unknown) {
       Cookies.remove("uid");
       Cookies.remove("client");
       Cookies.remove("access-token");
+      window.dispatchEvent(new Event("cookieUpdated")); // cookie更新時にカスタムイベントを発火
       console.error("Account creation failed:", error);
+
+      if (axios.isAxiosError(error) && error.response?.data.errors) {
+        // エラーが配列の場合、最初のメッセージを取得
+        const errorMessages = error.response.data.errors.full_messages || [];
+        setErrorMessage(`アカウントの作成に失敗しました\n${errorMessages.join("\n")}`);
+      } else {
+        setErrorMessage("アカウントの作成に失敗しました");
+      }
     }
   };
 
   return (
     <>
-      <h1 className="text-2xl font-bold text-center pt-4">新規登録</h1>
+      <h1 ref={errorRef} className="text-2xl font-bold text-center pt-4">新規登録</h1>
+      {errorMessage && (
+        <div className="text-red-500 text-center mb-4 whitespace-pre-wrap">{errorMessage}</div>
+      )}
       <form onSubmit={handleSubmit(onSubmit)} className="max-w-lg mx-auto p-8 m-8">
         <div className="mb-4">
           <label className="block text-gray-700">大学のメールアドレス</label>
@@ -78,6 +113,10 @@ const Signup = () => {
             type="email"
             {...register("email", {
               required: "メールアドレスを入力してください",
+              pattern: {
+                value: /^[^@\s]+@[^@\s]+$/,
+                message: "正しいの形式のメールアドレスを入力してください",
+              },
             })}
             className="w-full p-2 border rounded"
             placeholder="大学のメールアドレスを入力してください"
@@ -91,16 +130,60 @@ const Signup = () => {
 
         <div className="mb-4">
           <label className="block text-gray-700">パスワード</label>
-          <input
-            type="password"
-            {...register("password", {
-              required: "パスワードを入力してください",
-            })}
-            className="w-full p-2 border rounded"
-            />
+          <div className="relative">
+            <input
+              type={showPassword ? "text" : "password"}
+              {...register("password", {
+                required: "パスワードを入力してください",
+                minLength: {
+                  value: 6,
+                  message: "パスワードは6文字以上で入力してください",
+                },
+              })}
+              className="w-full p-2 border rounded"
+              />
+              <button
+                type="button"
+                onClick={() => setShowPassword(!showPassword)}
+                className="absolute right-2 top-2 text-gray-600"
+              >
+                <FontAwesomeIcon icon={showPassword ? faEyeSlash : faEye} />
+              </button>
+            </div>
           {errors.password && (
             <span className="text-red-500">
               {errors.password.message as React.ReactNode}
+            </span>
+          )}
+        </div>
+
+        <div className="mb-4">
+          <label className="block text-gray-700">パスワード (確認用)</label>
+          <div className="relative">
+            <input
+              type={showPasswordConfirmation ? "text" : "password"}
+              {...register("passwordConfirmation", {
+                required: "パスワード (確認用) を入力してください",
+                minLength: {
+                  value: 6,
+                  message: "パスワードは6文字以上で入力してください",
+                },
+                validate: (value) =>
+                  value === watch("password") || "パスワードが一致しません",
+              })}
+              className="w-full p-2 border rounded"
+            />
+            <button
+              type="button"
+              onClick={() => setShowPasswordConfirmation(!showPasswordConfirmation)}
+              className="absolute right-2 top-2 text-gray-600"
+            >
+              <FontAwesomeIcon icon={showPasswordConfirmation ? faEyeSlash : faEye} />
+            </button>
+          </div>
+          {errors.passwordConfirmation && (
+            <span className="text-red-500">
+              {errors.passwordConfirmation.message as React.ReactNode}
             </span>
           )}
         </div>
@@ -206,11 +289,11 @@ const Signup = () => {
         </div>
 
         <div className="mb-4">
-          <label className="block text-gray-700">学類/学部/専攻 (例：メディア創成学類)</label>
+          <label className="block text-gray-700">学群/学類/専攻 (例：情報学群情報科学類)</label>
           <input
             type="text"
             {...register("department", {
-              required: "学部/学科/専攻を入力してください",
+              required: "学群/学類/専攻を入力してください",
             })}
             className="w-full p-2 border rounded"
             />
@@ -232,8 +315,8 @@ const Signup = () => {
             <option value="1">学部2年</option>
             <option value="2">学部3年</option>
             <option value="3">学部4年</option>
-            <option value="4">大学院1年</option>
-            <option value="5">大学院2年</option>
+            <option value="4">修士1年</option>
+            <option value="5">修士2年</option>
             <option value="6">博士1年</option>
             <option value="7">博士2年</option>
             <option value="8">博士3年</option>

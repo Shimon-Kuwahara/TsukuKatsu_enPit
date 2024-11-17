@@ -36,7 +36,8 @@ const Login = (): ReactElement => {
       Cookies.set("uid", response.headers["uid"]);
       Cookies.set("client", response.headers["client"]);
       Cookies.set("access-token", response.headers["access-token"]);
-      router.push("/");
+      window.dispatchEvent(new Event("cookieUpdated")); // cookie更新時にカスタムイベントを発火
+      router.push("/mypage"); // TODO: ログインページに来る前にいたページにリダイレクトさせてあげる
     } catch (error) {
       if (axios.isAxiosError(error)) {
         // Cookieからトークンを削除しています
