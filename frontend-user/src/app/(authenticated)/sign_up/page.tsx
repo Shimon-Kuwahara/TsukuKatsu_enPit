@@ -83,7 +83,7 @@ const Signup = () => {
       
       router.push("/mypage");
 
-    } catch (error: any) {
+    } catch (error: unknown) {
       Cookies.remove("uid");
       Cookies.remove("client");
       Cookies.remove("access-token");
