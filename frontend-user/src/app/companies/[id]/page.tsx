@@ -5,11 +5,13 @@ import Image from "next/image";
 import Link from "next/link";
 import { Company } from "../../../types/company"; // 型定義ファイルをインポート
 import { Review } from "../../../types/review"; // 型定義ファイルをインポート
+import { Recruitment } from "../../../types/recruitment"; // 型定義ファイルをインポート
 import Contents from "@/components/tab/wrapper/Contents";
 import { TabContext } from "@/components/tab/context/TabContext";
 
 interface CompanyWithReviews {
   company: Company;
+  recruitments: Recruitment[];
   reviews: Review[];
 }
 
@@ -31,7 +33,7 @@ const CompanyDetailPage = () => {
     return <p>Loading...</p>;
   }
 
-  const { company, reviews } = data;
+  const { company, recruitments, reviews } = data;
   const image_num = (company.id % 7) + 1;
   return (
     <div className="max-w-2xl mx-auto bg-white overflow-hidden p-6 space-y-4 text-base">
@@ -56,7 +58,9 @@ const CompanyDetailPage = () => {
       </div>
       <p className="text-sm text-main-col font-bold">{company.description}</p>
 
-      <TabContext.Provider value={{ tabIndex, setTabIndex, reviews }}>
+      <TabContext.Provider
+        value={{ tabIndex, setTabIndex, recruitments, reviews }}
+      >
         <Contents />
       </TabContext.Provider>
     </div>

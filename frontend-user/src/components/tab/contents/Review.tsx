@@ -13,7 +13,7 @@ export default function Review() {
             <ReviewCard key={review.id} review={review} />
           ))
         ) : (
-          <p>Loading recruitments...</p>
+          <p>この会社の最初のレビューを書いてみませんか？</p>
         )}
       </div>
     </>
