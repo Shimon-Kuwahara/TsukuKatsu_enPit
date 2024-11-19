@@ -6,6 +6,7 @@ export const TabContext = createContext(
   {} as {
     tabIndex: number;
     setTabIndex: React.Dispatch<React.SetStateAction<number>>;
+    setRefreshTrigger: React.Dispatch<React.SetStateAction<boolean>>;
     recruitments: Recruitment[];
     reviews: Review[];
   }
