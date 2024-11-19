@@ -13,10 +13,11 @@ class CompaniesController < ApplicationController
 
   # GET /companies/1
   def show
-    @company = Company.includes(reviews: :user).find_by(id: params[:id])
+    @company = Company.includes(:recruitments, reviews: :user).find_by(id: params[:id])
     if @company
       render json: {
         company: @company,
+        recruitments: @company.recruitments,
         reviews: @company.reviews.map do |review|
           review.as_json.merge({
             user: {
