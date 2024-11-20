@@ -1,7 +1,15 @@
+'use client';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
+import { useRef } from "react";
 
 export default function HomeView() {
+  const jobListingsRef = useRef<HTMLDivElement>(null);
+
+  const scrollToJobListings = () => {
+    jobListingsRef.current?.scrollIntoView({ behavior: "smooth" });
+  };
+
   return (
     <div className="flex flex-col min-h-screen">
       {/* Hero Section */}
@@ -20,7 +28,9 @@ export default function HomeView() {
               挑戦してみない？
             </h1>
             <div className="flex justify-center">
-              <Button className="border border-[#6D28D9] hover:bg-[#6D28D9] hover:text-white rounded-full px-10 py-4 text-lg font-medium shadow-lg">
+              <Button className="border border-[#6D28D9] hover:bg-[#6D28D9] hover:text-white rounded-full px-10 py-4 text-lg font-medium shadow-lg"
+                      onClick={scrollToJobListings}
+              >
                 求人を見る
               </Button>
             </div>
@@ -135,7 +145,9 @@ export default function HomeView() {
       </section>
 
       {/* Job Listings Section */}
-      <section className="px-4 py-10 bg-white text-center">
+      <section className="px-4 py-10 bg-white text-center"
+                ref={jobListingsRef}
+      >
         <h2 className="text-2xl font-bold mb-4 relative inline-block">
           掲載している求人の例
           <span className="absolute -bottom-1 left-0 w-full h-1 bg-gradient-to-r from-white to-[#7CC1D8]"></span>
