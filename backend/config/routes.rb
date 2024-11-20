@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
   resources :companies
 
-  resources :reviews, only: [:create]
+  resources :reviews, only: [:create, :destroy]
 
   resources :recruitments do
     collection do
