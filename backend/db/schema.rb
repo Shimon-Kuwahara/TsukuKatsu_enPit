@@ -10,9 +10,20 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_11_11_161651) do
+ActiveRecord::Schema[7.0].define(version: 2024_11_20_070715) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "chat_rooms", force: :cascade do |t|
+    t.bigint "user_id"
+    t.bigint "company_id"
+    t.bigint "recruitment_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["company_id"], name: "index_chat_rooms_on_company_id"
+    t.index ["recruitment_id"], name: "index_chat_rooms_on_recruitment_id"
+    t.index ["user_id"], name: "index_chat_rooms_on_user_id"
+  end
 
   create_table "companies", force: :cascade do |t|
     t.string "name", null: false
@@ -35,12 +46,23 @@ ActiveRecord::Schema[7.0].define(version: 2024_11_11_161651) do
     t.datetime "confirmation_sent_at"
     t.string "unconfirmed_email"
     t.json "tokens"
-    t.string "logo_url"
-    t.string "picture_url"
+    t.string "logo_url", default: ""
+    t.string "picture_url", default: ""
     t.index ["confirmation_token"], name: "index_companies_on_confirmation_token", unique: true
     t.index ["email"], name: "index_companies_on_email", unique: true
     t.index ["reset_password_token"], name: "index_companies_on_reset_password_token", unique: true
     t.index ["uid", "provider"], name: "index_companies_on_uid_and_provider", unique: true
+  end
+
+  create_table "messages", force: :cascade do |t|
+    t.bigint "chat_room_id"
+    t.string "sender_type"
+    t.bigint "sender_id"
+    t.text "content"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["chat_room_id"], name: "index_messages_on_chat_room_id"
+    t.index ["sender_type", "sender_id"], name: "index_messages_on_sender"
   end
 
   create_table "recruitments", force: :cascade do |t|
@@ -150,6 +172,10 @@ ActiveRecord::Schema[7.0].define(version: 2024_11_11_161651) do
     t.index ["uid", "provider"], name: "index_users_on_uid_and_provider", unique: true
   end
 
+  add_foreign_key "chat_rooms", "companies"
+  add_foreign_key "chat_rooms", "recruitments"
+  add_foreign_key "chat_rooms", "users"
+  add_foreign_key "messages", "chat_rooms"
   add_foreign_key "recruitments", "companies"
   add_foreign_key "reviews", "companies"
   add_foreign_key "reviews", "users"
