@@ -21,7 +21,6 @@ class CompaniesController < ApplicationController
         reviews: @company.reviews.map do |review|
           review.as_json.merge({
             user: {
-              author_id: review.user.id,
               last_name: review.user.last_name,
               first_name: review.user.first_name,
               university: review.user.university,
