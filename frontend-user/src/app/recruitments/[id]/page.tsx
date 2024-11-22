@@ -150,7 +150,7 @@ const RecruitmentDetailPage = () => {
           onClick={applyForJob}
           className="bg-main-col text-white px-4 py-2 rounded hover:bg-purple-700"
         >
-          応募画面へ
+          応募して話を聞く
         </button>
       </div>
     </div>
