@@ -11,7 +11,7 @@ class ChatRoomsController < ApplicationController
     # 特別な応募メッセージを作成
     chat_room.messages.create(
       sender: current_user,
-      content: "応募させていただきます。よろしくお願いいたします。"
+      content: "貴社の求人に応募しました。選考フローについて詳しくお聞かせください。",
     )
 
     render json: chat_room, status: :created
