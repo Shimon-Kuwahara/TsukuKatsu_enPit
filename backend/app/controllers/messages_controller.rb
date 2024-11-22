@@ -4,7 +4,15 @@ class MessagesController < ApplicationController
 
   def create
     message = @chat_room.messages.new(message_params)
-    message.sender = current_user || current_company
+    # current_user と current_company を明確に判定
+    if current_user
+      message.sender = current_user
+    elsif current_company
+      message.sender = current_company
+    else
+      render json: { error: '認証が必要です' }, status: :unauthorized
+      return
+    end
 
     if message.save
       render json: message, status: :created
@@ -12,6 +20,7 @@ class MessagesController < ApplicationController
       render json: message.errors, status: :unprocessable_entity
     end
   end
+
 
   private
 

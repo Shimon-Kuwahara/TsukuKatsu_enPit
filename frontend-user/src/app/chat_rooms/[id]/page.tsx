@@ -1,20 +1,29 @@
 "use client";
-import { useState, useEffect } from "react";
-import { useParams } from "next/navigation";
+import { useState, useEffect, useRef } from "react";
+import { useParams, useRouter } from "next/navigation";
 import axios from "@/utils/axiosConfig";
 import { ChatRoom } from "@/types/chat_room";
 import Image from "next/image";
 
 const ChatRoomPage: React.FC = () => {
+  const router = useRouter();
   const { id } = useParams();
   const [chatRoom, setChatRoom] = useState<ChatRoom | null>(null);
   const [messageContent, setMessageContent] = useState<string>("");
+  const messagesEndRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (id) {
       fetchChatRoom();
     }
   }, [id]);
+
+  useEffect(() => {
+    // メッセージリストの末尾にスクロール
+    if (messagesEndRef.current) {
+      messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+  }, [chatRoom?.messages]);
 
   const fetchChatRoom = async () => {
     try {
@@ -34,7 +43,7 @@ const ChatRoomPage: React.FC = () => {
         },
       });
       setMessageContent("");
-      fetchChatRoom(); // Refresh messages after sending
+      fetchChatRoom(); // メッセージ送信後に更新
     } catch (error) {
       console.error("メッセージの送信に失敗しました", error);
     }
@@ -43,72 +52,114 @@ const ChatRoomPage: React.FC = () => {
   if (!chatRoom) return <div className="text-center">読み込み中...</div>;
 
   return (
-    <div className="max-w-xl mx-auto p-4">
-      {/* Company Information */}
-      {chatRoom.company && (
-        <div className="border-b pb-4 mb-4">
-          <div className="flex items-center">
-            <Image
-              src={chatRoom.company.logo_url || "/placeholder-logo.png"}
-              alt={`${chatRoom.company.name} logo`}
-              width={60}
-              height={60}
-              className="rounded"
+    <div className="flex flex-col h-screen mx-auto">
+      {/* ヘッダー部分 */}
+      <div className="p-4 flex items-center">
+        <button
+          onClick={() => router.back()}
+          className="text-gray-600 hover:text-gray-800 focus:outline-none"
+        >
+          {/* 戻るボタンのアイコン */}
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            strokeWidth={1.5}
+            stroke="currentColor"
+            className="w-6 h-6"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M15.75 19.5L8.25 12l7.5-7.5"
             />
-            <div className="ml-4">
-              <h1 className="text-xl font-bold text-gray-800">
-                {chatRoom.company.name}
-              </h1>
-              <p className="text-sm text-gray-600">{chatRoom.company.description}</p>
+          </svg>
+        </button>
+        {chatRoom.company && (
+          <div className="flex items-center ml-4">
+            <div className="w-10 h-10 rounded-full overflow-hidden bg-gray-200 flex-shrink-0">
+              <Image
+                src={chatRoom.company.logo_url || "/test1.png"}
+                alt={`${chatRoom.company.name} logo`}
+                width={40}
+                height={40}
+                className="object-cover w-full h-full"
+              />
             </div>
+            <span className="text-xl font-bold ml-2">
+              {chatRoom.company.name}
+            </span>
           </div>
-        </div>
-      )}
+        )}
+      </div>
 
-      {/* Chat Messages */}
-      <div className="border rounded-lg shadow p-4 bg-gray-50 h-[60vh] overflow-y-auto">
+      {/* メッセージ表示部分 */}
+      <div className="flex-1 overflow-y-auto px-4">
         {chatRoom.messages?.length ? (
           chatRoom.messages.map((message) => (
             <div
               key={message.id}
-              className={`mb-4 flex ${
-                message.sender_type === "User" ? "justify-end" : "justify-start"
+              className={`mb-4 ${
+                message.sender_type === "User" ? "text-right" : "text-left"
               }`}
             >
+              {/* 会社のメッセージの場合、ロゴと名前を表示 */}
+              {message.sender_type === "Company" && (
+                <div className="flex items-center mb-2">
+                  <div className="w-10 h-10 rounded-full overflow-hidden bg-gray-200 flex-shrink-0">
+                    <Image
+                      src={chatRoom.company.logo_url || "/test1.png"}
+                      alt={`${chatRoom.company.name} logo`}
+                      width={40}
+                      height={40}
+                      className="object-cover w-full h-full"
+                    />
+                  </div>
+                  <span className="text-xs font-bold ml-2">
+                    {chatRoom.company.name}
+                  </span>
+                </div>
+              )}
+
+              {/* メッセージ内容 */}
               <div
-                className={`max-w-xs p-2 rounded-lg ${
+                className={`inline-block max-w-xs text-sm p-2 rounded-lg ${
                   message.sender_type === "User"
-                    ? "bg-green-500 text-white"
+                    ? "bg-sub-col text-white text-left"
                     : "bg-gray-200 text-gray-800"
                 }`}
               >
                 <p>{message.content}</p>
-                <span className="block text-xs mt-1 text-gray-500">
-                  {new Date(message.created_at).toLocaleString()}
-                </span>
               </div>
+              <span className="block text-xs mt-1 text-gray-500">
+                {new Date(message.created_at).toLocaleString()}
+              </span>
             </div>
           ))
         ) : (
           <p className="text-center text-gray-500">メッセージはありません</p>
         )}
+        {/* スクロール用のダミー要素 */}
+        <div ref={messagesEndRef} />
       </div>
 
-      {/* Message Input */}
-      <div className="mt-4 flex items-center">
-        <input
-          type="text"
-          value={messageContent}
-          onChange={(e) => setMessageContent(e.target.value)}
-          placeholder="メッセージを入力"
-          className="flex-1 border rounded-l-lg p-2 focus:outline-none focus:ring focus:border-blue-300"
-        />
-        <button
-          onClick={sendMessage}
-          className="bg-blue-500 text-white px-4 py-2 rounded-r-lg hover:bg-blue-600"
-        >
-          送信
-        </button>
+      {/* メッセージ入力部分 */}
+      <div className="p-4 border-t">
+        <div className="flex items-center">
+          <input
+            type="text"
+            value={messageContent}
+            onChange={(e) => setMessageContent(e.target.value)}
+            placeholder="メッセージを入力"
+            className="flex-1 border bg-gray-200 rounded-l-lg p-2 focus:outline-none focus:ring focus:border-blue-300"
+          />
+          <button
+            onClick={sendMessage}
+            className="bg-sub-col text-white px-4 py-2 rounded-r-lg hover:bg-blue-300"
+          >
+            送信
+          </button>
+        </div>
       </div>
     </div>
   );

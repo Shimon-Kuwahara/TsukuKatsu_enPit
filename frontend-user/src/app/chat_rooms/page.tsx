@@ -42,13 +42,15 @@ const ChatRoomList: React.FC = () => {
             onClick={() => handleChatOpen(chatRoom.id)} // Add click handler
           >
             {/* Company Logo */}
-            <Image
-              src={chatRoom.company.logo_url || "/test1.png"}
-              alt={`${chatRoom.company.name} logo`}
-              width={48}
-              height={48}
-              className="rounded-full mr-4"
-            />
+            <div className="w-12 h-12 rounded-full overflow-hidden mr-4">
+              <Image
+                src={chatRoom.company.logo_url || "/test1.png"}
+                alt={`${chatRoom.company.name} logo`}
+                width={48}
+                height={48}
+                className="object-cover w-full h-full"
+              />
+            </div>
 
             {/* Chat Details */}
             <div className="flex-1">
