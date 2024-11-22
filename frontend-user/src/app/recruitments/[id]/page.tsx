@@ -4,19 +4,14 @@ import { useRouter, useParams } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
 import axios from "@/utils/axiosConfig";
-import Cookies from 'js-cookie';
 import { Recruitment } from "../../../types/recruitment";
 import { Company } from "../../../types/company";
+import { doesCookieExist } from "@/utils/cookieUtils";
 
 interface RecruitmentWithCompany {
   recruitment: Recruitment;
   company: Company;
 }
-
-export const doesCookieExist = (key: string): boolean => {
-  const value = Cookies.get(key);
-  return value !== undefined;
-};
 
 const RecruitmentDetailPage = () => {
   const router = useRouter();
