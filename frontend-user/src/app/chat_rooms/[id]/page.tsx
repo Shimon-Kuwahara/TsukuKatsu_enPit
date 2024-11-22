@@ -11,6 +11,7 @@ const ChatRoomPage: React.FC = () => {
   const [chatRoom, setChatRoom] = useState<ChatRoom | null>(null);
   const [messageContent, setMessageContent] = useState<string>("");
   const messagesEndRef = useRef<HTMLDivElement>(null);
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
 
   useEffect(() => {
     if (id) {
@@ -19,7 +20,6 @@ const ChatRoomPage: React.FC = () => {
   }, [id]);
 
   useEffect(() => {
-    // メッセージリストの末尾にスクロール
     if (messagesEndRef.current) {
       messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
     }
@@ -43,7 +43,11 @@ const ChatRoomPage: React.FC = () => {
         },
       });
       setMessageContent("");
-      fetchChatRoom(); // メッセージ送信後に更新
+      if (textareaRef.current) {
+        textareaRef.current.style.height = "auto";
+        textareaRef.current.style.overflowY = "hidden";
+      }
+      fetchChatRoom();
     } catch (error) {
       console.error("メッセージの送信に失敗しました", error);
     }
@@ -52,14 +56,13 @@ const ChatRoomPage: React.FC = () => {
   if (!chatRoom) return <div className="text-center">読み込み中...</div>;
 
   return (
-    <div className="flex flex-col h-screen mx-auto">
+    <div className="flex flex-col h-screen">
       {/* ヘッダー部分 */}
-      <div className="p-4 flex items-center">
+      <div className="p-4 flex items-center border-b">
         <button
           onClick={() => router.back()}
           className="text-gray-600 hover:text-gray-800 focus:outline-none"
         >
-          {/* 戻るボタンのアイコン */}
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
@@ -94,7 +97,7 @@ const ChatRoomPage: React.FC = () => {
       </div>
 
       {/* メッセージ表示部分 */}
-      <div className="flex-1 overflow-y-auto px-4">
+      <div className="flex-1 overflow-y-auto px-4" style={{ paddingBottom: "80px" }}>
         {chatRoom.messages?.length ? (
           chatRoom.messages.map((message) => (
             <div
@@ -103,7 +106,6 @@ const ChatRoomPage: React.FC = () => {
                 message.sender_type === "User" ? "text-right" : "text-left"
               }`}
             >
-              {/* 会社のメッセージの場合、ロゴと名前を表示 */}
               {message.sender_type === "Company" && (
                 <div className="flex items-center mb-2">
                   <div className="w-10 h-10 rounded-full overflow-hidden bg-gray-200 flex-shrink-0">
@@ -120,8 +122,6 @@ const ChatRoomPage: React.FC = () => {
                   </span>
                 </div>
               )}
-
-              {/* メッセージ内容 */}
               <div
                 className={`inline-block max-w-xs text-sm p-2 rounded-lg ${
                   message.sender_type === "User"
@@ -139,19 +139,36 @@ const ChatRoomPage: React.FC = () => {
         ) : (
           <p className="text-center text-gray-500">メッセージはありません</p>
         )}
-        {/* スクロール用のダミー要素 */}
         <div ref={messagesEndRef} />
       </div>
 
       {/* メッセージ入力部分 */}
-      <div className="p-4 border-t">
-        <div className="flex items-center">
-          <input
-            type="text"
+      <div
+        className="fixed bottom-0 left-0 right-0 p-4 border-t bg-white"
+        style={{ height: "80px" }}
+      >
+        <div className="flex h-full">
+          <textarea
+            ref={textareaRef}
             value={messageContent}
-            onChange={(e) => setMessageContent(e.target.value)}
+            onChange={(e) => {
+              setMessageContent(e.target.value);
+              if (textareaRef.current) {
+                const maxHeight = 150;
+                textareaRef.current.style.height = "auto";
+                textareaRef.current.style.height = `${textareaRef.current.scrollHeight}px`;
+                if (textareaRef.current.scrollHeight > maxHeight) {
+                  textareaRef.current.style.height = `${maxHeight}px`;
+                  textareaRef.current.style.overflowY = "scroll";
+                } else {
+                  textareaRef.current.style.overflowY = "hidden";
+                }
+              }
+            }}
             placeholder="メッセージを入力"
-            className="flex-1 border bg-gray-200 rounded-l-lg p-2 focus:outline-none focus:ring focus:border-blue-300"
+            className="flex-1 border bg-gray-200 rounded-l-lg p-2 focus:outline-none resize-none"
+            rows={1}
+            style={{ maxHeight: "150px" }}
           />
           <button
             onClick={sendMessage}
