@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import { useParams, useRouter } from "next/navigation";
 import axios from "@/utils/axiosConfig";
 import { ChatRoom } from "@/types/chat_room";
@@ -13,26 +13,26 @@ const ChatRoomPage: React.FC = () => {
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
-  useEffect(() => {
-    if (id) {
-      fetchChatRoom();
-    }
-  }, [id]);
-
-  useEffect(() => {
-    if (messagesEndRef.current) {
-      messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
-    }
-  }, [chatRoom?.messages]);
-
-  const fetchChatRoom = async () => {
+  const fetchChatRoom = useCallback(async () => {
     try {
       const response = await axios.get<ChatRoom>(`/chat_rooms/${id}`);
       setChatRoom(response.data);
     } catch (error) {
       console.error("チャットルームの取得に失敗しました", error);
     }
-  };
+  }, [id]);
+
+  useEffect(() => {
+    if (id) {
+      fetchChatRoom();
+    }
+  }, [id, fetchChatRoom]);
+
+  useEffect(() => {
+    if (messagesEndRef.current) {
+      messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+  }, [chatRoom?.messages]);
 
   const sendMessage = async () => {
     if (!messageContent.trim()) return;
