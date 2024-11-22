@@ -58,7 +58,7 @@ const ChatRoomList: React.FC = () => {
                 {chatRoom.company.name}
               </h3>
               <p className="text-sm text-gray-600 truncate">
-                {chatRoom.recruitment?.description || "募集情報はありません"}
+                求人に応募済み
               </p>
             </div>
 

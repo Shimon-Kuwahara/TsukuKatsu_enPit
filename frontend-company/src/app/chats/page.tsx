@@ -58,7 +58,7 @@ export default function Chats() {
                 {chatRoom.user.last_name} {chatRoom.user.first_name}さん
               </h3>
               <p className="text-sm text-gray-600 truncate">
-                {chatRoom.messages.length || 'メッセージはまだありません'}
+                採用候補者
               </p>
             </div>
 
