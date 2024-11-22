@@ -6,6 +6,7 @@ import Link from "next/link";
 import axios from "@/utils/axiosConfig";
 import { Recruitment } from "../../../types/recruitment";
 import { Company } from "../../../types/company";
+import { doesCookieExist } from "@/utils/cookieUtils";
 
 interface RecruitmentWithCompany {
   recruitment: Recruitment;
@@ -31,9 +32,14 @@ const RecruitmentDetailPage = () => {
   }
 
   const { recruitment, company } = data;
-  const image_num = (recruitment.id % 7) + 1; // 画像のアップロードを作成して消す
+  const image_num = (recruitment.id % 7) + 1; // Adjusted for image logic
 
   const applyForJob = async () => {
+    if (!doesCookieExist('uid')) {
+      router.push('/sign_in');
+      return;
+    }
+
     try {
       const response = await axios.post(`chat_rooms/`, {
         company_id: company?.id,
