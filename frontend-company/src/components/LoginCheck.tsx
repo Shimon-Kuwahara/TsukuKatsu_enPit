@@ -10,7 +10,7 @@ export default function LoginCheck() {
     <div className="flex justify-center text-xl p-12">
       {currnt_company_id ? (
         <div>
-          <p>ログイン中のアカウントのメールアドレス: {currnt_company_id}</p>
+          <p>ログイン中のアカウントのid: {currnt_company_id}</p>
         </div>
       ) : (
         <div className="p-4">

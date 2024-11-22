@@ -28,6 +28,11 @@ const Menu: React.FC<MenuProps> = ({ isMenuOpen, toggleMenu }) => {
                 マイページ
             </div>
           </Link>
+          <Link href="/chat_rooms">
+            <div className="block px-4 py-2 hover:bg-gray-100" onClick={toggleMenu}>
+                企業とのチャット
+            </div>
+          </Link>
         </li>
         <li>
           <button

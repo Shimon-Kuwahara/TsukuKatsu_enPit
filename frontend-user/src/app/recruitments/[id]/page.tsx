@@ -1,10 +1,11 @@
 "use client";
-import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
+import { useRouter, useParams } from "next/navigation";
 import Image from "next/image";
-import Link from "next/link"; // Importing Link
+import Link from "next/link";
+import axios from "@/utils/axiosConfig";
 import { Recruitment } from "../../../types/recruitment";
-import { Company } from "../../../types/company"; // 型定義ファイルをインポート
+import { Company } from "../../../types/company";
 
 interface RecruitmentWithCompany {
   recruitment: Recruitment;
@@ -12,6 +13,7 @@ interface RecruitmentWithCompany {
 }
 
 const RecruitmentDetailPage = () => {
+  const router = useRouter();
   const { id } = useParams();
   const [data, setData] = useState<RecruitmentWithCompany | null>(null);
 
@@ -30,6 +32,19 @@ const RecruitmentDetailPage = () => {
 
   const { recruitment, company } = data;
   const image_num = (recruitment.id % 7) + 1; // 画像のアップロードを作成して消す
+
+  const applyForJob = async () => {
+    try {
+      const response = await axios.post(`chat_rooms/`, {
+        company_id: company?.id,
+        recruitment_id: recruitment?.id,
+      });
+      router.push(`/chat_rooms/${response.data.id}`);
+    } catch (error) {
+      console.error("応募に失敗しました", error);
+    }
+  };
+
   return (
     <div className="max-w-2xl mx-auto bg-white overflow-hidden p-6 space-y-4 text-base">
       {/* Company Header */}
@@ -131,12 +146,12 @@ const RecruitmentDetailPage = () => {
 
       {/* Apply Button */}
       <div className="text-center">
-        <Link
-          href={recruitment.apply_url}
+        <button
+          onClick={applyForJob}
           className="bg-main-col text-white px-4 py-2 rounded hover:bg-purple-700"
         >
-          応募画面へ
-        </Link>
+          応募して話を聞く
+        </button>
       </div>
     </div>
   );
