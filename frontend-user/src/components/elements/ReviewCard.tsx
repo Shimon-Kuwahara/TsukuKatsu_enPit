@@ -1,6 +1,10 @@
 "use client";
 import React from "react";
 import { Review } from "../../types/review";
+import axios from "axios";
+import Cookies from "js-cookie";
+import { useContext } from "react";
+import { TabContext } from "@/components/tab/context/TabContext";
 
 interface ReviewCardProps {
   review: Review;
@@ -8,6 +12,37 @@ interface ReviewCardProps {
 
 const ReviewCard: React.FC<ReviewCardProps> = ({ review }) => {
   const { user } = review;
+  const { setRefreshTrigger } = useContext(TabContext);
+
+  const handleDelete = async () => {
+    if (!window.confirm("この口コミを削除しますか？")) {
+      return;
+    }
+
+    try {
+      const response = await axios.delete(
+        `${process.env.NEXT_PUBLIC_API_URL}reviews/${review.id}`,
+        {
+          headers: {
+            "access-token": Cookies.get("access-token"),
+            client: Cookies.get("client"),
+            uid: Cookies.get("uid"),
+          },
+        }
+      );
+
+      if (response.status === 200) {
+        alert("口コミを削除しました");
+        setRefreshTrigger((prev) => !prev);
+      } else {
+        alert("削除に失敗しました");
+      }
+    } catch (error) {
+      console.error("削除中にエラーが発生しました:", error);
+      alert("削除に失敗しました");
+    }
+  };
+
   return (
     <div className="bg-white rounded-lg shadow-md overflow-hidden p-4 m-4 w-[400px] h-auto flex flex-col text-xs">
       <div className="flex-grow">
@@ -79,6 +114,18 @@ const ReviewCard: React.FC<ReviewCardProps> = ({ review }) => {
           </>
         )}
       </div>
+
+      {/* is_author が true の場合に削除ボタンを表示 */}
+      {review.is_author && (
+        <div className="mt-4">
+          <button
+            onClick={handleDelete}
+            className="bg-red-500 text-white font-bold py-2 px-4 rounded hover:bg-red-700"
+          >
+            削除
+          </button>
+        </div>
+      )}
     </div>
   );
 };

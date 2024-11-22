@@ -18,6 +18,7 @@ export interface Review {
   intern_relations: string | null;
   support: string | null;
   user: UserForReview;
+  is_author: boolean;
   created_at: string;
   updated_at: string;
 }

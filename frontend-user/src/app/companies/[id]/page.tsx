@@ -7,6 +7,8 @@ import { Review } from "../../../types/review"; // 型定義ファイルをイ�
 import { Recruitment } from "../../../types/recruitment"; // 型定義ファイルをインポート
 import Contents from "@/components/tab/wrapper/Contents";
 import { TabContext } from "@/components/tab/context/TabContext";
+import axios from "axios";
+import Cookies from "js-cookie";
 
 interface CompanyWithReviews {
   company: Company;
@@ -21,14 +23,28 @@ const CompanyDetailPage = () => {
   const [tabIndex, setTabIndex] = useState(0);
 
   useEffect(() => {
-    if (id) {
-      fetch(`${process.env.NEXT_PUBLIC_API_URL}companies/${id}`)
-        .then((res) => res.json())
-        .then((data) => setData(data))
-        .catch((error) => console.error("Error fetching company:", error));
-    }
-  }, [id, refreshTrigger]);
+    const fetchCompanyData = async () => {
+      try {
+        if (id) {
+          const response = await axios.get(
+            `${process.env.NEXT_PUBLIC_API_URL}companies/${id}`,
+            {
+              headers: {
+                "access-token": Cookies.get("access-token"),
+                client: Cookies.get("client"),
+                uid: Cookies.get("uid"),
+              },
+            }
+          );
+          setData(response.data); // APIから取得したデータをstateにセット
+        }
+      } catch (error) {
+        console.error("企業情報の取得に失敗しました:", error);
+      }
+    };
 
+    fetchCompanyData();
+  }, [id, refreshTrigger]);
   if (!data) {
     return <p>Loading...</p>;
   }

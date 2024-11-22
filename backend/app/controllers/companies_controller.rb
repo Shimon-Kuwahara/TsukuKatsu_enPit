@@ -25,7 +25,8 @@ class CompaniesController < ApplicationController
               first_name: review.user.first_name,
               university: review.user.university,
               department: review.user.department,
-            }
+            },
+            is_author: current_user.present? && review.user.id == current_user.id
           })
         end
       }
