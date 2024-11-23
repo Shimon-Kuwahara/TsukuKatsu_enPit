@@ -3,7 +3,6 @@ import { useEffect, useState } from "react";
 import { useRouter, useParams } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
-import axios from "@/utils/axiosConfig";
 import { Recruitment } from "../../../types/recruitment";
 import { Company } from "../../../types/company";
 import { doesCookieExist } from "@/utils/cookieUtils";
@@ -35,20 +34,12 @@ const RecruitmentDetailPage = () => {
   const image_num = (recruitment.id % 7) + 1; // Adjusted for image logic
 
   const applyForJob = async () => {
-    if (!doesCookieExist('uid')) {
-      router.push('/sign_in');
+    if (!doesCookieExist("uid")) {
+      router.push("/sign_in");
       return;
     }
 
-    try {
-      const response = await axios.post(`chat_rooms/`, {
-        company_id: company?.id,
-        recruitment_id: recruitment?.id,
-      });
-      router.push(`/chat_rooms/${response.data.id}`);
-    } catch (error) {
-      console.error("応募に失敗しました", error);
-    }
+    router.push(`/recruitments/${recruitment.id}/confirm`);
   };
 
   return (
