@@ -4,7 +4,7 @@ class ApplicationsController < ApplicationController
   def create
     application = current_user.applications.build(application_params)
 
-    if review.save
+    if application.save
       render json: {
         message: "Application successfully created",
         application: application
@@ -19,6 +19,6 @@ class ApplicationsController < ApplicationController
   private
 
   def application_params
-    params.require(:review).permit(:recruitment_id)
+    params.require(:application).permit(:recruitment_id)
   end
 end

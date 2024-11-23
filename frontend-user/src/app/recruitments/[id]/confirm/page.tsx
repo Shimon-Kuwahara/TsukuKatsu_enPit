@@ -19,6 +19,7 @@ const ApplicationConfirmationPage = () => {
   const router = useRouter();
   const [data, setData] = useState<RecruitmentWithCompany | null>(null);
   const [user, setUser] = useState<User | null>(null);
+  const [isSubmitting, setIsSubmitting] = useState(false); // ローディング状態
 
   useEffect(() => {
     const fetchRecruitmentData = async () => {
@@ -49,6 +50,8 @@ const ApplicationConfirmationPage = () => {
         setUser(response.data); // APIから取得したデータをstateにセット
       } catch (error) {
         console.error("ユーザ情報の取得に失敗しました:", error);
+      } finally {
+        setIsSubmitting(false); // ローディング状態を解除
       }
     };
 
@@ -63,15 +66,43 @@ const ApplicationConfirmationPage = () => {
   const { recruitment, company } = data;
 
   const handleConfirm = async () => {
+    setIsSubmitting(true); // ローディング状態にする
+
+    const uid = Cookies.get("uid");
+    const client = Cookies.get("client");
+    const accessToken = Cookies.get("access-token");
+
     try {
-      await axios.post(`/applications`, {
-        recruitment_id: recruitment.id,
+      // 応募作成APIを叩く
+      await axios.post(
+        `applications`,
+        {
+          application: {
+            recruitment_id: recruitment.id,
+          },
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+            uid: uid || "",
+            client: client || "",
+            "access-token": accessToken || "",
+          },
+        }
+      );
+
+      // チャットルーム作成APIを叩く
+      const chatRoomResponse = await axios.post(`chat_rooms`, {
+        company_id: company?.id,
+        recruitment_id: recruitment?.id,
       });
-      alert("応募が完了しました！");
-      router.push("/applications"); // 適切なページに遷移
+
+      router.push(`/chat_rooms/${chatRoomResponse.data.id}`);
     } catch (error) {
       console.error("応募に失敗しました:", error);
       alert("応募に失敗しました。再度お試しください。");
+    } finally {
+      setIsSubmitting(false); // ローディング状態を解除
     }
   };
 
@@ -152,9 +183,14 @@ const ApplicationConfirmationPage = () => {
         </button>
         <button
           onClick={handleConfirm}
-          className="bg-main-col text-white px-4 py-2 rounded hover:bg-purple-700"
+          className={`bg-main-col text-white px-4 py-2 rounded ${
+            isSubmitting
+              ? "opacity-50 cursor-not-allowed"
+              : "hover:bg-purple-700"
+          }`}
+          disabled={isSubmitting}
         >
-          応募する
+          {isSubmitting ? "処理中..." : "応募する"}
         </button>
       </div>
     </div>
