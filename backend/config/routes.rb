@@ -17,8 +17,8 @@ Rails.application.routes.draw do
   resources :chat_rooms, only: [:create, :index, :show] do
     resources :messages, only: [:create]
   end
-  resources :companies
-  resources :reviews, only: [:create]
+
+  resources :applications, only: [:create]
 
   get 'users', to: 'users#index'
   get '/mypage', to: 'users#mypage'
