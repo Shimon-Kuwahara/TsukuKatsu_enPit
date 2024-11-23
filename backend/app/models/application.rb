@@ -10,4 +10,6 @@ class Application < ApplicationRecord
 
   validates :user_id, presence: true
   validates :recruitment_id, presence: true
+  validates :status, presence: true
+  validates :user_id, uniqueness: { scope: :recruitment_id, message: "この求人にはすでに応募しています。" }
 end

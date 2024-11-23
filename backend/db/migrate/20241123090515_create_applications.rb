@@ -6,5 +6,8 @@ class CreateApplications < ActiveRecord::Migration[7.0]
       t.integer :status, null: false, default: 0
       t.timestamps
     end
+
+    # 同じ求人に対して同じユーザーが複数回応募できないようにする
+    add_index :applications, [:user_id, :recruitment_id], unique: true
   end
 end

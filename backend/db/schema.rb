@@ -21,6 +21,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_11_23_090515) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["recruitment_id"], name: "index_applications_on_recruitment_id"
+    t.index ["user_id", "recruitment_id"], name: "index_applications_on_user_id_and_recruitment_id", unique: true
     t.index ["user_id"], name: "index_applications_on_user_id"
   end
 
