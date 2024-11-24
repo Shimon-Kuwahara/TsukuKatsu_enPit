@@ -22,7 +22,7 @@ Rails.application.routes.draw do
     resources :messages, only: [:create]
   end
 
-  resources :applications, only: [:create]
+  resources :applications, only: [:create, :index]
 
   get 'users', to: 'users#index'
   get '/mypage', to: 'users#mypage'

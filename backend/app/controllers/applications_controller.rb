@@ -1,5 +1,16 @@
 class ApplicationsController < ApplicationController
-  before_action :authenticate_user!
+  before_action :authenticate_user!, only: [:create]
+  before_action :authenticate_company!, only: [:index]
+
+  def index
+    company = current_company
+    applications = company.applications.includes(:user, :recruitment)
+
+    render json: applications.as_json(include: {
+      user: { only: [:id, :name, :email] },
+      recruitment: { only: [:id, :title, :industry] }
+    })
+  end
 
   def create
     application = current_user.applications.build(application_params)
