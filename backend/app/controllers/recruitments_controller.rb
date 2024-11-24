@@ -1,5 +1,6 @@
 class RecruitmentsController < ApplicationController
-  before_action :set_recruitment, only: %i[ show edit update destroy ]
+  before_action :set_recruitment, only: %i[ show edit update destroy]
+  before_action :authenticate_user!, only: %i[ confirm ]
 
   # GET /recruitments
   def index
@@ -32,6 +33,24 @@ class RecruitmentsController < ApplicationController
     else
       render json: { message: "Recruitment not found" }, status: :not_found
     end
+  end
+
+  # GET /recruitments/:id/confirm
+  def confirm
+    @recruitment = Recruitment.includes(:company).find_by(id: params[:id])
+    @user = current_user
+
+    if @recruitment && @user
+      render json: {
+        recruitment: @recruitment,
+        company: @recruitment.company,
+        user: @user,
+        is_applied: @user.applications.exists?(recruitment_id: @recruitment.id)
+      }
+    else
+      render json: { message: "Recruitment not found" }, status: :not_found
+    end
+    
   end
 
 

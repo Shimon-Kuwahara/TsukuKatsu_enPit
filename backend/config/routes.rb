@@ -13,6 +13,10 @@ Rails.application.routes.draw do
     collection do
       get 'by_company_id', to: 'recruitments#by_company_id'
     end
+
+    member do
+      get 'confirm', to: 'recruitments#confirm'
+    end
   end
   resources :chat_rooms, only: [:create, :index, :show] do
     resources :messages, only: [:create]
