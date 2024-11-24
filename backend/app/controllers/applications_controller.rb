@@ -6,10 +6,21 @@ class ApplicationsController < ApplicationController
     company = current_company
     applications = company.applications.includes(:user, :recruitment)
 
-    render json: applications.as_json(include: {
-      user: { only: [:id, :name, :email] },
-      recruitment: { only: [:id, :title, :industry] }
-    })
+    render json: applications.map { |application|
+    {
+      application: application,
+      user: {
+        id: application.user.id,
+        name: application.user.last_name + application.user.first_name,
+        email: application.user.email
+      },
+      recruitment: {
+        id: application.recruitment.id,
+        title: application.recruitment.title,
+        industry: application.recruitment.industry
+      }
+    }
+  }
   end
 
   def create
