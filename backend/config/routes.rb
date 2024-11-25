@@ -8,7 +8,8 @@ Rails.application.routes.draw do
   }
 
   # Userのルーティング
-  get 'users', to: 'users#index'
+  resources :users, only: %i[index update]
+  get '/user_enums', to: 'enums#user_enums'
   get '/mypage', to: 'users#mypage'
 
   # Companyのルーティング
