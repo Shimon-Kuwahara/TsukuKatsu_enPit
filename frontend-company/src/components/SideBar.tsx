@@ -8,42 +8,27 @@ const Sidebar: React.FC = () => {
       <nav className="mt-4">
         <ul>
           <li>
-            <Link
-              href="/recruitments"
-              className="block w-full h-full p-6 hover:bg-purple-500"
-            >
+            <Link href="/recruitments" className="block w-full h-full p-6 hover:bg-purple-500">
               作成した求人
             </Link>
           </li>
           <li>
-            <Link
-              href="/create"
-              className="block w-full h-full p-6 hover:bg-purple-500"
-            >
+            <Link href="/create" className="block w-full h-full p-6 hover:bg-purple-500">
               求人を作成する
             </Link>
           </li>
           <li>
-            <Link
-              href="/students"
-              className="block w-full h-full p-6 hover:bg-purple-500"
-            >
+            <Link href="/students" className="block w-full h-full p-6 hover:bg-purple-500">
               つくばの学生一覧
             </Link>
           </li>
           <li>
-            <Link
-              href="/applications"
-              className="block w-full h-full p-6 hover:bg-purple-500"
-            >
-              応募一覧
+            <Link href="/applications" className="block w-full h-full p-6 hover:bg-purple-500">
+              応募者一覧
             </Link>
           </li>
           <li>
-            <Link
-              href="/chats"
-              className="block w-full h-full p-6 hover:bg-purple-500"
-            >
+            <Link href="/chats" className="block w-full h-full p-6 hover:bg-purple-500">
               チャット一覧
             </Link>
           </li>
