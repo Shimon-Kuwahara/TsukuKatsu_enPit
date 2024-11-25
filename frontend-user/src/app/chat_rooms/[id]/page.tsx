@@ -98,7 +98,6 @@ const ChatRoomPage: React.FC = () => {
 
       {/* メッセージ表示部分 */}
       <div className="flex-1 overflow-y-auto px-4" style={{ paddingBottom: "80px" }}>
-        <h1 className="text-center font-gray-300 pb-4">担当者からの返事を待ってください</h1>
         {chatRoom.messages?.length ? (
           chatRoom.messages.map((message) => (
             <div
