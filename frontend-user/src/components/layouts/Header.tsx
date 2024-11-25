@@ -29,9 +29,9 @@ const Header: React.FC = () => {
   };
 
   return (
-    <header className="flex justify-between items-center p-4 border-b border-gray-300">
-      <Link href="/">
-        <div className="text-3xl font-light text-blue-700">つくかつ</div>
+    <header className="flex justify-between items-center p-4 border-b border-gray-300 z-50">
+      <Link className="text-3xl font-light text-blue-700" href="/">
+        つくかつ
       </Link>
       <div className="flex items-center space-x-2">
         {!isUidPresent && <AuthButton />}
