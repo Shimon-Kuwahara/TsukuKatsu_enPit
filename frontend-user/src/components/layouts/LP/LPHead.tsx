@@ -5,15 +5,15 @@ import { FeatureCircle } from "@/components/layouts/feature-circle";
 
 export default function LPHead() {
   return (
-    <div className="bg-gradient-to-b from-white to-main-col relative">
+    <div className="relative bg-gradient-to-b from-white to-main-col">
       {/* Background Image */}
       <div
-        className="absolute inset-0 bg-cover bg-center z-0"
+        className="absolute inset-x-0 top-[60px] bg-cover bg-center z-0"
         style={{ backgroundImage: "url('/test1.jpg')" }}
       ></div>
 
       {/* Overlay for better text readability */}
-      <div className="absolute inset-0 bg-white opacity-60 z-10"></div>
+      <div className="absolute inset-x-0 top-[60px] bg-white opacity-60 z-10"></div>
 
       {/* Main Content */}
       <div className="relative z-20 max-w-6xl mx-auto pt-12">
