@@ -20,8 +20,8 @@ export default function LPHead() {
         {/* Hero Section */}
         <div className="text-center">
           <div className="flex justify-center gap-4 mb-8">
-            <HeroBadge color="purple">最短1ヶ月</HeroBadge>
-            <HeroBadge color="mint">空きコマ活用OK</HeroBadge>
+            <HeroBadge color="purple">自分に合わせて</HeroBadge>
+            <HeroBadge color="mint">安心</HeroBadge>
           </div>
 
           <h1 className="text-4xl sm:text-3xl font-bold mb-6 leading-tight">
