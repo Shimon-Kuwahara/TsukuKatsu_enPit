@@ -1,26 +1,16 @@
 'use client';
-import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { useRef } from "react";
 
-export default function HomeView() {
-  const jobListingsRef = useRef<HTMLDivElement>(null);
-
-  const scrollToJobListings = () => {
-    jobListingsRef.current?.scrollIntoView({ behavior: "smooth" });
-  };
+export default function LPBody() {
 
   return (
     <div className="flex flex-col min-h-screen">
-      {/* Hero Section */}
-      <section className="relative h-[50vh] overflow-hidden bg-gray-100">
-        {/* Background Text */}
+      {/* <section className="relative h-[50vh] overflow-hidden bg-gray-100">
         <div className="absolute inset-0 flex flex-col justify-center items-start pl-12 text-[100px] font-bold leading-tight pointer-events-none select-none opacity-40">
           <span className="bg-gradient-to-r from-[#7C3AED] to-white text-transparent bg-clip-text">IMAGINE</span>
           <span className="bg-gradient-to-r from-[#7C3AED] to-white text-transparent bg-clip-text">THE</span>
           <span className="bg-gradient-to-r from-[#7C3AED] to-white text-transparent bg-clip-text">FUTURE</span>
         </div>
-        {/* Content */}
         <div className="relative h-full flex items-center justify-center px-4 max-w-7xl mx-auto">
           <div className="space-y-6">
             <h1 className="text-6xl font-bold tracking-tight text-black text-left">
@@ -36,7 +26,7 @@ export default function HomeView() {
             </div>
           </div>
         </div>
-      </section>
+      </section> */}
 
       {/* Description Section */}
       <section className="px-4 py-10 text-center bg-white">
@@ -142,16 +132,6 @@ export default function HomeView() {
             </CardContent>
           </Card>
         </div>
-      </section>
-
-      {/* Job Listings Section */}
-      <section className="px-4 py-10 bg-white text-center"
-                ref={jobListingsRef}
-      >
-        <h2 className="text-2xl font-bold mb-4 relative inline-block">
-          掲載している求人の例
-          <span className="absolute -bottom-1 left-0 w-full h-1 bg-gradient-to-r from-white to-[#7CC1D8]"></span>
-        </h2>
       </section>
     </div>
   );
