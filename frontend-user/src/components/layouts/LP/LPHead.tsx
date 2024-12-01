@@ -26,11 +26,11 @@ export default function LPHead() {
 
           <h1 className="text-4xl sm:text-3xl font-bold mb-6 leading-tight">
             完全<span className="text-main-col text-4xl">筑波大生特化</span>の
-            <p>長期インターン求人！</p>
+            <p>長期インターン探し！</p>
           </h1>
 
           <p className="text-gray-600 text-xl">
-            挑戦したいことが見つかる
+            安心できる環境で挑戦しよう！
           </p>
         </div>
 
@@ -49,13 +49,13 @@ export default function LPHead() {
               <FeatureCircle
                 icon={Home}
                 title="どんな場所でも"
-                description="ライフスタイルに合わせて働ける"
+                description="東京でも筑波でもリモートでも"
                 className="-mt-12"
               />
               <FeatureCircle
                 icon={Lightbulb}
                 title="成長できる環境"
-                description={"ここでしかできない経験"}
+                description={"キャリアに直結する経験を働きながら"}
                 className="-mt-12"
               />
             </div>
