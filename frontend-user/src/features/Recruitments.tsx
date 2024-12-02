@@ -5,7 +5,6 @@ import { Recruitment } from "@/types/recruitment";
 
 export default function Recruitments() {
   const [recruitments, setRecruitments] = useState<Recruitment[]>([]);
-
   useEffect(() => {
     const fetchRecruitments = async () => {
       try {
