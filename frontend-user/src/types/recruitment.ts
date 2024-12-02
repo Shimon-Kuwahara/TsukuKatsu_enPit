@@ -1,3 +1,14 @@
+interface User {
+  last_name: string;
+  first_name: string;
+  grade: number; // or string, depending on your data type
+  department: string;
+}
+
+interface Company {
+  name: string;
+}
+
 export type Recruitment = {
   id: number;
   title: string;
@@ -5,6 +16,8 @@ export type Recruitment = {
   created_at: string;
   updated_at: string;
   company_id: number;
+  user: User;
+  company: Company;
   industry: string;
   benefits: string;
   job_description: string;

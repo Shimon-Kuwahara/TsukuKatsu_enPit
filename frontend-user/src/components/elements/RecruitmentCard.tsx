@@ -9,11 +9,13 @@ interface RecruitmentCardProps {
 }
 
 const RecruitmentCard: React.FC<RecruitmentCardProps> = ({ recruitment }) => {
-  const image_num = recruitment.id % 7 + 1; // 画像のアップロードを作成して消す
+  const image_num = (recruitment.id % 7) + 1; // 画像のアップロードを作成して消す
+  const { user, company } = recruitment; // Destructure user from recruitment
+
   return (
-    <div className="bg-white rounded-lg shadow-md overflow-hidden p-4 m-4 w-[400px] h-[450px] flex flex-col text-xs">
+    <div className="rounded-lg shadow-md overflow-hidden w-[400px] h-[340px] mx-4 my-2 flex flex-col">
       <Link href={`/recruitments/${recruitment.id}`}>
-        <div className="h-48 w-full mb-4">
+        <div className="h-48 w-full">
           <Image
             src={`/test${image_num}.png`}
             alt="Company Group"
@@ -22,26 +24,18 @@ const RecruitmentCard: React.FC<RecruitmentCardProps> = ({ recruitment }) => {
             className="object-cover w-full h-full"
           />
         </div>
-        <div className="flex-grow">
-          <div className="flex items-center mb-3">
-            {/* <div className="w-10 h-10 bg-gray-300 rounded-full mr-3"></div> */}
-            <div className="flex-grow text-sm font-bold">
-              <p className="">応募締め切り：{recruitment.deadline}</p>
-              <p className="">{recruitment.wage}</p>
+        <div className="flex-grow p-4">
+          {/* Display user information */}
+          {user && (
+            <div className="font-bold">
+              <p className="text-sm">{user.department} {user.grade}</p>
+              <p className="text-sm">{user.last_name} {user.first_name} さんが勤務中</p>
+              <p>{company.name}</p>
             </div>
-          </div>
-          <h2 className="font-bold mb-2">{recruitment.title}</h2>
-          <p className="text-gray-800 mb-4 overflow-hidden line-clamp-3">
-            {recruitment.description}
-          </p>
+          )}
+          {/* <h2 className="font-bold text-sm">時給：{recruitment.wage}円〜</h2> */}
+          <h2 className="font-bold text-sm">{recruitment.title}</h2>
         </div>
-      </Link>
-
-      <Link
-        href={`/recruitments/${recruitment.id}`}
-        className="bg-purple-600 text-white flex justify-center py-2 rounded mt-auto"
-      >
-        この求人について詳しく見る
       </Link>
     </div>
   );

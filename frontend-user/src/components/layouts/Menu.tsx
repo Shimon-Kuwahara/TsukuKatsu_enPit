@@ -20,7 +20,7 @@ const Menu: React.FC<MenuProps> = ({ isMenuOpen, toggleMenu }) => {
   if (!isMenuOpen) return null;
 
   return (
-    <div className="absolute top-full right-0 mt-2 w-48 bg-white border border-gray-300 rounded shadow-lg z-10">
+    <div className="absolute top-full right-0 mt-2 w-48 bg-white border border-gray-300 rounded shadow-lg z-30">
       <ul className="flex flex-col">
         <li>
           <Link href="/mypage">

@@ -7,7 +7,17 @@ class RecruitmentsController < ApplicationController
     if @recruitments.empty?
       render json: { message: "No recruitments found" }, status: :not_found
     else
-      render json: @recruitments
+      render json: @recruitments.to_json(
+        include: {
+          user: {
+            only: [:last_name, :first_name, :grade, :department]
+          },
+          company: {
+            only: [:name]
+          }
+        },
+        except: [:created_at, :updated_at]
+      )
     end
   end
 

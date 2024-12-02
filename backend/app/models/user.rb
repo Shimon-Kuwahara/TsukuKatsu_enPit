@@ -1,8 +1,17 @@
 # frozen_string_literal: true
 
 class User < ActiveRecord::Base
+  has_many :reviews, dependent: :destroy
+  has_many :recruitments
+
+  # Include default devise modules. Others available are:
+  # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
+  devise :database_authenticatable, :registerable,
+         :recoverable, :rememberable, :validatable
+  include DeviseTokenAuth::Concerns::User
+
   enum gender: { 男性: 0, 女性: 1, その他: 2 }
-  enum grade: { 学部1年: 0, 学部2年: 1, 学部3年: 2, 学部4年: 3, 修士1年: 4, 修士2年: 5, 博士1年: 6, 博士2年: 7, 博士3年: 8 }
+  enum grade: { 学類1年: 0, 学類2年: 1, 学類3年: 2, 学類4年: 3, 修士1年: 4, 修士2年: 5, 博士1年: 6, 博士2年: 7, 博士3年: 8 }
   enum university: { 筑波大学: 0, 筑波大学大学院: 1, 筑波技術大学: 2 }
   enum desired_company_size: { small: 0, medium: 1, large: 2 } # 適切に書き換える
   enum desired_job: { engineer: 0, designer: 1, product_manager: 2 } # 適切に書き換える
@@ -57,11 +66,4 @@ class User < ActiveRecord::Base
     鹿児島県: 45,
     沖縄県: 46
   }
-
-  # Include default devise modules. Others available are:
-  # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
-  devise :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :validatable
-  include DeviseTokenAuth::Concerns::User
-  has_many :reviews, dependent: :destroy
 end

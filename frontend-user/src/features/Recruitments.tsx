@@ -5,7 +5,6 @@ import { Recruitment } from "@/types/recruitment";
 
 export default function Recruitments() {
   const [recruitments, setRecruitments] = useState<Recruitment[]>([]);
-
   useEffect(() => {
     const fetchRecruitments = async () => {
       try {
@@ -27,7 +26,7 @@ export default function Recruitments() {
 
   return (
     <>
-      {/* <h1 className="text-xl font-bold p-4">求人はこちら</h1> */}
+      <h1 className="text-xl font-bold p-8">筑波大生の働き方を知る👥</h1>
       <div className="flex flex-wrap justify-center">
         {recruitments.length > 0 ? (
           recruitments.map((recruitment) => (
