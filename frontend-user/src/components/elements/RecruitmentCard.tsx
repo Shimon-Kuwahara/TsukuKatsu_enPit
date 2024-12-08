@@ -71,7 +71,7 @@ const RecruitmentCard: React.FC<RecruitmentCardProps> = ({ recruitment }) => {
             </div>
             {/* 週の働く時間 */}
             <div className="bg-gray-100 text-gray-700 text-xs p-2 rounded-lg shadow">
-              <p className="font-bold">週の働く時間</p>
+              <p className="font-bold">週勤務時間</p>
               <p>２～３日</p>
             </div>
             {/* 勤務期間 */}
