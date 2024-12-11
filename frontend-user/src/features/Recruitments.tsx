@@ -26,7 +26,7 @@ export default function Recruitments() {
 
   return (
     <>
-      <h1 className="text-xl font-bold p-8">筑波大生の働き方を知る👥</h1>
+      <h1 className="text-xl font-bold p-8">大手メガベンチャー内定者の働き方</h1>
       <div className="flex flex-wrap justify-center">
         {recruitments.length > 0 ? (
           recruitments.map((recruitment) => (
