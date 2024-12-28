@@ -15,6 +15,9 @@ Rails.application.routes.draw do
   # Companyのルーティング
   resources :companies
 
+  # Internのルーティング
+  resources :interns, only: %i[index]
+
   # その他のルーティング
   resources :recruitments do
     collection do

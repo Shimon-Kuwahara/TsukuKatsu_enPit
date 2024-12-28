@@ -1,0 +1,35 @@
+Intern.create!(
+  [
+    {
+      nickname: "S",
+      department: 1,
+      grade: 3,
+      labo: "Softlab",
+      club: "無所属",
+      achievements: "26卒Sansan内定",
+      experience: "プログラミング歴1年, Railsを用いた簡単な個人開発",
+      company_name: "Techouse株式会社",
+      intern_detail: "Ruby on Railsを用いた社内プロダクトの保守・運用。機能の要件定義から実装までを行う。社内の勉強会や書籍の購入も自由なので、勉強することが仕事でした。",
+      work_duration_description: "学部2年次の冬から",
+      weekly_hours_description: "週２日はフルタイム、週１日は４時間。長期休暇期間中は週５フルタイム",
+      hourly_wage_description: "研修終了の際に一律3万円。それ以降は、一律で時給1200円",
+      work_style: "週２出社、週１リモート。オフィスの近くにインターン生専用の宿があるので、筑波大生はよくそこ泊まって連続で出社しています。",
+      application_reason: "ソフトウェアエンジニアを目指すために、実務経験を積みたいと考えたこと。Web開発未経験からでも挑戦できたこと。",
+      acquired_skill: "Rails を用いた開発経験、毎週開催される社内勉強会で得たコンピュータサイエンスの知識、ソフトウェアエンジニアの仕事の進め方、GitやJiraの使い方など",
+      appeal: "週三日稼働できること伝えて、熱量の高さをアピールした",
+      advise: "応募時に開発経験がない人がほとんどなので、Web開発未経験からでも挑戦できると感じました。Railsチュートリアルで、Railsの勉強を事前にしておくと研修がスムーズにいきます。",
+      evaluation: 5,
+      evaluation_reason: "大きなタスクを振ってもらえて、圧倒的に成長することができたから。",
+      intern_overview: "Ruby on Rails を用いた開発",
+      catchphrase: "Sansan26卒内定者",
+      hourly_wage: 1200,
+      weekly_hours: 21,
+      work_duration: 12,
+      industry: 1,
+      occupation: 2,
+      recruitment_id: nil,
+      created_at: Time.now,
+      updated_at: Time.now
+    },
+  ]
+)
