@@ -1,0 +1,59 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  nickname: MyString
+  department: 1
+  grade: 1
+  labo: MyString
+  club: MyString
+  achievements: MyText
+  experience: MyText
+  company_name: MyString
+  intern_details: MyText
+  work_duration_description: MyText
+  weekly_hours_description: MyText
+  hourly_wage_description: MyText
+  work_style: MyText
+  application_reason: MyText
+  acquired_skil: MyText
+  appeal: MyText
+  advise: MyText
+  evaluation: 1
+  evaluation_reason: MyText
+  intern_overview: MyText
+  catchphrase: MyText
+  hourly_wage: 1
+  weekly_hours: 1
+  work_duration: 1
+  industry: 1
+  occupation: 1
+  recruitment_id: 1
+
+two:
+  nickname: MyString
+  department: 1
+  grade: 1
+  labo: MyString
+  club: MyString
+  achievements: MyText
+  experience: MyText
+  company_name: MyString
+  intern_details: MyText
+  work_duration_description: MyText
+  weekly_hours_description: MyText
+  hourly_wage_description: MyText
+  work_style: MyText
+  application_reason: MyText
+  acquired_skil: MyText
+  appeal: MyText
+  advise: MyText
+  evaluation: 1
+  evaluation_reason: MyText
+  intern_overview: MyText
+  catchphrase: MyText
+  hourly_wage: 1
+  weekly_hours: 1
+  work_duration: 1
+  industry: 1
+  occupation: 1
+  recruitment_id: 1
