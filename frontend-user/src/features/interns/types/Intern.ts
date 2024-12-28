@@ -10,4 +10,5 @@ export interface Intern {
   weekly_hours: number;
   work_duration: number;
   industry: number;
+  occupation: number;
 }

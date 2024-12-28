@@ -1,53 +1,68 @@
-import { Intern } from '../types/Intern';
+import React from "react";
+import Image from "next/image";
+import { Intern } from "../types/Intern";
 
-async function getInterns(): Promise<Intern[]> {
-  const res = await fetch("http://localhost:3000/interns", {
-    cache: 'no-store',
-  });
+type InternCardProps = {
+  intern: Intern;
+};
 
-  if (!res.ok) {
-    throw new Error(`Failed to fetch interns. Status: ${res.status}`);
-  }
-
-  const interns = (await res.json()) as Intern[];
-  return interns;
-}
-
-// サーバーコンポーネント
-export default async function InternsPage() {
-  let interns: Intern[] = [];
-
-  try {
-    interns = await getInterns();
-  } catch (error) {
-    // Rails 側が 404 を返したときなど
-    console.error(error);
-    // ここで notFound() を呼び出して 404 ページに飛ばす といった対応も可能
-    // throw notFound();
-  }
-
-  if (interns.length === 0) {
-    // interns が空配列の場合
-    return <div>No interns found</div>;
-  }
-
+const InternCard: React.FC<InternCardProps> = ({ intern }) => {
   return (
-    <div style={{ padding: '1rem' }}>
-      <h1>Interns List</h1>
-      {interns.map((intern) => (
-        <div key={intern.id} style={{ border: '1px solid #ddd', margin: '8px', padding: '8px' }}>
-          <p><strong>Nickname:</strong> {intern.nickname}</p>
-          <p><strong>Department:</strong> {intern.department}</p>
-          <p><strong>Grade:</strong> {intern.grade}</p>
-          <p><strong>Company Name:</strong> {intern.company_name}</p>
-          <p><strong>Overview:</strong> {intern.intern_overview}</p>
-          <p><strong>Catchphrase:</strong> {intern.catchphrase}</p>
-          <p><strong>Hourly Wage:</strong> {intern.hourly_wage}</p>
-          <p><strong>Weekly Hours:</strong> {intern.weekly_hours}</p>
-          <p><strong>Work Duration:</strong> {intern.work_duration}</p>
-          <p><strong>Industry:</strong> {intern.industry}</p>
+    <div className="bg-white shadow-lg rounded-2xl p-6 border border-gray-200">
+      <div className="flex items-center gap-4">
+        {/* アイコン */}
+        <div className="relative w-24 h-24 rounded-full overflow-hidden">
+          <Image
+            src="/default_profile.png" // プロフィール画像のパス
+            alt="Profile"
+            width={100}
+            height={100}
+            className="rounded-full object-cover"
+          />
         </div>
-      ))}
+        <div className="flex-1">
+          {/* キャッチフレーズ */}
+          <div className="text-sm font-bold text-gray-600 mb-2">
+            {intern.catchphrase}
+          </div>
+          {/* 学生情報 */}
+          <div className="bg-gray-100 rounded-lg px-4 py-2 text-base font-bold text-gray-800 mb-2 w-full text-center">
+            {intern.department} {intern.grade} {intern.nickname} さん
+          </div>
+          {/* タグ */}
+          <div className="flex gap-2 w-full">
+            <span className="bg-main-col-light text-white text-xs font-bold py-1 px-3 rounded-full text-center flex-grow">
+              {intern.industry}
+            </span>
+            <span className="bg-main-col-light text-white text-xs font-bold py-1 px-3 rounded-full text-center flex-grow">
+              {intern.occupation}
+            </span>
+          </div>
+        </div>
+      </div>
+
+      {/* 企業情報 */}  
+      <div className="mt-2">
+        <div className="text-sm text-gray-600">{intern.company_name}</div>
+        <div className="text-lg font-semibold text-gray-800">{intern.intern_overview}</div>
+      </div>
+      {/* 条件 */}
+      <div className="grid grid-cols-3 gap-2 text-center text-sm text-gray-700 mt-2">
+        <div className="bg-gray-100 rounded-lg p-4">
+          <div className="text-xs text-gray-800">時給</div>
+          <div className="text-sm font-bold text-gray-600">{intern.hourly_wage}円</div>
+        </div>
+        <div className="bg-gray-100 rounded-lg p-4">
+          <div className="text-xs text-gray-800">週勤務日数</div>
+          <div className="font-bold text-gray-600">{intern.weekly_hours}日</div>
+        </div>
+        <div className="bg-gray-100 rounded-lg p-4">
+          <div className="text-xs text-gray-800">勤務期間</div>
+          <div className="font-bold text-gray-600">{intern.work_duration}年</div>
+        </div>
+      </div>
     </div>
   );
-}
+};
+
+export default InternCard;
