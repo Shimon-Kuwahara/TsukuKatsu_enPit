@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from "react";
 import InternCard from "../interns/pages/InternCard";
 import { Intern } from "../interns/types/Intern";
+import Link from "next/link";
 
 export default function IndexInterns() {
   const [interns, setInterns] = useState<Intern[]>([]);
@@ -47,9 +48,12 @@ export default function IndexInterns() {
         )}
       </div>
       <div className="text-center mt-4">
-        <button className="px-6 py-3 bg-main-col text-white rounded-full text-sm font-bold">
-          さらに表示
-        </button>
+        <Link
+          href="/interns"
+          className="inline-block px-6 py-3 bg-main-col text-white rounded-full font-bold"
+        >
+          もっと見る
+        </Link>
       </div>
     </div>
   );

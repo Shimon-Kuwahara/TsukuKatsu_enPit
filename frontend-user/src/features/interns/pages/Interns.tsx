@@ -100,7 +100,7 @@ export default function IndexInterns() {
       </div>
 
       {/* Pagination */}
-      <div className="flex justify-center items-center gap-4 mt-6">
+      <div className="flex justify-center items-center gap-4 my-6">
         <button
           onClick={() => setPage((prev) => Math.max(prev - 1, 1))}
           disabled={page === 1}
