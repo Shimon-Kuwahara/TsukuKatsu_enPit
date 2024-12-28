@@ -10,9 +10,18 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_12_28_021731) do
+ActiveRecord::Schema[7.0].define(version: 2024_12_28_022030) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "applications", force: :cascade do |t|
+    t.bigint "user_id"
+    t.bigint "recruitment_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["recruitment_id"], name: "index_applications_on_recruitment_id"
+    t.index ["user_id"], name: "index_applications_on_user_id"
+  end
 
   create_table "chat_rooms", force: :cascade do |t|
     t.bigint "user_id"
@@ -219,6 +228,8 @@ ActiveRecord::Schema[7.0].define(version: 2024_12_28_021731) do
     t.index ["uid", "provider"], name: "index_users_on_uid_and_provider", unique: true
   end
 
+  add_foreign_key "applications", "recruitments"
+  add_foreign_key "applications", "users"
   add_foreign_key "chat_rooms", "companies"
   add_foreign_key "chat_rooms", "recruitments"
   add_foreign_key "chat_rooms", "users"
