@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_12_02_050617) do
+ActiveRecord::Schema[7.0].define(version: 2024_12_28_020836) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -52,6 +52,44 @@ ActiveRecord::Schema[7.0].define(version: 2024_12_02_050617) do
     t.index ["email"], name: "index_companies_on_email", unique: true
     t.index ["reset_password_token"], name: "index_companies_on_reset_password_token", unique: true
     t.index ["uid", "provider"], name: "index_companies_on_uid_and_provider", unique: true
+  end
+
+  create_table "features", force: :cascade do |t|
+    t.string "name", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "interns", force: :cascade do |t|
+    t.string "nickname", null: false
+    t.integer "department", null: false
+    t.integer "grade", null: false
+    t.string "labo"
+    t.string "club"
+    t.text "achievements"
+    t.text "experience"
+    t.string "company_name"
+    t.text "intern_detail", null: false
+    t.text "work_duration_description"
+    t.text "weekly_hours_description"
+    t.text "hourly_wage_description"
+    t.text "work_style"
+    t.text "application_reason"
+    t.text "acquired_skil"
+    t.text "appeal"
+    t.text "advise"
+    t.integer "evaluation"
+    t.text "evaluation_reason"
+    t.text "intern_overview", null: false
+    t.text "catchphrase", null: false
+    t.integer "hourly_wage"
+    t.integer "weekly_hours"
+    t.integer "work_duration"
+    t.integer "industry", null: false
+    t.integer "occupation", null: false
+    t.integer "recruitment_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "messages", force: :cascade do |t|
