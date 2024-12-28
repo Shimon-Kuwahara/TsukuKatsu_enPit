@@ -1,7 +1,7 @@
 class InternsController < ApplicationController
   # GET /interns
   def index
-    interns = Intern.limit(12).order(created_at: :desc)
+    interns = Intern.limit(12).order(updated_at: :desc)
     if interns.empty?
       render json: { message: 'No internts found' }, status: :not_found
     else

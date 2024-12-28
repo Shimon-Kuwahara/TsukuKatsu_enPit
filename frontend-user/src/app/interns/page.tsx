@@ -1,8 +1,8 @@
-import IndexInterns from '@/features/pages/IndexInterns'
+import Interns from '@/features/interns/pages/Interns'
 import React from 'react'
 
 export default function page() {
   return (
-    <IndexInterns />
+    <Interns />
   )
 }

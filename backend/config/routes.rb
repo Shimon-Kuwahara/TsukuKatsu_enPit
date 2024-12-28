@@ -17,6 +17,7 @@ Rails.application.routes.draw do
 
   # Internのルーティング
   resources :interns, only: %i[index]
+  resources :paginated_interns, only: %i[index]
 
   # その他のルーティング
   resources :recruitments do
