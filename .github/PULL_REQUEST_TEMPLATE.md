@@ -1,4 +1,4 @@
-https://tsukukatsu.atlassian.net/browse/TSUKU-
+## notionリンク
 
 ## 概要
 
