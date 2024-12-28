@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_12_28_053242) do
+ActiveRecord::Schema[7.0].define(version: 2024_12_28_054538) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -60,6 +60,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_12_28_053242) do
     t.text "business_description", default: "", null: false
     t.text "culture", default: "", null: false
     t.text "appeal", default: "", null: false
+    t.string "industry", null: false
     t.index ["confirmation_token"], name: "index_companies_on_confirmation_token", unique: true
     t.index ["email"], name: "index_companies_on_email", unique: true
     t.index ["reset_password_token"], name: "index_companies_on_reset_password_token", unique: true
@@ -141,7 +142,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_12_28_053242) do
     t.text "required_skills", null: false
     t.text "welcome_skills", null: false
     t.text "selection_flow", null: false
-    t.integer "occupation", default: 0, null: false
+    t.string "occupation", null: false
     t.string "image1"
     t.string "image2"
     t.string "image3"
