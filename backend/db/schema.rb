@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_12_28_023505) do
+ActiveRecord::Schema[7.0].define(version: 2024_12_28_053242) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -125,40 +125,27 @@ ActiveRecord::Schema[7.0].define(version: 2024_12_28_023505) do
   end
 
   create_table "recruitments", force: :cascade do |t|
-    t.string "title"
-    t.text "description"
+    t.string "title", null: false
+    t.text "description", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "company_id", null: false
-    t.string "industry", null: false
-    t.text "benefits", null: false
-    t.text "job_description", null: false
-    t.text "job_titles", null: false
-    t.boolean "job_engineer", default: false, null: false
-    t.boolean "job_designer", default: false, null: false
-    t.boolean "job_sales", default: false, null: false
-    t.boolean "job_planning", default: false, null: false
-    t.boolean "job_marketing", default: false, null: false
-    t.boolean "job_writer", default: false, null: false
-    t.boolean "job_others", default: false, null: false
+    t.text "other_informations", null: false
     t.text "skills_acquired", null: false
-    t.integer "wage", null: false
+    t.integer "hourly_wage", null: false
     t.text "salary_notes", null: false
-    t.string "work_location", null: false
-    t.string "min_work_period", null: false
-    t.string "min_work_days", null: false
-    t.string "min_work_hours", null: false
-    t.string "commute_support", null: false
+    t.string "work_style", null: false
+    t.string "min_month", null: false
+    t.string "min_days", null: false
+    t.string "min_hours", null: false
     t.text "required_skills", null: false
     t.text "welcome_skills", null: false
-    t.string "promotion_system", null: false
-    t.string "remote_policy", null: false
     t.text "selection_flow", null: false
-    t.string "deadline", null: false
-    t.text "welfare_benefits", null: false
-    t.string "apply_url", null: false
-    t.bigint "user_id"
-    t.index ["user_id"], name: "index_recruitments_on_user_id"
+    t.integer "occupation", default: 0, null: false
+    t.string "image1"
+    t.string "image2"
+    t.string "image3"
+    t.boolean "status", default: true, null: false
   end
 
   create_table "reviews", force: :cascade do |t|
@@ -241,7 +228,6 @@ ActiveRecord::Schema[7.0].define(version: 2024_12_28_023505) do
   add_foreign_key "interns", "recruitments"
   add_foreign_key "messages", "chat_rooms"
   add_foreign_key "recruitments", "companies"
-  add_foreign_key "recruitments", "users"
   add_foreign_key "reviews", "companies"
   add_foreign_key "reviews", "users"
 end
