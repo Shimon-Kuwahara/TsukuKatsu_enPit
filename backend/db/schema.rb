@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_12_28_022030) do
+ActiveRecord::Schema[7.0].define(version: 2024_12_28_023505) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -57,6 +57,9 @@ ActiveRecord::Schema[7.0].define(version: 2024_12_28_022030) do
     t.json "tokens"
     t.string "logo_url", default: ""
     t.string "picture_url", default: ""
+    t.text "business_description", default: "", null: false
+    t.text "culture", default: "", null: false
+    t.text "appeal", default: "", null: false
     t.index ["confirmation_token"], name: "index_companies_on_confirmation_token", unique: true
     t.index ["email"], name: "index_companies_on_email", unique: true
     t.index ["reset_password_token"], name: "index_companies_on_reset_password_token", unique: true
