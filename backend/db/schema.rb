@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_12_28_021304) do
+ActiveRecord::Schema[7.0].define(version: 2024_12_28_021731) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -58,6 +58,15 @@ ActiveRecord::Schema[7.0].define(version: 2024_12_28_021304) do
     t.string "name", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "intern_features", force: :cascade do |t|
+    t.bigint "intern_id"
+    t.bigint "feature_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["feature_id"], name: "index_intern_features_on_feature_id"
+    t.index ["intern_id"], name: "index_intern_features_on_intern_id"
   end
 
   create_table "interns", force: :cascade do |t|
@@ -213,6 +222,8 @@ ActiveRecord::Schema[7.0].define(version: 2024_12_28_021304) do
   add_foreign_key "chat_rooms", "companies"
   add_foreign_key "chat_rooms", "recruitments"
   add_foreign_key "chat_rooms", "users"
+  add_foreign_key "intern_features", "features"
+  add_foreign_key "intern_features", "interns"
   add_foreign_key "interns", "recruitments"
   add_foreign_key "messages", "chat_rooms"
   add_foreign_key "recruitments", "companies"
