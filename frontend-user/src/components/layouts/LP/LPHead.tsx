@@ -1,15 +1,15 @@
 // import Image from "next/image";
 import { Laptop, Home, Lightbulb } from "lucide-react";
-import { HeroBadge } from "@/components/layouts/hero-badge";
+// import { HeroBadge } from "@/components/layouts/hero-badge";
 import { FeatureCircle } from "@/components/layouts/feature-circle";
 
 export default function LPHead() {
   return (
-    <div className="relative bg-gradient-to-b from-white to-main-col">
+    <div className="relative bg-gradient-to-b from-white to-main-col-light">
       {/* Background Image */}
       <div
         className="absolute inset-x-0 top-[60px] bg-cover bg-center z-0"
-        style={{ backgroundImage: "url('/test1.jpg')" }}
+        // style={{ backgroundImage: "url('/test1.jpg')" }}
       ></div>
 
       {/* Overlay for better text readability */}
@@ -19,12 +19,12 @@ export default function LPHead() {
       <div className="relative z-20 max-w-6xl mx-auto pt-12">
         {/* Hero Section */}
         <div className="text-center">
-          <div className="flex justify-center gap-4 mb-8">
+          {/* <div className="flex justify-center gap-4 mb-8">
             <HeroBadge color="purple">自分に合わせて</HeroBadge>
-            <HeroBadge color="mint">安心</HeroBadge>
-          </div>
+            <HeroBadge color="purple">安心</HeroBadge>
+          </div> */}
 
-          <h1 className="text-4xl sm:text-3xl font-bold mb-6 leading-tight">
+          <h1 className="text-4xl sm:text-3xl font-bold my-6 leading-tight">
             完全<span className="text-main-col text-4xl">筑波大生特化</span>の
             <p>長期インターン探し！</p>
           </h1>
@@ -35,7 +35,7 @@ export default function LPHead() {
         </div>
 
         {/* Features Section */}
-        <div className="relative mt-20 bg-main-col bg-opacity-70 p-4">
+        <div className="relative mt-10 bg-opacity-70 p-4">
           {/* Mobile layout */}
           <div className="md:hidden">
             <div className="flex justify-center mb-8">

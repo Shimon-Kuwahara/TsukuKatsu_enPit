@@ -1,12 +1,12 @@
 import Footer from "@/components/layouts/Footer";
 import LPHead from "@/components/layouts/LP/LPHead";
-import Recruitments from "@/features/Recruitments";
+import IndexInterns from "@/features/pages/IndexInterns";
 
 export default function Home() {
   return (
     <div>
       <LPHead />
-      <Recruitments />
+      <IndexInterns />
       {/* <LPBody /> */}
       <Footer />
     </div>
