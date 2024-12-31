@@ -23,10 +23,12 @@ development:
 
 # 本番環境用の設定は不要です。なぜなら、Fly.ioで後ほどPostgreSQLサーバーを作成する際に、 DATABASE_URL がSecretsとして自動で設定され、それを通じてDBにアクセスできるためです。
 
-# test:
-#   <<: *default
-#   database: db/test.sqlite3
-
+test:
+  <<: *default
+  database: tsukukatsu_test
+  host: db
+  username: root
+  password: password
 # production:
 #   <<: *default
 #   database: db/production.sqlite3
