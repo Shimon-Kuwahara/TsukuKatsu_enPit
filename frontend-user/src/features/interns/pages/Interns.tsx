@@ -1,7 +1,21 @@
 'use client';
 import React, { useEffect, useState } from "react";
 import InternCard from "../pages/InternCard";
+import InternHeader from "./InternHeader";
+import InternFilter from "./InternFilter";
 import { Intern } from "../types/Intern";
+
+type EnumOption = {
+  key: string;
+  value: number;
+};
+
+type Enums = {
+  industry: EnumOption[];
+  occupation: EnumOption[];
+  department: EnumOption[];
+  grade: EnumOption[];
+};
 
 export default function IndexInterns() {
   const [interns, setInterns] = useState<Intern[]>([]);
@@ -9,7 +23,44 @@ export default function IndexInterns() {
   const [error, setError] = useState<string | null>(null);
   const [page, setPage] = useState<number>(1);
   const [totalPages, setTotalPages] = useState<number>(1);
-  const [filters, setFilters] = useState<{ industry?: number; occupation?: number; department?: number; }>({});
+
+  const [tempFilters, setTempFilters] = useState<{ industry: number[], occupation: number[], department: number[], grade: number[] }>({
+    industry: [],
+    occupation: [],
+    department: [],
+    grade: [],
+  });
+  const [appliedFilters, setAppliedFilters] = useState<{ industry: number[], occupation: number[], department: number[], grade: number[] }>({
+    industry: [],
+    occupation: [],
+    department: [],
+    grade: [],
+  });
+  const [isFilterModalOpen, setIsFilterModalOpen] = useState<boolean>(false);
+
+  const [enums, setEnums] = useState<Enums>({
+    industry: [],
+    occupation: [],
+    department: [],
+    grade: [],
+  });
+
+    // enumsのデータを取得する
+    useEffect(() => {
+      async function fetchEnums() {
+        try {
+          const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}intern_enums`);
+          if (!res.ok) {
+            throw new Error("Failed to fetch enums");
+          }
+          const data = await res.json();
+          setEnums(data);
+        } catch (error) {
+          console.error(error);
+        }
+      }
+      fetchEnums();
+    }, []);
 
   useEffect(() => {
     async function fetchInterns() {
@@ -19,9 +70,10 @@ export default function IndexInterns() {
         // クエリを作成する
         const query = new URLSearchParams({
           page: page.toString(),
-          ...(filters.industry && { industry: filters.industry.toString() }),
-          ...(filters.occupation && { occupation: filters.occupation.toString() }),
-          ...(filters.department && { department: filters.department.toString() }),
+          ...(appliedFilters.industry.length > 0 && { industry: appliedFilters.industry.join(",") }),
+          ...(appliedFilters.occupation.length > 0 && { occupation: appliedFilters.occupation.join(",") }),
+          ...(appliedFilters.department.length > 0 && { department: appliedFilters.department.join(",") }),
+          ...(appliedFilters.grade.length > 0 && { grade: appliedFilters.grade.join(",") }),
         }).toString();
 
         const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}paginated_interns?${query}`);
@@ -38,87 +90,74 @@ export default function IndexInterns() {
       }
     }
     fetchInterns();
-  }, [page, filters]);
+  }, [page, appliedFilters]);
 
-  // フィルターの変更
-  const handleFilterChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const { name, value } = e.target;
-    setFilters((prev) => ({ ...prev, [name]: value || undefined }));
+  const handleCheckboxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value, checked } = e.target;
+    setTempFilters((prev) => {
+      const currentValues = prev[name as keyof typeof tempFilters] as number[];
+      if (checked) {
+        return { ...prev, [name]: [...currentValues, Number(value)] };
+      } else {
+        return { ...prev, [name]: currentValues.filter((v) => v !== Number(value)) };
+      }
+    })
+  }
+
+  const applyFilters = () => {
+    setAppliedFilters(tempFilters);
+    setIsFilterModalOpen(false);
     setPage(1);
   }
 
-  if (loading) {
-    return <div>Loading...</div>;
-  }
-
-  if (error) {
-    return <div>Error: {error}</div>;
-  }
-
   return (
-    <div className="container mx-auto p-4 mt-20">
-            {/* 絞り込みフォーム */}
-            <div className="flex justify-center gap-4 mb-6">
-        <select
-          name="industry"
-          onChange={handleFilterChange}
-          className="px-4 py-2 border rounded"
-        >
-          <option value="">業界を選択</option>
-          <option value="1">Technology</option>
-          <option value="2">Education</option>
-          <option value="3">Finance</option>
-        </select>
-        <select
-          name="occupation"
-          onChange={handleFilterChange}
-          className="px-4 py-2 border rounded"
-        >
-          <option value="">職種を選択</option>
-          <option value="1">Developer</option>
-          <option value="2">Designer</option>
-          <option value="3">Marketer</option>
-        </select>
-        <select
-          name="department"
-          onChange={handleFilterChange}
-          className="px-4 py-2 border rounded"
-        >
-          <option value="">学部を選択</option>
-          <option value="1">Engineering</option>
-          <option value="2">Business</option>
-          <option value="3">Science</option>
-        </select>
-      </div>
-
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
-        {interns.length === 0 ? (
-          <div>新着のインターン情報がありません。</div>
+    <>
+      <InternHeader onFilterClick={() => setIsFilterModalOpen(true)} />
+      <InternFilter
+        isOpen={isFilterModalOpen}
+        enums={enums}
+        tempFilters={tempFilters}
+        handleCheckboxChange={handleCheckboxChange}
+        onApply={applyFilters}
+        onClose={() => setIsFilterModalOpen(false)}
+      />
+      <div className="container mx-auto p-4 mt-4">
+        {loading ? (
+          <div>Loading...</div>
+        ) : error ? (
+          <div>Error: {error}</div>
         ) : (
-          interns.map((intern) => <InternCard key={intern.id} intern={intern} />)
-        )}
-      </div>
 
-      {/* Pagination */}
-      <div className="flex justify-center items-center gap-4 my-6">
-        <button
-          onClick={() => setPage((prev) => Math.max(prev - 1, 1))}
-          disabled={page === 1}
-          className="px-4 py-2 bg-gray-300 text-gray-700 rounded disabled:opacity-50"
-        >
-          前へ
-        </button>
-        <span>
-          ページ {page} / {totalPages}
-        </span>
-        <button
-          onClick={() => setPage((prev) => Math.min(prev + 1, totalPages))}
-          disabled={page === totalPages}
-          className="px-4 py-2 bg-gray-300 text-gray-700 rounded disabled:opacity-50"
-        >
-          次へ
-        </button>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+          {interns.length === 0 ? (
+            <div>新着のインターン情報がありません。</div>
+          ) : (
+            interns.map((intern) => <InternCard key={intern.id} intern={intern} />)
+          )}
+        </div>
+        )}
+
+        {/* Pagination */}
+        <div className="flex justify-center items-center gap-4 my-6">
+          <button
+            onClick={() => setPage((prev) => Math.max(prev - 1, 1))}
+            disabled={page === 1}
+            className="px-4 py-2 bg-gray-300 text-gray-700 rounded disabled:opacity-50"
+          >
+            前へ
+          </button>
+          <span>
+            ページ {page} / {totalPages}
+          </span>
+          <button
+            onClick={() => setPage((prev) => Math.min(prev + 1, totalPages))}
+            disabled={page === totalPages}
+            className="px-4 py-2 bg-gray-300 text-gray-700 rounded disabled:opacity-50"
+          >
+            次へ
+          </button>
+        </div>
       </div>
-    </div>
+    </>
   );
 }
