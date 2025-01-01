@@ -42,7 +42,7 @@ export default function IndexInterns() {
       </h1>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
         {interns.length === 0 ? (
-          <div>新着のインターン情報がありません。</div>
+          <div className='col-span-full flex justify-center items-center h-40 text-center'>新着のインターン情報がありません。</div>
         ) : (
           interns.map((intern) => <InternCard key={intern.id} intern={intern} />)
         )}

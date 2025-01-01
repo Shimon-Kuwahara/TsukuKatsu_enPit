@@ -1,21 +1,9 @@
 import React, { useEffect } from "react";
-
-
-type EnumOption = {
-  key: string;
-  value: number;
-};
-
-type Enums = {
-  industry: EnumOption[];
-  occupation: EnumOption[];
-  department: EnumOption[];
-  grade: EnumOption[];
-};
+import { InternEnums } from "../types/InternEnums";
 
 type InternFilterProps = {
   isOpen: boolean;
-  enums: Enums;
+  enums: InternEnums;
   tempFilters: { industry: number[]; occupation: number[]; department: number[]; grade: number[] };
   handleCheckboxChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   onApply: () => void;
@@ -66,15 +54,15 @@ const InternFilter: React.FC<InternFilterProps> = ({
           </button>
         </div>
 
-        {/* 動的に生成されたフィルターセクション */}
+        {/* フィルターセクションを動的に生成 */}
         {Object.keys(enums).map((filterKey) => {
-          const key = filterKey as keyof Enums;
+          const key = filterKey as keyof InternEnums;
           const sectionTitle =
             key === "industry" ? "業界" : key === "occupation" ? "職種" : key === "department" ? "所属" : "学年";
 
           return (
             <div key={key} className="mb-4">
-              <h3 className="font-bold p-2 bg-main-col-mid text-white rounded">{sectionTitle}</h3>
+              <h3 className="font-bold p-2 pl-4 bg-main-col-mid text-white rounded">{sectionTitle}</h3>
               <div className="grid grid-cols-2 gap-4 mt-2">
                 {enums[key].map((option) => (
                   <label key={option.value} className="flex items-center">
@@ -84,9 +72,9 @@ const InternFilter: React.FC<InternFilterProps> = ({
                       value={option.value}
                       checked={tempFilters[key].includes(option.value)}
                       onChange={handleCheckboxChange}
-                      className="w-6 h-6 border-2 border-main-col-mid rounded text-main-col-mid"
+                      className="w-5 h-5 rounded text-main-col-mid"
                     />
-                    <span className="ml-2">{option.key}</span>
+                    <span className="ml-3 text-sm">{option.key}</span>
                   </label>
                 ))}
               </div>

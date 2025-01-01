@@ -4,18 +4,7 @@ import InternCard from "../pages/InternCard";
 import InternHeader from "./InternHeader";
 import InternFilter from "./InternFilter";
 import { Intern } from "../types/Intern";
-
-type EnumOption = {
-  key: string;
-  value: number;
-};
-
-type Enums = {
-  industry: EnumOption[];
-  occupation: EnumOption[];
-  department: EnumOption[];
-  grade: EnumOption[];
-};
+import { InternEnums } from "../types/InternEnums";
 
 export default function IndexInterns() {
   const [interns, setInterns] = useState<Intern[]>([]);
@@ -38,14 +27,14 @@ export default function IndexInterns() {
   });
   const [isFilterModalOpen, setIsFilterModalOpen] = useState<boolean>(false);
 
-  const [enums, setEnums] = useState<Enums>({
+  const [enums, setEnums] = useState<InternEnums>({
     industry: [],
     occupation: [],
     department: [],
     grade: [],
   });
 
-    // enumsのデータを取得する
+    // enum　のデータを取得する
     useEffect(() => {
       async function fetchEnums() {
         try {
@@ -62,6 +51,7 @@ export default function IndexInterns() {
       fetchEnums();
     }, []);
 
+  // intern 一覧を取得する
   useEffect(() => {
     async function fetchInterns() {
       try {
@@ -82,7 +72,7 @@ export default function IndexInterns() {
         }
         const { data, total, per_page } = await res.json();
         setInterns(data);
-        setTotalPages(Math.ceil(total / per_page));
+        setTotalPages(Math.max(1, Math.ceil(total / per_page)));
       } catch (error) {
         setError((error as Error).message);
       } finally {
@@ -130,7 +120,7 @@ export default function IndexInterns() {
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
           {interns.length === 0 ? (
-            <div>新着のインターン情報がありません。</div>
+            <div className="col-span-full flex justify-center items-center h-40 text-center">該当するインターン情報がありません。検索条件を変更して下さい。</div>
           ) : (
             interns.map((intern) => <InternCard key={intern.id} intern={intern} />)
           )}
