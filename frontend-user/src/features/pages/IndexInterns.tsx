@@ -42,7 +42,7 @@ export default function IndexInterns() {
       </h1>
       <div className="flex flex-wrap gap-10 justify-center">
         {interns.length === 0 ? (
-          <div>新着のインターン情報がありません。</div>
+          <div className='col-span-full flex justify-center items-center h-40 text-center'>新着のインターン情報がありません。</div>
         ) : (
           interns.map((intern) => <InternCard key={intern.id} intern={intern} />)
         )}
