@@ -102,6 +102,15 @@ export default function IndexInterns() {
     setPage(1);
   }
 
+  const resetFilters = () => {
+    setTempFilters({
+      industry: [],
+      occupation: [],
+      department: [],
+      grade: [],
+    });
+  }
+
   return (
     <>
       <InternHeader onFilterClick={() => setIsFilterModalOpen(true)} />
@@ -112,6 +121,7 @@ export default function IndexInterns() {
         handleCheckboxChange={handleCheckboxChange}
         onApply={applyFilters}
         onClose={() => setIsFilterModalOpen(false)}
+        onReset={resetFilters}
       />
 
       <div className="container mx-auto text-right mt-2 text-gray-600">

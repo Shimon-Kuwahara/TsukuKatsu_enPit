@@ -8,6 +8,7 @@ type InternFilterProps = {
   handleCheckboxChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   onApply: () => void;
   onClose: () => void;
+  onReset: () => void;
 };
 
 const InternFilter: React.FC<InternFilterProps> = ({
@@ -17,6 +18,7 @@ const InternFilter: React.FC<InternFilterProps> = ({
   handleCheckboxChange,
   onApply,
   onClose,
+  onReset,
 }) => {
 
     // モーダルが開いている間、背景のスクロールを無効化
@@ -83,19 +85,28 @@ const InternFilter: React.FC<InternFilterProps> = ({
         })}
 
         {/* モーダルフッター */}
-        <div className="flex justify-end gap-4">
+        <div className="flex justify-between items-center mt-6">
           <button
-            onClick={onClose}
-            className="px-4 py-2 bg-gray-300 text-gray-700 rounded focus:outline-none"
+            onClick={onReset}
+            className="px-4 py-2 bg-gray-300 text-gray-700 rounded focus:outline-none hover:bg-gray-400"
           >
-            キャンセル
+            リセット
           </button>
-          <button
-            onClick={onApply}
-            className="px-4 py-2 bg-main-col-mid text-white rounded focus:outline-none"
-          >
-            適用
-          </button>
+
+          <div className="flex gap-4">
+            <button
+              onClick={onClose}
+              className="px-4 py-2 bg-gray-300 text-gray-700 rounded focus:outline-none hover:bg-gray-400"
+            >
+              キャンセル
+            </button>
+            <button
+              onClick={onApply}
+              className="px-4 py-2 bg-main-col-mid text-white rounded focus:outline-none hover:bg-main-col-dark"
+            >
+              適用
+            </button>
+          </div>
         </div>
       </div>
 
