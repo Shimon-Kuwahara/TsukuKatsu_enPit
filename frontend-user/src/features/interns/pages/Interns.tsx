@@ -12,6 +12,7 @@ export default function IndexInterns() {
   const [error, setError] = useState<string | null>(null);
   const [page, setPage] = useState<number>(1);
   const [totalPages, setTotalPages] = useState<number>(1);
+  const [totalCount, setTotalCount] = useState<number>(0);
 
   const [tempFilters, setTempFilters] = useState<{ industry: number[], occupation: number[], department: number[], grade: number[] }>({
     industry: [],
@@ -73,6 +74,7 @@ export default function IndexInterns() {
         const { data, total, per_page } = await res.json();
         setInterns(data);
         setTotalPages(Math.max(1, Math.ceil(total / per_page)));
+        setTotalCount(total);
       } catch (error) {
         setError((error as Error).message);
       } finally {
@@ -111,13 +113,16 @@ export default function IndexInterns() {
         onApply={applyFilters}
         onClose={() => setIsFilterModalOpen(false)}
       />
-      <div className="container mx-auto p-4 mt-4">
+
+      <div className="container mx-auto text-right mt-2 text-gray-600">
+        総件数：{totalCount}件
+      </div>
+      <div className="container mx-auto p-4 mt-2">
         {loading ? (
           <div>Loading...</div>
         ) : error ? (
           <div>Error: {error}</div>
         ) : (
-
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
           {interns.length === 0 ? (
             <div className="col-span-full flex justify-center items-center h-40 text-center">該当するインターン情報がありません。検索条件を変更して下さい。</div>
