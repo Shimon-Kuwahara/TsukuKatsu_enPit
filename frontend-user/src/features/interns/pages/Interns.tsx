@@ -1,10 +1,13 @@
 'use client';
 import React, { useEffect, useState } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
 import InternCard from "../pages/InternCard";
 import InternHeader from "./InternHeader";
 import InternFilter from "./InternFilter";
 import { Intern } from "../types/Intern";
 import { InternEnums } from "../types/InternEnums";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faChevronLeft, faChevronRight } from "@fortawesome/free-solid-svg-icons";
 
 export default function IndexInterns() {
   const [interns, setInterns] = useState<Intern[]>([]);
@@ -13,21 +16,14 @@ export default function IndexInterns() {
   const [page, setPage] = useState<number>(1);
   const [totalPages, setTotalPages] = useState<number>(1);
   const [totalCount, setTotalCount] = useState<number>(0);
-
+  const [features, setFeatures] = useState<string[]>([]);
   const [tempFilters, setTempFilters] = useState<{ industry: number[], occupation: number[], department: number[], grade: number[] }>({
     industry: [],
     occupation: [],
     department: [],
     grade: [],
   });
-  const [appliedFilters, setAppliedFilters] = useState<{ industry: number[], occupation: number[], department: number[], grade: number[] }>({
-    industry: [],
-    occupation: [],
-    department: [],
-    grade: [],
-  });
   const [isFilterModalOpen, setIsFilterModalOpen] = useState<boolean>(false);
-
   const [enums, setEnums] = useState<InternEnums>({
     industry: [],
     occupation: [],
@@ -35,38 +31,28 @@ export default function IndexInterns() {
     grade: [],
   });
 
-    // enum　のデータを取得する
-    useEffect(() => {
-      async function fetchEnums() {
-        try {
-          const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}intern_enums`);
-          if (!res.ok) {
-            throw new Error("Failed to fetch enums");
-          }
-          const data = await res.json();
-          setEnums(data);
-        } catch (error) {
-          console.error(error);
-        }
-      }
-      fetchEnums();
-    }, []);
+  const router = useRouter();
+  const searchParams = useSearchParams();
+
+  // enum と feature のデータを取得する
+  useEffect(() => {
+    const fetchData = async () => {
+      const [featuresRes, enumsRes] = await Promise.all([
+        fetch(`${process.env.NEXT_PUBLIC_API_URL}features`).then((res) => res.json()),
+        fetch(`${process.env.NEXT_PUBLIC_API_URL}intern_enums`).then((res) => res.json()),
+      ]);
+      setFeatures(featuresRes.map((f: { name: string }) => f.name));
+      setEnums(enumsRes);
+    };
+    fetchData();
+  }, []);
 
   // intern 一覧を取得する
   useEffect(() => {
-    async function fetchInterns() {
+    const fetchInterns = async () => {
       try {
         setLoading(true);
-
-        // クエリを作成する
-        const query = new URLSearchParams({
-          page: page.toString(),
-          ...(appliedFilters.industry.length > 0 && { industry: appliedFilters.industry.join(",") }),
-          ...(appliedFilters.occupation.length > 0 && { occupation: appliedFilters.occupation.join(",") }),
-          ...(appliedFilters.department.length > 0 && { department: appliedFilters.department.join(",") }),
-          ...(appliedFilters.grade.length > 0 && { grade: appliedFilters.grade.join(",") }),
-        }).toString();
-
+        const query = new URLSearchParams(searchParams.toString());
         const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}paginated_interns?${query}`);
         if (!res.ok) {
           throw new Error(`Failed to fetch interns. Status: ${res.status}`);
@@ -82,7 +68,25 @@ export default function IndexInterns() {
       }
     }
     fetchInterns();
-  }, [page, appliedFilters]);
+  }, [searchParams]);
+
+  // クエリからフィルタの初期値を設定
+  useEffect(() => {
+    const filtersFromQuery: typeof tempFilters = {
+      industry: [],
+      occupation: [],
+      department: [],
+      grade: [],
+    };
+
+    searchParams.forEach((value, key) => {
+      if (key in filtersFromQuery) {
+        filtersFromQuery[key as keyof typeof tempFilters] = value.split(",").map(Number);
+      }
+    });
+
+    setTempFilters(filtersFromQuery);
+  }, [searchParams]);
 
   const handleCheckboxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value, checked } = e.target;
@@ -93,14 +97,33 @@ export default function IndexInterns() {
       } else {
         return { ...prev, [name]: currentValues.filter((v) => v !== Number(value)) };
       }
-    })
-  }
+    });
+  };
 
   const applyFilters = () => {
-    setAppliedFilters(tempFilters);
-    setIsFilterModalOpen(false);
+    const query = new URLSearchParams();
+  
+    Object.entries(tempFilters).forEach(([key, values]) => {
+      if (values.length > 0) {
+        query.append(key, values.join(","));
+      }
+    });
+  
+    const newQueryString = query.toString();
+    const currentQueryString = searchParams.toString();
+  
+    // 条件が変更されていない場合
+    if (newQueryString === currentQueryString) {
+      setIsFilterModalOpen(false);
+      setLoading(false); // ローディングを解除
+      return;
+    }
+  
     setPage(1);
-  }
+    setLoading(true);
+    setIsFilterModalOpen(false);
+    router.push(`/interns?${newQueryString}`);
+  };
 
   const resetFilters = () => {
     setTempFilters({
@@ -109,11 +132,40 @@ export default function IndexInterns() {
       department: [],
       grade: [],
     });
+  };
+
+  const handlePageChange = (newPage: number) => {
+    if (newPage === page) {
+      // ページが変わらない場合は何もしない
+      return;
+    }
+  
+    setLoading(true); // ローディングを設定
+    setPage(newPage); // ページ番号を更新
+  
+    const params = new URLSearchParams(searchParams.toString());
+    params.set("page", newPage.toString()); // 新しいページ番号を設定
+    router.push(`/interns?${params.toString()}`); // 新しい URL に遷移
+  };
+  
+  if (loading) {
+    return (
+      <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+        <div className="spinner"></div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return <div>Error: {error}</div>;
   }
 
   return (
     <>
-      <InternHeader onFilterClick={() => setIsFilterModalOpen(true)} />
+      <InternHeader 
+        onFilterClick={() => setIsFilterModalOpen(true)}
+        features={features}
+      />
       <InternFilter
         isOpen={isFilterModalOpen}
         enums={enums}
@@ -124,15 +176,10 @@ export default function IndexInterns() {
         onReset={resetFilters}
       />
 
-      <div className="container mx-auto text-right mt-2 px-4 text-gray-600">
-        総件数：{totalCount}件
+      <div className="container mx-auto text-right mt-2 px-6 text-gray-600">
+        <span className="font-bold mr-1">{totalCount}</span>件
       </div>
-      <div className="container mx-auto p-4 mt-2">
-        {loading ? (
-          <div>Loading...</div>
-        ) : error ? (
-          <div>Error: {error}</div>
-        ) : (
+      <div className="container mx-auto p-4">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
           {interns.length === 0 ? (
             <div className="col-span-full flex justify-center items-center h-40 text-center">該当するインターン情報がありません。検索条件を変更して下さい。</div>
@@ -140,26 +187,24 @@ export default function IndexInterns() {
             interns.map((intern) => <InternCard key={intern.id} intern={intern} />)
           )}
         </div>
-        )}
-
         {/* Pagination */}
         <div className="flex justify-center items-center gap-4 my-6">
           <button
-            onClick={() => setPage((prev) => Math.max(prev - 1, 1))}
+            onClick={() => handlePageChange(Math.max(page - 1, 1))}
             disabled={page === 1}
             className="px-4 py-2 bg-gray-300 text-gray-700 rounded disabled:opacity-50"
           >
-            前へ
+            <FontAwesomeIcon icon={faChevronLeft} />
           </button>
           <span>
             ページ {page} / {totalPages}
           </span>
           <button
-            onClick={() => setPage((prev) => Math.min(prev + 1, totalPages))}
+            onClick={() => handlePageChange(Math.min(page + 1, totalPages))}
             disabled={page === totalPages}
             className="px-4 py-2 bg-gray-300 text-gray-700 rounded disabled:opacity-50"
           >
-            次へ
+            <FontAwesomeIcon icon={faChevronRight} />
           </button>
         </div>
       </div>

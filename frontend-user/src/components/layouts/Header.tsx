@@ -4,10 +4,12 @@ import Link from "next/link";
 import AuthButton from "./AuthButton";
 import Menu from "./Menu";
 import { doesCookieExist } from "../../utils/cookieUtils";
+import { usePathname } from "next/navigation"; // 現在のパスを取得
 
 const Header: React.FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isUidPresent, setIsUidPresent] = useState(false);
+  const pathname = usePathname(); // 現在のパス
 
   useEffect(() => {
     const handleUidChange = () => {
@@ -28,10 +30,17 @@ const Header: React.FC = () => {
     setIsMenuOpen((prev) => !prev);
   };
 
+  // 影を付ける条件: `/` または `/interns` 以外のパス
+  const shouldAddShadow = pathname !== "/" && pathname !== "/interns";
+
   return (
-    <header className="flex justify-between items-center p-4 border-b border-gray-300 z-50">
-      <Link className="text-3xl font-light text-blue-700" href="/">
-        つくかつ
+    <header
+      className={`sticky top-0 z-50 bg-white w-full h-14 flex justify-between items-center p-4 ${
+        shouldAddShadow ? "shadow-md" : ""
+      }`}
+    >
+      <Link className="text-xl font-light text-blue-700" href="/">
+        Tsukuba Intern
       </Link>
       <div className="flex items-center space-x-2">
         {!isUidPresent && <AuthButton />}
