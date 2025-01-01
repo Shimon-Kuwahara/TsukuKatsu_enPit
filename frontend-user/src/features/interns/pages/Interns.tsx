@@ -124,7 +124,7 @@ export default function IndexInterns() {
         onReset={resetFilters}
       />
 
-      <div className="container mx-auto text-right mt-2 text-gray-600">
+      <div className="container mx-auto text-right mt-2 px-4 text-gray-600">
         総件数：{totalCount}件
       </div>
       <div className="container mx-auto p-4 mt-2">
