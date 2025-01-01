@@ -129,8 +129,8 @@ intern3 = Intern.create(
   hourly_wage: 2000,
   weekly_hours: 20,
   work_duration: 3,
-  industry: 2,
-  occupation: 3,
+  industry: 0,
+  occupation: 0,
   recruitment_id: nil,
   created_at: now,
   updated_at: now
