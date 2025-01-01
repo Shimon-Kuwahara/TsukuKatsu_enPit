@@ -38,15 +38,17 @@ const InternFilter: React.FC<InternFilterProps> = ({
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
       <div
-        className="bg-white p-6 rounded-lg shadow-lg w-full max-w-lg max-h-[80vh] overflow-y-auto"
+        className="bg-white p-2 rounded-lg shadow-lg w-full max-w-lg max-h-[80vh] overflow-hidden flex flex-col"
         style={{
           scrollbarWidth: "thin", // For Firefox
           scrollbarColor: "rgba(180, 180, 180, 0.7) transparent", // For Firefox
         }}
       >
         {/* モーダルヘッダー */}
-        <div className="flex justify-between items-center mb-4">
-          <h2 className="text-xl font-bold">フィルター</h2>
+        <div
+          className="flex justify-between items-center mb-4 bg-white sticky top-0 z-10 p-4 border-b border-gray-300"
+        >
+          <h2 className="font-bold">フィルター</h2>
           <button
             onClick={onClose}
             className="text-gray-500 text-3xl focus:outline-none"
@@ -57,56 +59,56 @@ const InternFilter: React.FC<InternFilterProps> = ({
         </div>
 
         {/* フィルターセクションを動的に生成 */}
-        {Object.keys(enums).map((filterKey) => {
-          const key = filterKey as keyof InternEnums;
-          const sectionTitle =
-            key === "industry" ? "業界" : key === "occupation" ? "職種" : key === "department" ? "所属" : "学年";
+        <div className="flex-grow overflow-y-auto px-4">
+          {Object.keys(enums).map((filterKey) => {
+            const key = filterKey as keyof InternEnums;
+            const sectionTitle =
+              key === "industry" ? "業界" : key === "occupation" ? "職種" : key === "department" ? "所属" : "学年";
 
-          return (
-            <div key={key} className="mb-4">
-              <h3 className="font-bold p-2 pl-4 bg-main-col-mid text-white rounded">{sectionTitle}</h3>
-              <div className="grid grid-cols-2 gap-4 mt-2">
-                {enums[key].map((option) => (
-                  <label key={option.value} className="flex items-center">
-                    <input
-                      type="checkbox"
-                      name={key}
-                      value={option.value}
-                      checked={tempFilters[key].includes(option.value)}
-                      onChange={handleCheckboxChange}
-                      className="w-5 h-5 rounded text-main-col-mid"
-                    />
-                    <span className="ml-3 text-sm">{option.key}</span>
-                  </label>
-                ))}
+            return (
+              <div key={key} className="mb-4">
+                <h3 className="font-bold p-2 pl-4 bg-main-col-mid text-white rounded">{sectionTitle}</h3>
+                <div className="grid grid-cols-2 gap-4 mt-2">
+                  {enums[key].map((option) => (
+                    <label
+                      key={option.value}
+                      className="flex items-center min-h-[30px]" // 高さを固定
+                    >
+                      <input
+                        type="checkbox"
+                        name={key}
+                        value={option.value}
+                        checked={tempFilters[key].includes(option.value)}
+                        onChange={handleCheckboxChange}
+                        className="w-5 h-5 rounded text-main-col-mid flex-shrink-0"
+                      />
+                      <span className="ml-3 text-sm leading-normal">{option.key}</span>
+                    </label>
+                  ))}
+                </div>
+
               </div>
-            </div>
-          );
-        })}
+            );
+          })}
+        </div>
 
         {/* モーダルフッター */}
-        <div className="flex justify-between items-center mt-6">
+        <div
+          className="flex justify-between items-center bg-white p-4 border-t border-gray-300 sticky bottom-0 z-10"
+        >
           <button
             onClick={onReset}
-            className="px-4 py-2 bg-gray-300 text-gray-700 rounded focus:outline-none hover:bg-gray-400"
+            className="text-sm px-4 py-2 bg-gray-300 text-gray-700 rounded"
           >
             リセット
           </button>
 
-          <div className="flex gap-4">
-            <button
-              onClick={onClose}
-              className="px-4 py-2 bg-gray-300 text-gray-700 rounded focus:outline-none hover:bg-gray-400"
-            >
-              キャンセル
-            </button>
-            <button
-              onClick={onApply}
-              className="px-4 py-2 bg-main-col-mid text-white rounded focus:outline-none hover:bg-main-col-dark"
-            >
-              適用
-            </button>
-          </div>
+          <button
+            onClick={onApply}
+            className="text-sm px-4 py-2 bg-main-col-mid text-white rounded"
+          >
+            適用
+          </button>
         </div>
       </div>
 
