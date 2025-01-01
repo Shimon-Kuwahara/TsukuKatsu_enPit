@@ -1,4 +1,7 @@
 class Intern < ApplicationRecord
+  has_many :intern_features
+  has_many :features, through: :intern_features
+
   enum department: {
     人文学類: 0,
     比較文化学類: 1,
