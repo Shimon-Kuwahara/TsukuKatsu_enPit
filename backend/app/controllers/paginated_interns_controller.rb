@@ -22,7 +22,7 @@ class PaginatedInternsController < ApplicationController
   private
 
   def apply_filters(params)
-    filters = params.slice(:industry, :occupation, :department)
+    filters = params.slice(:industry, :occupation, :department, :grade)
     scope = Intern.all
     filters.each do |key, value|
       next if value.blank?
@@ -33,29 +33,25 @@ class PaginatedInternsController < ApplicationController
   end
 
   def render_response(interns, total_count, per_page)
-    if interns.empty?
-      render json: { message: 'No interns found' }, status: :not_found
-    else
-      render json: {
-        data: interns.as_json(
-          only: %i[
-            id
-            nickname
-            department
-            grade
-            company_name
-            intern_overview
-            catchphrase
-            hourly_wage
-            weekly_hours
-            work_duration
-            industry
-            occupation
-          ]
-        ),
-        total: total_count, # 絞り込み後の総件数
-        per_page: per_page  # 固定値 12
-      }, status: :ok
-    end
+    render json: {
+      data: interns.as_json(
+        only: %i[
+          id
+          nickname
+          department
+          grade
+          company_name
+          intern_overview
+          catchphrase
+          hourly_wage
+          weekly_hours
+          work_duration
+          industry
+          occupation
+        ]
+      ),
+      total: total_count, # 絞り込み後の総件数
+      per_page: per_page  # 固定値 12
+    }, status: :ok
   end
 end
