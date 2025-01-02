@@ -8,7 +8,7 @@ type InternCardProps = {
 
 const InternCard: React.FC<InternCardProps> = ({ intern }) => {
   return (
-    <div className="bg-white shadow-lg rounded-[30px] p-6 w-[360px] h-[300px]">
+    <div className="bg-white shadow-lg rounded-[30px] p-6 w-[360px] h-[320px]">
       <div className="flex items-center gap-2">
         {/* アイコン */}
         <div className="relative w-24 h-24 rounded-full overflow-hidden">
