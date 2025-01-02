@@ -1,30 +1,56 @@
-import React, { useRef } from "react";
+import React, { useRef, useLayoutEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faSliders, faChevronLeft, faChevronRight } from "@fortawesome/free-solid-svg-icons";
+import { faSliders, faChevronLeft, faChevronRight, faSearch } from "@fortawesome/free-solid-svg-icons";
 
 type InternHeaderProps = {
   onFilterClick: () => void;
-  features: string[];
+  features: { id: number; name: string }[];
+  selectedFeature: number | null;
+  onFeatureSelect: (featureId: number) => void;
 };
 
-const InternHeader: React.FC<InternHeaderProps> = ({ onFilterClick, features }) => {
+const InternHeader: React.FC<InternHeaderProps> = ({
+  onFilterClick,
+  features,
+  selectedFeature,
+  onFeatureSelect,
+}) => {
   const scrollContainerRef = useRef<HTMLDivElement>(null);
+  const selectedButtonRef = useRef<HTMLButtonElement>(null); // 選択中のボタンを参照
 
   const scrollLeft = () => {
     if (scrollContainerRef.current) {
-      scrollContainerRef.current.scrollLeft -= 150; // 左にスクロールする量
+      scrollContainerRef.current.scrollLeft -= 150;
     }
   };
 
   const scrollRight = () => {
     if (scrollContainerRef.current) {
-      scrollContainerRef.current.scrollLeft += 150; // 右にスクロールする量
+      scrollContainerRef.current.scrollLeft += 150;
     }
   };
 
+  useLayoutEffect(() => {
+    if (scrollContainerRef.current && selectedButtonRef.current) {
+      const container = scrollContainerRef.current;
+      const button = selectedButtonRef.current;
+
+      // ボタンの中心をスクロールコンテナの中心にする
+      const containerWidth = container.offsetWidth;
+      const buttonOffsetLeft = button.offsetLeft;
+      const buttonWidth = button.offsetWidth;
+
+      const scrollTo = buttonOffsetLeft + buttonWidth / 2 - containerWidth / 2;
+      container.scrollTo({
+        left: scrollTo,
+        behavior: "smooth", // スムーズスクロール
+      });
+    }
+  }, [selectedFeature]);
+
   return (
     <div className="sticky top-14 z-50 bg-white shadow-md flex items-center px-4 py-2">
-      {/* 左矢印ボタン (PCのみ表示) */}
+      {/* 左矢印ボタン */}
       <button
         onClick={scrollLeft}
         className="hidden md:flex items-center justify-center w-8 h-8 bg-gray-300 rounded-full mr-2"
@@ -35,19 +61,27 @@ const InternHeader: React.FC<InternHeaderProps> = ({ onFilterClick, features }) 
       {/* タグ一覧 */}
       <div
         ref={scrollContainerRef}
-        className="flex gap-4 px-2 py-1 bg-gray-100 rounded-lg flex-grow overflow-x-auto scrollbar-hide"
+        className="flex gap-4 px-2 py-1 bg-white border border-gray-300 rounded-lg flex-grow overflow-x-auto scrollbar-hide"
       >
-        {features.map((feature, index) => (
-          <div
-            key={index}
-            className="whitespace-nowrap bg-main-col-light text-white px-3 py-1 rounded-full text-sm"
+        {features.map((feature) => (
+          <button
+            key={feature.id}
+            ref={selectedFeature === feature.id ? selectedButtonRef : null} // 選択中のボタンを参照
+            onClick={() => onFeatureSelect(feature.id)}
+            className={`relative px-4 py-2 text-xs font-bold rounded-full whitespace-nowrap border transition-all ${
+              selectedFeature === feature.id
+                ? "bg-white text-main-col-mid border-purple-500 font-bold"
+                : "bg-gray-200 text-gray-600 border-transparent hover:border-gray-400"
+            }`}
           >
-            {feature}
-          </div>
+            <span className="inline-block">
+              <FontAwesomeIcon icon={faSearch} /> {feature.name}
+            </span>
+          </button>
         ))}
       </div>
 
-      {/* 右矢印ボタン (PCのみ表示) */}
+      {/* 右矢印ボタン */}
       <button
         onClick={scrollRight}
         className="hidden md:flex items-center justify-center w-8 h-8 bg-gray-300 rounded-full ml-2"
@@ -58,7 +92,7 @@ const InternHeader: React.FC<InternHeaderProps> = ({ onFilterClick, features }) 
       {/* フィルターボタン */}
       <button
         onClick={onFilterClick}
-        className="ml-4 px-4 py-2 bg-main-col-mid text-sm text-white rounded-lg flex items-center gap-2 md:gap-2 md:px-4"
+        className="ml-4 px-4 py-2 bg-main-col-mid text-white rounded-lg flex items-center gap-2"
       >
         <FontAwesomeIcon icon={faSliders} />
       </button>

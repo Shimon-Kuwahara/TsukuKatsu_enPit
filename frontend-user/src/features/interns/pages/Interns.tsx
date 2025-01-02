@@ -24,7 +24,8 @@ function InternsContent() {
   const [page, setPage] = useState<number>(1);
   const [totalPages, setTotalPages] = useState<number>(1);
   const [totalCount, setTotalCount] = useState<number>(0);
-  const [features, setFeatures] = useState<string[]>([]);
+  const [features, setFeatures] = useState<{ id: number; name: string }[]>([]);
+  const [selectedFeature, setSelectedFeature] = useState<number | null>(null);
   const [tempFilters, setTempFilters] = useState<{ industry: number[], occupation: number[], department: number[], grade: number[] }>({
     industry: [],
     occupation: [],
@@ -49,7 +50,7 @@ function InternsContent() {
         fetch(`${process.env.NEXT_PUBLIC_API_URL}features`).then((res) => res.json()),
         fetch(`${process.env.NEXT_PUBLIC_API_URL}intern_enums`).then((res) => res.json()),
       ]);
-      setFeatures(featuresRes.map((f: { name: string }) => f.name));
+      setFeatures(featuresRes.map((f: { id: number; name: string }) => ({ id: f.id, name: f.name })));
       setEnums(enumsRes);
     };
     fetchData();
@@ -78,7 +79,7 @@ function InternsContent() {
     fetchInterns();
   }, [searchParams]);
 
-  // クエリからフィルタの初期値を設定
+  // クエリからフィルタの初期値と選択中の feature を設定
   useEffect(() => {
     const filtersFromQuery: typeof tempFilters = {
       industry: [],
@@ -87,14 +88,21 @@ function InternsContent() {
       grade: [],
     };
 
+    let selectedFeatureFromQuery: number | null = null;
+
     searchParams.forEach((value, key) => {
       if (key in filtersFromQuery) {
         filtersFromQuery[key as keyof typeof tempFilters] = value.split(",").map(Number);
+      } else if (key === "feature") {
+        // feature クエリを数値としてパース
+        selectedFeatureFromQuery = Number(value);
       }
     });
 
     setTempFilters(filtersFromQuery);
+    setSelectedFeature(selectedFeatureFromQuery); // feature をセット
   }, [searchParams]);
+
 
   const handleCheckboxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value, checked } = e.target;
@@ -116,6 +124,11 @@ function InternsContent() {
         query.append(key, values.join(","));
       }
     });
+
+    // feature パラメータを保持
+    if (selectedFeature !== null) {
+      query.set("feature", selectedFeature.toString());
+    }
   
     const newQueryString = query.toString();
     const currentQueryString = searchParams.toString();
@@ -155,6 +168,14 @@ function InternsContent() {
     params.set("page", newPage.toString()); // 新しいページ番号を設定
     router.push(`/interns?${params.toString()}`); // 新しい URL に遷移
   };
+
+  const handleFeatureSelect = (feature: number) => {
+    setSelectedFeature(feature);
+
+    const query = new URLSearchParams(searchParams.toString());
+    query.set("feature", feature.toString());
+    router.push(`/interns?${query.toString()}`);
+  };
   
   if (loading) {
     return (
@@ -173,6 +194,8 @@ function InternsContent() {
       <InternHeader 
         onFilterClick={() => setIsFilterModalOpen(true)}
         features={features}
+        selectedFeature={selectedFeature}
+        onFeatureSelect={handleFeatureSelect}
       />
       <InternFilter
         isOpen={isFilterModalOpen}

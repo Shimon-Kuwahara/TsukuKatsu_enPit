@@ -10,7 +10,8 @@ import React, { useEffect, useState } from "react";
 
 
 export default function Home() {
-  const [features, setFeatures] = useState<string[]>([]);
+  const [features, setFeatures] = useState<{ id: number; name: string }[]>([]);
+  const [selectedFeature, setSelectedFeature] = useState<number | null>(null);
   const [enums, setEnums] = useState<InternEnums>({
     industry: [],
     occupation: [],
@@ -37,8 +38,7 @@ export default function Home() {
           fetch(`${process.env.NEXT_PUBLIC_API_URL}features`).then((res) => res.json()),
           fetch(`${process.env.NEXT_PUBLIC_API_URL}intern_enums`).then((res) => res.json()),
         ]);
-
-        setFeatures(featuresRes.map((feature: { name: string }) => feature.name));
+        setFeatures(featuresRes.map((f: { id: number; name: string }) => ({ id: f.id, name: f.name })));
         setEnums(enumsRes);
       } catch (error) {
         setError((error as Error).message);
@@ -84,6 +84,13 @@ export default function Home() {
     });
   };
 
+  const handleFeatureSelect = (feature: number) => {
+    setSelectedFeature(feature);
+    const query = new URLSearchParams();
+    query.set("feature", feature.toString());
+    router.push(`/interns?${query.toString()}`);
+  };
+
   if (loading) {
     return (
       <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
@@ -98,7 +105,12 @@ export default function Home() {
 
   return (
     <div>
-      <InternHeader onFilterClick={() => setIsFilterModalOpen(true)} features={features} />
+      <InternHeader 
+        onFilterClick={() => setIsFilterModalOpen(true)}
+        features={features}
+        selectedFeature={selectedFeature}
+        onFeatureSelect={handleFeatureSelect}
+        />
       <InternFilter
         isOpen={isFilterModalOpen}
         enums={enums}
