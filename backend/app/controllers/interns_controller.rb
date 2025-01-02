@@ -24,4 +24,9 @@ class InternsController < ApplicationController
       ), status: :ok
     end
   end
+
+  def show
+    intern = Intern.find(params[:id])
+    render json: intern
+  end
 end
