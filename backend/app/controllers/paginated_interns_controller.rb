@@ -24,6 +24,8 @@ class PaginatedInternsController < ApplicationController
   def apply_filters(params)
     filters = params.slice(:industry, :occupation, :department, :grade)
     scope = Intern.all
+
+    scope = scope.joins(:features).where(features: { id: params[:feature] }) if params[:feature].present?
     filters.each do |key, value|
       next if value.blank?
 
