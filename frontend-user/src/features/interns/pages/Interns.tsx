@@ -1,5 +1,5 @@
 'use client';
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import InternCard from "../pages/InternCard";
 import InternHeader from "./InternHeader";
@@ -9,7 +9,15 @@ import { InternEnums } from "../types/InternEnums";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronLeft, faChevronRight } from "@fortawesome/free-solid-svg-icons";
 
-export default function IndexInterns() {
+export default function Interns() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <InternsContent />
+    </Suspense>
+  );
+}
+
+function InternsContent() {
   const [interns, setInterns] = useState<Intern[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
