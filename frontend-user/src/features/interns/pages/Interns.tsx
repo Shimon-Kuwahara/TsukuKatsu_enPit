@@ -169,13 +169,24 @@ function InternsContent() {
     router.push(`/interns?${params.toString()}`); // 新しい URL に遷移
   };
 
-  const handleFeatureSelect = (feature: number) => {
+  const handleFeatureSelect = (feature: number | null) => {
     setSelectedFeature(feature);
-
+  
     const query = new URLSearchParams(searchParams.toString());
-    query.set("feature", feature.toString());
+  
+    if (feature === null) {
+      // "すべて" を選択した場合は feature パラメータを削除
+      query.delete("feature");
+    } else {
+      // 特定の feature を選択した場合はパラメータを設定
+      query.set("feature", feature.toString());
+    }
+    
+    query.delete("page");
+    setPage(1);
     router.push(`/interns?${query.toString()}`);
   };
+  
   
   if (loading) {
     return (
@@ -207,13 +218,16 @@ function InternsContent() {
         onReset={resetFilters}
       />
 
-      <div className="container mx-auto text-right mt-2 px-6 text-gray-600">
-        <span className="font-bold mr-1">{totalCount}</span>件
+      <div className="container mx-auto text-right mt-4 px-10 text-gray-600">
+        <span className="font-bold mr-2">{totalCount}</span>件
       </div>
+
       <div className="container mx-auto p-4">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-10 justify-items-center">
           {interns.length === 0 ? (
-            <div className="col-span-full flex justify-center items-center h-40 text-center">該当するインターン情報がありません。検索条件を変更して下さい。</div>
+            <div className="col-span-full flex justify-center items-center h-40 text-center">
+              該当するインターン情報がありません。検索条件を変更して下さい。
+            </div>
           ) : (
             interns.map((intern) => <InternCard key={intern.id} intern={intern} />)
           )}

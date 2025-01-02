@@ -6,7 +6,7 @@ type InternHeaderProps = {
   onFilterClick: () => void;
   features: { id: number; name: string }[];
   selectedFeature: number | null;
-  onFeatureSelect: (featureId: number) => void;
+  onFeatureSelect: (featureId: number | null) => void; // null を許容
 };
 
 const InternHeader: React.FC<InternHeaderProps> = ({
@@ -63,6 +63,22 @@ const InternHeader: React.FC<InternHeaderProps> = ({
         ref={scrollContainerRef}
         className="flex gap-4 px-2 py-1 bg-white border border-gray-300 rounded-lg flex-grow overflow-x-auto scrollbar-hide"
       >
+        {/* "すべて" タグ */}
+        <button
+          ref={selectedFeature === null ? selectedButtonRef : null} // "すべて" が選択中なら参照
+          onClick={() => onFeatureSelect(null)} // null にリセット
+          className={`relative px-4 py-2 text-xs font-bold rounded-full whitespace-nowrap border transition-all ${
+            selectedFeature === null
+              ? "bg-white text-main-col-mid border-purple-500 font-bold"
+              : "bg-gray-200 text-gray-600 border-transparent hover:border-gray-400"
+          }`}
+        >
+          <span className="inline-block">
+            <FontAwesomeIcon icon={faSearch} /> すべて
+          </span>
+        </button>
+
+        {/* 動的に生成されるタグ */}
         {features.map((feature) => (
           <button
             key={feature.id}

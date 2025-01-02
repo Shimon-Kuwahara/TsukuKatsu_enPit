@@ -84,7 +84,10 @@ export default function Home() {
     });
   };
 
-  const handleFeatureSelect = (feature: number) => {
+  const handleFeatureSelect = (feature: number | null) => {
+    if (feature === null) {
+      return
+    }
     setSelectedFeature(feature);
     const query = new URLSearchParams();
     query.set("feature", feature.toString());
