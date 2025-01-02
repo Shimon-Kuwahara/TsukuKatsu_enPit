@@ -89,6 +89,7 @@ function InternsContent() {
     };
 
     let selectedFeatureFromQuery: number | null = null;
+    let selectedPageFromQuery: number = 1;
 
     searchParams.forEach((value, key) => {
       if (key in filtersFromQuery) {
@@ -96,9 +97,12 @@ function InternsContent() {
       } else if (key === "feature") {
         // feature クエリを数値としてパース
         selectedFeatureFromQuery = Number(value);
+      } else if (key === "page") {
+        selectedPageFromQuery = Number(value);
       }
     });
 
+    setPage(selectedPageFromQuery);
     setTempFilters(filtersFromQuery);
     setSelectedFeature(selectedFeatureFromQuery); // feature をセット
   }, [searchParams]);
@@ -136,12 +140,10 @@ function InternsContent() {
     // 条件が変更されていない場合
     if (newQueryString === currentQueryString) {
       setIsFilterModalOpen(false);
-      setLoading(false); // ローディングを解除
       return;
     }
   
     setPage(1);
-    setLoading(true);
     setIsFilterModalOpen(false);
     router.push(`/interns?${newQueryString}`);
   };
@@ -160,8 +162,6 @@ function InternsContent() {
       // ページが変わらない場合は何もしない
       return;
     }
-  
-    setLoading(true); // ローディングを設定
     setPage(newPage); // ページ番号を更新
   
     const params = new URLSearchParams(searchParams.toString());
