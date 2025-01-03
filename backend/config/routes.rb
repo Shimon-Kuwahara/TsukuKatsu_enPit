@@ -16,7 +16,7 @@ Rails.application.routes.draw do
   resources :companies
 
   # Internのルーティング
-  resources :interns, only: %i[index]
+  resources :interns, only: %i[index show]
   resources :paginated_interns, only: %i[index]
   get '/intern_enums', to: 'enums#intern_enums'
 

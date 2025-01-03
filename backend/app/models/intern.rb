@@ -1,4 +1,5 @@
 class Intern < ApplicationRecord
+  belongs_to :recruitment, optional: true
   has_many :intern_features
   has_many :features, through: :intern_features
 

@@ -19,4 +19,14 @@ class InternsController < ApplicationController
       ]
     ), status: :ok
   end
+
+  def show
+    intern = Intern.includes(recruitment: :company).find(params[:id])
+
+    render json: intern, include: {
+      recruitment: {
+        include: :company
+      }
+    }
+  end
 end
