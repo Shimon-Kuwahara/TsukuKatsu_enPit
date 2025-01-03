@@ -1,5 +1,4 @@
 'use client';
-import Footer from "@/components/layouts/Footer";
 import LPHead from "@/components/layouts/LP/LPHead";
 import InternHeader from "@/features/interns/pages/InternHeader";
 import InternFilter from "@/features/interns/pages/InternFilter";
@@ -126,7 +125,6 @@ export default function Home() {
       <LPHead />
       <IndexInterns />
       {/* <LPBody /> */}
-      <Footer />
     </div>
   );
 }
