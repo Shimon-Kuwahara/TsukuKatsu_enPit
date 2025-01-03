@@ -1,60 +1,52 @@
 "use client";
-import { useEffect, useState } from "react";
-import { useRouter, useParams } from "next/navigation";
-import Image from "next/image";
-import Link from "next/link";
-import axios from "@/utils/axiosConfig";
-import { Recruitment } from "../../../types/recruitment";
-import { Company } from "../../../types/company";
-import { doesCookieExist } from "@/utils/cookieUtils";
 
-interface RecruitmentWithCompany {
-  recruitment: Recruitment;
-  company: Company;
-}
+// interface RecruitmentWithCompany {
+//   recruitment: Recruitment;
+//   company: Company;
+// }
 
 const RecruitmentDetailPage = () => {
-  const router = useRouter();
-  const { id } = useParams();
-  const [data, setData] = useState<RecruitmentWithCompany | null>(null);
+  // const router = useRouter();
+  // const { id } = useParams();
+  // const [data, setData] = useState<RecruitmentWithCompany | null>(null);
 
-  useEffect(() => {
-    if (id) {
-      fetch(`${process.env.NEXT_PUBLIC_API_URL}recruitments/${id}`)
-        .then((res) => res.json())
-        .then((data) => setData(data))
-        .catch((error) => console.error("Error fetching recruitment:", error));
-    }
-  }, [id]);
+  // useEffect(() => {
+  //   if (id) {
+  //     fetch(`${process.env.NEXT_PUBLIC_API_URL}recruitments/${id}`)
+  //       .then((res) => res.json())
+  //       .then((data) => setData(data))
+  //       .catch((error) => console.error("Error fetching recruitment:", error));
+  //   }
+  // }, [id]);
 
-  if (!data) {
-    return <p>Loading...</p>;
-  }
+  // if (!data) {
+  //   return <p>Loading...</p>;
+  // }
 
-  const { recruitment, company } = data;
-  const image_num = (recruitment.id % 7) + 1; // Adjusted for image logic
+  // const { recruitment, company } = data;
+  // const image_num = (recruitment.id % 7) + 1; // Adjusted for image logic
 
-  const applyForJob = async () => {
-    if (!doesCookieExist('uid')) {
-      router.push('/sign_in');
-      return;
-    }
+  // const applyForJob = async () => {
+  //   if (!doesCookieExist('uid')) {
+  //     router.push('/sign_in');
+  //     return;
+  //   }
 
-    try {
-      const response = await axios.post(`chat_rooms/`, {
-        company_id: company?.id,
-        recruitment_id: recruitment?.id,
-      });
-      router.push(`/chat_rooms/${response.data.id}`);
-    } catch (error) {
-      console.error("応募に失敗しました", error);
-    }
-  };
+  //   try {
+  //     const response = await axios.post(`chat_rooms/`, {
+  //       company_id: company?.id,
+  //       recruitment_id: recruitment?.id,
+  //     });
+  //     router.push(`/chat_rooms/${response.data.id}`);
+  //   } catch (error) {
+  //     console.error("応募に失敗しました", error);
+  //   }
+  // };
 
   return (
     <div className="max-w-2xl mx-auto bg-white overflow-hidden p-6 space-y-4 text-base">
-      {/* Company Header */}
-      <div className="flex items-center p-4 text-white bg-main-col rounded-lg">
+      Company Header
+      {/* <div className="flex items-center p-4 text-white bg-main-col rounded-lg">
         <div className="flex-grow text-2xl font-bold">{`${company.name}`}</div>
         <Link
           href={`/companies/${company.id}`}
@@ -73,7 +65,6 @@ const RecruitmentDetailPage = () => {
         />
       </div>
 
-      {/* Company Description */}
       <div className="mb-6 space-y-4">
         <p className="text-sm text-main-col">{recruitment.title}</p>
         <p className="">所在地: {company.location}</p>
@@ -87,7 +78,6 @@ const RecruitmentDetailPage = () => {
         </Link>
       </div>
 
-      {/* Description Section */}
       <div className="mb-4">
         <p className="text-sm">{recruitment.description}</p>
       </div>
@@ -99,13 +89,11 @@ const RecruitmentDetailPage = () => {
         <p className="text-sm">{recruitment.skills_acquired}</p>
       </div>
 
-      {/* Features Section */}
       <div className="mb-6">
         <h3 className="text-lg font-bold text-main-col mb-2">特徴</h3>
         <p className="text-sm">{recruitment.benefits}</p>
       </div>
 
-      {/* Job Information */}
       <div className="mb-6">
         <h3 className="text-lg font-bold text-main-col mb-2">
           募集職種 / 給料
@@ -115,20 +103,17 @@ const RecruitmentDetailPage = () => {
         <p className="">{recruitment.salary_notes}</p>
       </div>
 
-      {/* Working Hours */}
       <div className="mb-6">
         <h3 className="text-lg font-bold text-main-col mb-2">勤務時間</h3>
         <p className="">{recruitment.min_work_hours}</p>
         <p className="">{recruitment.min_work_days}</p>
       </div>
 
-      {/* Location */}
       <div className="mb-6">
         <h3 className="text-lg font-bold text-main-col mb-2">勤務地</h3>
         <p className="">{recruitment.work_location}</p>
       </div>
 
-      {/* Required Skills */}
       <div className="mb-6">
         <h3 className="text-lg font-bold text-main-col mb-2">必須スキル</h3>
         <p className="">{recruitment.required_skills}</p>
@@ -139,7 +124,6 @@ const RecruitmentDetailPage = () => {
         <p className="">{recruitment.welcome_skills}</p>
       </div>
 
-      {/* Additional Information */}
       <div className="mb-6">
         <h3 className="text-lg font-bold text-main-col mb-2">その他情報</h3>
         <ul className="list-disc pl-6 space-y-1">
@@ -150,7 +134,6 @@ const RecruitmentDetailPage = () => {
         </ul>
       </div>
 
-      {/* Apply Button */}
       <div className="text-center">
         <button
           onClick={applyForJob}
@@ -158,7 +141,7 @@ const RecruitmentDetailPage = () => {
         >
           話を聞いてみる
         </button>
-      </div>
+      </div> */}
     </div>
   );
 };
