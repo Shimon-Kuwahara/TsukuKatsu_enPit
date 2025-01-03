@@ -1,13 +1,4 @@
-interface User {
-  last_name: string;
-  first_name: string;
-  grade: number; // or string, depending on your data type
-  department: string;
-}
-
-interface Company {
-  name: string;
-}
+import { Company } from "./company"; // Company型を定義したファイルをインポート
 
 export type Recruitment = {
   id: number;
@@ -16,33 +7,21 @@ export type Recruitment = {
   created_at: string;
   updated_at: string;
   company_id: number;
-  user: User;
-  company: Company;
-  industry: string;
-  benefits: string;
-  job_description: string;
-  job_titles: string;
-  job_engineer: boolean;
-  job_designer: boolean;
-  job_sales: boolean;
-  job_planning: boolean;
-  job_marketing: boolean;
-  job_writer: boolean;
-  job_others: boolean;
+  other_informations: string;
   skills_acquired: string;
-  wage: string;
+  hourly_wage: number;
   salary_notes: string;
-  work_location: string;
-  min_work_period: string;
-  min_work_days: string;
-  min_work_hours: string;
-  commute_support: string;
+  work_style: string;
+  min_month: string;
+  min_days: string;
+  min_hours: string;
   required_skills: string;
   welcome_skills: string;
-  promotion_system: string;
-  remote_policy: string;
   selection_flow: string;
-  deadline: string;
-  welfare_benefits: string;
-  apply_url: string;
+  occupation: string;
+  image1?: string;
+  image2?: string;
+  image3?: string;
+  status: boolean;
+  company?: Company;  // リレーション先として Company を持つ可能性がある
 };
