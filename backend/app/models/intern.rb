@@ -1,4 +1,6 @@
 class Intern < ApplicationRecord
+  belongs_to :recruitment, optional: true
+  
   enum department: {
     人文学類: 0,
     比較文化学類: 1,

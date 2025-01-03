@@ -26,7 +26,12 @@ class InternsController < ApplicationController
   end
 
   def show
-    intern = Intern.find(params[:id])
-    render json: intern
+    intern = Intern.includes(recruitment: :company).find(params[:id])
+
+    render json: intern, include: {
+      recruitment: {
+        include: :company
+      }
+    }
   end
 end
