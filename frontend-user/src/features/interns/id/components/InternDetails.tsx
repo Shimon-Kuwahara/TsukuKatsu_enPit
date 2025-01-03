@@ -55,12 +55,13 @@ export default function InternDetails({ intern }: InternDetailsProps) {
             {/* {intern.achievements.map((achievement, index) => (
               <li key={index}>{achievement}</li>
             ))} */}
+            {intern.achievements}
           </ul>
         </section>
 
         <section className="bg-gray-200 rounded-lg p-4">
           <h3 className="mb-2 font-semibold">インターン応募時の経験</h3>
-          <p>{intern.application_reason}</p>
+          <p>{intern.experience}</p>
         </section>
       </div>
 
@@ -83,13 +84,13 @@ export default function InternDetails({ intern }: InternDetailsProps) {
             </h2>
             <div className="space-y-2">
               <h3 className="font-bold">株式会社{intern.company_name}</h3>
-              <p className="">{intern.department}</p>
+              <p className="">{intern.intern_detail}</p>
             </div>
           </section>
 
           <section>
             <h2 className="text-main-col text-xl font-bold mb-2">勤務期間</h2>
-            <p className="">{intern.work_duration}</p>
+            <p className="">{intern.work_duration_description}</p>
           </section>
 
           <section>
@@ -99,6 +100,7 @@ export default function InternDetails({ intern }: InternDetailsProps) {
                 {hours}
               </p>
             ))} */}
+            {intern.weekly_hours_description}
           </section>
 
           <section>
@@ -106,7 +108,6 @@ export default function InternDetails({ intern }: InternDetailsProps) {
               {intern.nickname}さんの時給
             </h2>
             <div className="space-y-1">
-              <p className="">{intern.hourly_wage}</p>
               <p className="">{intern.hourly_wage_description}</p>
             </div>
           </section>
@@ -132,6 +133,7 @@ export default function InternDetails({ intern }: InternDetailsProps) {
                 <li key={index}>{skill}</li>
               ))}
             </ul> */}
+            {intern.acquired_skill}
           </section>
 
           <section>
@@ -152,7 +154,7 @@ export default function InternDetails({ intern }: InternDetailsProps) {
             <h2 className="text-main-col text-xl font-bold mb-2">
               会社のぷっちゃけ評価
             </h2>
-            <p className="">{intern.evaluation}</p>
+            <p className="">{intern.evaluation_reason}</p>
           </section>
         </div>
       </div>
