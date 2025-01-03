@@ -21,8 +21,8 @@ export default function InternDetails({ intern }: InternDetailsProps) {
           <h1 className="text-2xl font-bold text-main-col">
             {intern.department}
           </h1>
-          <h2 className="text-xl mb-1">{intern.grade}</h2>
-          <p className="text-lg">{intern.nickname}さん</p>
+          <h2 className="text-2xl font-bold mb-1 text-main-col">{intern.grade}</h2>
+          <span className="text-2xl font-bold text-main-col">{intern.nickname}</span><span className="inline text-xl">さん</span>
         </div>
       </div>
 
@@ -32,7 +32,7 @@ export default function InternDetails({ intern }: InternDetailsProps) {
           <h3 className="mb-2 font-semibold">基本データ</h3>
           <dl className="space-y-2">
             <div>
-              <dt className="inline">学類: </dt>
+              <dt className="text-bold inline">学類: </dt>
               <dd className="inline">
                 {intern.department}
                 {intern.grade}
@@ -76,58 +76,58 @@ export default function InternDetails({ intern }: InternDetailsProps) {
           更新日: {intern.updated_at}
         </span>
         {/* コンテンツ本体 */}
-        <div className="space-y-16 p-4 rounded-b-lg">
+        <div className="space-y-16 py-4 px-2 rounded-b-lg">
           <section>
-            <h2 className="text-purple-600 text-lg font-bold mb-2">
+            <h2 className="text-main-col text-xl font-bold mb-2">
               インターン内容
             </h2>
             <div className="space-y-2">
               <h3 className="font-bold">株式会社{intern.company_name}</h3>
-              <p className="text-gray-700">{intern.department}</p>
+              <p className="">{intern.department}</p>
             </div>
           </section>
 
           <section>
-            <h2 className="text-purple-600 text-lg font-bold mb-2">勤務期間</h2>
-            <p className="text-gray-700">{intern.work_duration}</p>
+            <h2 className="text-main-col text-xl font-bold mb-2">勤務期間</h2>
+            <p className="">{intern.work_duration}</p>
           </section>
 
           <section>
-            <h2 className="text-purple-600 text-lg font-bold mb-2">週勤務時間</h2>
+            <h2 className="text-main-col text-xl font-bold mb-2">週勤務時間</h2>
             {/* {intern.weeklyHours.map((hours, index) => (
-              <p key={index} className="text-gray-700">
+              <p key={index} className="">
                 {hours}
               </p>
             ))} */}
           </section>
 
           <section>
-            <h2 className="text-purple-600 text-lg font-bold mb-2">
+            <h2 className="text-main-col text-xl font-bold mb-2">
               {intern.nickname}さんの時給
             </h2>
             <div className="space-y-1">
-              <p className="text-gray-700">{intern.hourly_wage}</p>
-              <p className="text-gray-700">{intern.hourly_wage_description}</p>
+              <p className="">{intern.hourly_wage}</p>
+              <p className="">{intern.hourly_wage_description}</p>
             </div>
           </section>
 
           <section>
-            <h2 className="text-purple-600 text-lg font-bold mb-2">勤務形態</h2>
-            <p className="text-gray-700">{intern.work_style}</p>
+            <h2 className="text-main-col text-xl font-bold mb-2">勤務形態</h2>
+            <p className="">{intern.work_style}</p>
           </section>
 
           <section>
-            <h2 className="text-purple-600 text-lg font-bold mb-2">
+            <h2 className="text-main-col text-xl font-bold mb-2">
               応募した理由
             </h2>
-            <p className="text-gray-700">{intern.application_reason}</p>
+            <p className="">{intern.application_reason}</p>
           </section>
 
           <section>
-            <h2 className="text-purple-600 text-lg font-bold mb-2">
+            <h2 className="text-main-col text-xl font-bold mb-2">
               インターンを通して身についたスキル
             </h2>
-            {/* <ul className="list-disc list-inside text-gray-700">
+            {/* <ul className="list-disc list-inside ">
               {intern.skillsGained.map((skill, index) => (
                 <li key={index}>{skill}</li>
               ))}
@@ -135,24 +135,24 @@ export default function InternDetails({ intern }: InternDetailsProps) {
           </section>
 
           <section>
-            <h2 className="text-purple-600 text-lg font-bold mb-2">
+            <h2 className="text-main-col text-xl font-bold mb-2">
               面接でアピールしたこと
             </h2>
-            <p className="text-gray-700">{intern.evaluation_reason}</p>
+            <p className="">{intern.evaluation_reason}</p>
           </section>
 
           <section>
-            <h2 className="text-purple-600 text-lg font-bold mb-2">
+            <h2 className="text-main-col text-xl font-bold mb-2">
               後輩へのアドバイス
             </h2>
-            <p className="text-gray-700 whitespace-pre-line">{intern.advise}</p>
+            <p className=" whitespace-pre-line">{intern.advise}</p>
           </section>
 
           <section>
-            <h2 className="text-purple-600 text-lg font-bold mb-2">
+            <h2 className="text-main-col text-xl font-bold mb-2">
               会社のぷっちゃけ評価
             </h2>
-            <p className="text-gray-700">{intern.evaluation}</p>
+            <p className="">{intern.evaluation}</p>
           </section>
         </div>
       </div>
