@@ -5,10 +5,7 @@ class PaginatedInternsController < ApplicationController
     per_page = 12
 
     # 絞り込み条件を適用
-    interns_scope = Intern.all
-    interns_scope = interns_scope.where(industry: params[:industry]) if params[:industry].present?
-    interns_scope = interns_scope.where(occupation: params[:occupation]) if params[:occupation].present?
-    interns_scope = interns_scope.where(department: params[:department]) if params[:department].present?
+    interns_scope = apply_filters(params)
 
     # 絞り込み後の総件数
     total_count = interns_scope.count
@@ -18,29 +15,45 @@ class PaginatedInternsController < ApplicationController
                            .offset((page - 1) * per_page)
                            .limit(per_page)
 
-    if interns.empty?
-      render json: { message: 'No interns found' }, status: :not_found
-    else
-      render json: {
-        data: interns.as_json(
-          only: %i[
-            id
-            nickname
-            department
-            grade
-            company_name
-            intern_overview
-            catchphrase
-            hourly_wage
-            weekly_hours
-            work_duration
-            industry
-            occupation
-          ]
-        ),
-        total: total_count, # 絞り込み後の総件数
-        per_page: per_page  # 固定値 12
-      }, status: :ok
+    # レスポンスを作成
+    render_response(interns, total_count, per_page)
+  end
+
+  private
+
+  def apply_filters(params)
+    filters = params.slice(:industry, :occupation, :department, :grade)
+    scope = Intern.all
+
+    scope = scope.joins(:features).where(features: { id: params[:feature] }) if params[:feature].present?
+    filters.each do |key, value|
+      next if value.blank?
+
+      scope = scope.where(key => value.split(','))
     end
+    scope
+  end
+
+  def render_response(interns, total_count, per_page)
+    render json: {
+      data: interns.as_json(
+        only: %i[
+          id
+          nickname
+          department
+          grade
+          company_name
+          intern_overview
+          catchphrase
+          hourly_wage
+          weekly_hours
+          work_duration
+          industry
+          occupation
+        ]
+      ),
+      total: total_count, # 絞り込み後の総件数
+      per_page: per_page  # 固定値 12
+    }, status: :ok
   end
 end

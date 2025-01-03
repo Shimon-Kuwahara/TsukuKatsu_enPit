@@ -30,3 +30,33 @@ body {
     text-wrap: balance;
   }
 }
+
+/* スクロールバーを非表示にするカスタムクラス */
+.scrollbar-hide {
+  -ms-overflow-style: none; /* IEとEdge */
+  scrollbar-width: none;    /* Firefox */
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;            /* Chrome, Safari, Edge */
+}
+
+/* スピンアイコンのスタイル */
+.spinner {
+  width: 3rem; /* アイコンのサイズ */
+  height: 3rem;
+  border: 4px solid rgba(255, 255, 255, 0.3); /* 外側の薄いボーダー */
+  border-top-color: white; /* 回転する部分の色 */
+  border-radius: 50%; /* 円形 */
+  animation: spin 1s linear infinite; /* アニメーション */
+}
+
+/* スピンアニメーション */
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}

@@ -28,7 +28,11 @@ export default function IndexInterns() {
   }, []);
 
   if (loading) {
-    return <div>Loading...</div>;
+    return (
+      <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+        <div className="spinner"></div>
+      </div>
+    );
   }
 
   if (error) {
@@ -42,7 +46,7 @@ export default function IndexInterns() {
       </h1>
       <div className="flex flex-wrap gap-10 justify-center">
         {interns.length === 0 ? (
-          <div>新着のインターン情報がありません。</div>
+          <div className='col-span-full flex justify-center items-center h-40 text-center'>新着のインターン情報がありません。</div>
         ) : (
           interns.map((intern) => <InternCard key={intern.id} intern={intern} />)
         )}

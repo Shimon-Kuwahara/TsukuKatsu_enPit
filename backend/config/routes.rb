@@ -18,6 +18,10 @@ Rails.application.routes.draw do
   # Internのルーティング
   resources :interns, only: %i[index]
   resources :paginated_interns, only: %i[index]
+  get '/intern_enums', to: 'enums#intern_enums'
+
+  # Featureのルーティング
+  resources :features, only: [:index]
 
   # その他のルーティング
   resources :recruitments do
