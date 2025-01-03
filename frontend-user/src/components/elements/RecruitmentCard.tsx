@@ -8,7 +8,7 @@
 //   recruitment: Recruitment;
 // }
 
-// const RecruitmentCard: React.FC<RecruitmentCardProps> = ({ recruitment }) => {
+const RecruitmentCard = () => {
 //   const image_num = (recruitment.id % 7) + 1; // 画像のアップロードを作成して消す
 //   const { user, company } = recruitment; // Destructure user from recruitment
 
@@ -27,7 +27,8 @@
 //     (job) => recruitment[job.key as keyof Recruitment]
 //   );
 
-//   return (
+  return (
+    <>a</>
 //     <div className="rounded-lg shadow-md overflow-hidden w-[400px] h-[430px] mx-4 my-2 flex flex-col">
 //       <Link href={`/recruitments/${recruitment.id}`}>
 //         <div className="h-48 w-full">
@@ -91,7 +92,7 @@
 //         </div>
 //       </Link>
 //     </div>
-//   );
-// };
+  );
+};
 
-// export default RecruitmentCard;
+export default RecruitmentCard;
