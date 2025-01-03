@@ -1,6 +1,8 @@
 class Intern < ApplicationRecord
   belongs_to :recruitment, optional: true
-  
+  has_many :intern_features
+  has_many :features, through: :intern_features
+
   enum department: {
     人文学類: 0,
     比較文化学類: 1,
@@ -26,7 +28,16 @@ class Intern < ApplicationRecord
     看護学類: 21,
     医療科学類: 22,
     体育専門学群: 23,
-    芸術専門学群: 24
+    芸術専門学群: 24,
+    教育研究科: 25,
+    人文社会科学研究科: 26,
+    ビジネス科学研究科: 27,
+    数理物質科学研究科: 28,
+    システム情報工学研究科: 29,
+    生命環境科学研究科: 30,
+    人間総合科学研究科: 31,
+    図書館情報メディア研究科: 32,
+    グローバル教育院: 33
   }, _prefix: true
 
   enum grade: {

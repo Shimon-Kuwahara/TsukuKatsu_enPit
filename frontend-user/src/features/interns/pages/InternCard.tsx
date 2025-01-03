@@ -42,7 +42,6 @@ const InternCard: React.FC<InternCardProps> = ({ intern }) => {
             </div>
           </div>
         </div>
-
         {/* 企業情報 */}
         <div className="mt-2">
           <div className="text-sm text-gray-600">{intern.company_name}</div>
