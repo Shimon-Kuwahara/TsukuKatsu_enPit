@@ -1,3 +1,5 @@
+import { Recruitment } from "./recruitment";
+
 export type InternFull = {
   id: number;
   nickname: string;
@@ -29,4 +31,5 @@ export type InternFull = {
   recruitment_id: number | null;
   created_at: string;
   updated_at: string;
+  recruitment?: Recruitment;
 };

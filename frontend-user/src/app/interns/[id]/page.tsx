@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { usePathname } from "next/navigation";
 import { InternFull } from "@/types/intern";
 import InternDetails from "@/features/interns/id/components/InternDetails";
+import RecruitmentDetails from "@/features/interns/id/components/RecruitmentDetails";
 
 export default function InternPage() {
   const pathname = usePathname();
@@ -46,5 +47,15 @@ export default function InternPage() {
     return <p>No data available</p>;
   }
 
-  return <InternDetails intern={intern} />;
+  return (
+    <>
+      {/* まずインターン情報を表示する */}
+      <InternDetails intern={intern} />
+
+      {/* インターンに紐づく求人情報・会社情報を表示する */}
+      {intern.recruitment && (
+        <RecruitmentDetails recruitment={intern.recruitment} />
+      )}
+    </>
+  );
 }
