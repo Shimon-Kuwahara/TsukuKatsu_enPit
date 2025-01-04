@@ -1,17 +1,18 @@
-import { InternFull } from "@/types/intern";
+import { Intern } from "@/types/intern";
 import Image from "next/image";
 
 type InternDetailsProps = {
-  intern: InternFull;
+  intern: Intern;
 };
 
 export default function InternDetails({ intern }: InternDetailsProps) {
   return (
-    <div className="max-w-3xl mx-auto p-4 space-y-6">
+    <div className="max-w-3xl mx-auto px-4 py-12 space-y-6">
       <div className="flex items-start gap-4">
         <div className="relative w-24 h-24 flex-shrink-0 overflow-hidden rounded-lg">
-          <Image
-            src="/default_profile.png"
+        <Image
+            // src={`https://api.dicebear.com/6.x/adventurer/svg?seed=${intern.id}`}
+            src="/images/profile.png"
             alt="Profile"
             fill
             className="object-cover"
@@ -32,18 +33,18 @@ export default function InternDetails({ intern }: InternDetailsProps) {
           <h3 className="mb-2 font-semibold">基本データ</h3>
           <dl className="space-y-2">
             <div>
-              <dt className="text-bold inline">学類: </dt>
+              <dt className="font-bold inline">学類: </dt>
               <dd className="inline">
                 {intern.department}
                 {intern.grade}
               </dd>
             </div>
             <div>
-              <dt className="inline">研究室: </dt>
+              <dt className="font-bold inline">研究室: </dt>
               <dd className="inline">{intern.labo}</dd>
             </div>
             <div>
-              <dt className="inline">サークル: </dt>
+              <dt className="font-bold inline">サークル: </dt>
               <dd className="inline">{intern.club}</dd>
             </div>
           </dl>
@@ -55,24 +56,25 @@ export default function InternDetails({ intern }: InternDetailsProps) {
             {/* {intern.achievements.map((achievement, index) => (
               <li key={index}>{achievement}</li>
             ))} */}
+            {intern.achievements}
           </ul>
         </section>
 
         <section className="bg-gray-200 rounded-lg p-4">
           <h3 className="mb-2 font-semibold">インターン応募時の経験</h3>
-          <p>{intern.application_reason}</p>
+          <p>{intern.experience}</p>
         </section>
       </div>
 
       {/* インターン詳細 */}
       <div>
-        <header className="flex items-center justify-between bg-main-col p-4 text-white rounded-t-lg">
+        <section className="flex items-center justify-between bg-main-col p-4 text-white rounded-t-lg">
           <h1 className="text-xl font-bold">
             {intern.nickname}さんのインターン体験記
           </h1>
-        </header>
+        </section>
         {/* 更新日表示 */}
-        <span className="text-sm block p-4 pt-2 pb-0">
+        <span className="text-sm text-right py-2 block">
           更新日: {intern.updated_at}
         </span>
         {/* コンテンツ本体 */}
@@ -83,13 +85,13 @@ export default function InternDetails({ intern }: InternDetailsProps) {
             </h2>
             <div className="space-y-2">
               <h3 className="font-bold">株式会社{intern.company_name}</h3>
-              <p className="">{intern.department}</p>
+              <p className="">{intern.intern_detail}</p>
             </div>
           </section>
 
           <section>
             <h2 className="text-main-col text-xl font-bold mb-2">勤務期間</h2>
-            <p className="">{intern.work_duration}</p>
+            <p className="">{intern.work_duration_description}</p>
           </section>
 
           <section>
@@ -99,6 +101,7 @@ export default function InternDetails({ intern }: InternDetailsProps) {
                 {hours}
               </p>
             ))} */}
+            {intern.weekly_hours_description}
           </section>
 
           <section>
@@ -106,7 +109,6 @@ export default function InternDetails({ intern }: InternDetailsProps) {
               {intern.nickname}さんの時給
             </h2>
             <div className="space-y-1">
-              <p className="">{intern.hourly_wage}</p>
               <p className="">{intern.hourly_wage_description}</p>
             </div>
           </section>
@@ -132,6 +134,7 @@ export default function InternDetails({ intern }: InternDetailsProps) {
                 <li key={index}>{skill}</li>
               ))}
             </ul> */}
+            {intern.acquired_skill}
           </section>
 
           <section>
@@ -150,9 +153,9 @@ export default function InternDetails({ intern }: InternDetailsProps) {
 
           <section>
             <h2 className="text-main-col text-xl font-bold mb-2">
-              会社のぷっちゃけ評価
+              会社のぶっちゃけ評価　<div className="text-gray-700 inline">{intern.evaluation}.0 / 5.0</div>
             </h2>
-            <p className="">{intern.evaluation}</p>
+            <p className="">{intern.evaluation_reason}</p>
           </section>
         </div>
       </div>

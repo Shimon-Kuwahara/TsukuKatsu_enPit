@@ -1,7 +1,7 @@
 'use client';
 import React, { useEffect, useState } from "react";
 import InternCard from "../interns/pages/InternCard";
-import { Intern } from "../interns/types/Intern";
+import { Intern } from "@/types/intern";
 import Link from "next/link";
 
 export default function IndexInterns() {

@@ -1,6 +1,6 @@
 import { Recruitment } from "./recruitment";
 
-export type InternFull = {
+export type Intern = {
   id: number;
   nickname: string;
   department: number;
@@ -10,7 +10,7 @@ export type InternFull = {
   achievements: string | null;
   experience: string | null;
   company_name: string | null;
-  intern_detail: string;
+  intern_detail: string | null;
   work_duration_description: string | null;
   weekly_hours_description: string | null;
   hourly_wage_description: string | null;

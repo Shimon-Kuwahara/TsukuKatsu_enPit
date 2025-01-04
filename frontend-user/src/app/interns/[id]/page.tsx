@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { usePathname } from "next/navigation";
-import { InternFull } from "@/types/intern";
+import { Intern } from "@/types/intern";
 import InternDetails from "@/features/interns/id/components/InternDetails";
 import RecruitmentDetails from "@/features/interns/id/components/RecruitmentDetails";
 
@@ -10,7 +10,7 @@ export default function InternPage() {
   const pathname = usePathname();
   const id = pathname.split("/").pop(); // URLの最後の部分をIDとして取得
 
-  const [intern, setIntern] = useState<InternFull | null>(null);
+  const [intern, setIntern] = useState<Intern | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
 
@@ -23,7 +23,7 @@ export default function InternPage() {
         if (!res.ok) {
           throw new Error("Failed to fetch intern data");
         }
-        const data: InternFull = await res.json();
+        const data: Intern = await res.json();
         setIntern(data);
       } catch (err) {
         setError(err instanceof Error ? err.message : "An unexpected error occurred");
@@ -49,10 +49,8 @@ export default function InternPage() {
 
   return (
     <>
-      {/* まずインターン情報を表示する */}
       <InternDetails intern={intern} />
-
-      {/* インターンに紐づく求人情報・会社情報を表示する */}
+      
       {intern.recruitment && (
         <RecruitmentDetails recruitment={intern.recruitment} />
       )}
