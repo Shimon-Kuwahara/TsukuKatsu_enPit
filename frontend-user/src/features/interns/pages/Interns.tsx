@@ -4,7 +4,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import InternCard from "../pages/InternCard";
 import InternHeader from "./InternHeader";
 import InternFilter from "./InternFilter";
-import { Intern } from "../types/Intern";
+import { Intern } from "@/types/intern";
 import { InternEnums } from "../types/InternEnums";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronLeft, faChevronRight } from "@fortawesome/free-solid-svg-icons";
