@@ -1,59 +1,54 @@
-"use client";
-
-import { useState, useEffect } from "react";
-import { usePathname } from "next/navigation";
+import React from "react";
+import { notFound } from "next/navigation";
 import { Intern } from "@/types/intern";
 import InternDetails from "@/features/interns/id/components/InternDetails";
 import RecruitmentDetails from "@/features/interns/id/components/RecruitmentDetails";
 
-export default function InternPage() {
-  const pathname = usePathname();
-  const id = pathname.split("/").pop(); // URLの最後の部分をIDとして取得
+export const revalidate = 0; 
 
-  const [intern, setIntern] = useState<Intern | null>(null);
-  const [error, setError] = useState<string | null>(null);
-  const [loading, setLoading] = useState<boolean>(true);
+async function getIntern(id: string): Promise<Intern | null> {
+  // SSRで毎回リクエストしたいなら cache: "no-store" を指定
+  const res = await fetch(`${process.env.SERVER_API_URL}interns/${id}`, {
+    cache: "no-store", 
+  });
 
-  useEffect(() => {
-    if (!id) return; // IDが存在しない場合は早期リターン
-
-    const fetchInternData = async () => {
-      try {
-        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}interns/${id}`);
-        if (!res.ok) {
-          throw new Error("Failed to fetch intern data");
-        }
-        const data: Intern = await res.json();
-        setIntern(data);
-      } catch (err) {
-        setError(err instanceof Error ? err.message : "An unexpected error occurred");
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchInternData();
-  }, [id]);
-
-  if (loading) {
-    return <p>Loading...</p>;
+  if (!res.ok) {
+    // ステータスに応じて 404 を出すなり、エラーを投げるなり
+    // 今回は notFound() を呼ぶと Next.js の 404 ページへ飛びます
+    notFound();
   }
 
-  if (error) {
-    return <p>Error: {error}</p>;
+  const data: Intern = await res.json();
+  return data;
+}
+
+type InternPageProps = {
+  params: {
+    id: string; // [id] から取得
+  };
+};
+
+// --- サーバーコンポーネント (SSR) ---
+export default async function InternPage({ params }: InternPageProps) {
+  const { id } = params;
+
+  if (!id) {
+    // idがなければ 404 にする
+    notFound();
   }
 
+  // サーバーサイドで fetch
+  const intern = await getIntern(id);
   if (!intern) {
-    return <p>No data available</p>;
+    // 取得できなかったら 404
+    notFound();
   }
 
+  // 正常にデータ取得できたらレンダリング
   return (
     <>
       <InternDetails intern={intern} />
-      
-      {intern.recruitment && (
-        <RecruitmentDetails recruitment={intern.recruitment} />
-      )}
+      {intern.recruitment && <RecruitmentDetails recruitment={intern.recruitment} />}
     </>
   );
 }

@@ -1,52 +1,44 @@
-'use client';
-import React, { useEffect, useState } from "react";
+import React from "react";
+import Link from "next/link";
 import InternCard from "../interns/pages/InternCard";
 import { Intern } from "@/types/intern";
-import Link from "next/link";
 
-export default function IndexInterns() {
-  const [interns, setInterns] = useState<Intern[]>([]);
-  const [loading, setLoading] = useState<boolean>(true);
-  const [error, setError] = useState<string | null>(null);
+// 追加: 完全に最新データを取りたい場合は再検証オプション
+export const revalidate = 0; 
+// ↑ これで「常に最新のデータを取得 (＝ SSR)」になります
+// あるいは下記 fetch のオプションに cache: 'no-store' を付けるのでもOK
 
-  useEffect(() => {
-    async function fetchInterns() {
-      try {
-        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}interns`);
-        if (!res.ok) {
-          throw new Error(`Failed to fetch interns. Status: ${res.status}`);
-        }
-        const data: Intern[] = await res.json();
-        setInterns(data);
-      } catch (error) {
-        setError((error as Error).message);
-      } finally {
-        setLoading(false);
-      }
-    }
-    fetchInterns();
-  }, []);
+// SSRでインターン一覧を取得する関数
+async function getInterns(): Promise<Intern[]> {
+  const res = await fetch(`${process.env.SERVER_API_URL}interns`, {
+    cache: "no-store", // キャッシュを使わず、毎回リクエスト
+  });
+  if (!res.ok) {
+    throw new Error(`Failed to fetch interns. Status: ${res.status}`);
+  }
+  return res.json();
+}
 
-  if (loading) {
-    return (
-      <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-        <div className="spinner"></div>
-      </div>
-    );
+export default async function IndexInterns() {
+  let interns: Intern[] = [];
+
+  // サーバーサイドでデータ取得
+  try {
+    interns = await getInterns();
+  } catch (error) {
+    // fetch失敗やステータス不良時にエラー文を表示
+    return <div>Error: {(error as Error).message}</div>;
   }
 
-  if (error) {
-    return <div>Error: {error}</div>;
-  }
-
+  // 画面描画
   return (
     <div className="container mx-auto p-4">
-      <h1 className="text-2xl font-bold mb-4">
-        新着インターン情報
-      </h1>
+      <h1 className="text-2xl font-bold mb-4">新着インターン情報</h1>
       <div className="flex flex-wrap gap-10 justify-center">
         {interns.length === 0 ? (
-          <div className='col-span-full flex justify-center items-center h-40 text-center'>新着のインターン情報がありません。</div>
+          <div className="col-span-full flex justify-center items-center h-40 text-center">
+            新着のインターン情報がありません。
+          </div>
         ) : (
           interns.map((intern) => <InternCard key={intern.id} intern={intern} />)
         )}
