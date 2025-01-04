@@ -1,34 +1,27 @@
-"use client";
-import React, { useEffect, useState } from "react";
+// app/students/page.tsx (例) - サーバーコンポーネント
+import React from "react";
 import { User } from "@/types/user";
-import UserCard from "@/components/UserCard";
+import UserCard from "@/components/UserCard"; // この中で 'use client' が必要であれば書く
 
-export default function Students() {
-  const [users, setUsers] = useState<User[]>([]);
-  const [loading, setLoading] = useState<boolean>(true);
-  const [error, setError] = useState<string | null>(null);
+// 追加: ISR/SSG ではなく常にSSRしたい場合には
+export const revalidate = 0; // 常に最新データを取得する (＝ no-store 相当)
 
-  useEffect(() => {
-    const fetchUsers = async () => {
-      try {
-        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}users`);
-        if (!response.ok) {
-          throw new Error("Failed to fetch users");
-        }
-        const data = await response.json();
-        setUsers(data);
-      } catch (error) {
-        setError((error as Error).message);
-      } finally {
-        setLoading(false);
-      }
-    };
+async function getUsers(): Promise<User[]> {
+  // SSRで毎回リクエストを行いたい場合
+  const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}users`, {
+    cache: "no-store",
+  });
 
-    fetchUsers();
-  }, []);
+  if (!response.ok) {
+    throw new Error("Failed to fetch users");
+  }
 
-  if (loading) return <div>Loading...</div>;
-  if (error) return <div>Error: {error}</div>;
+  const data = await response.json();
+  return data;
+}
+
+export default async function Students() {
+  const users = await getUsers();
 
   return (
     <div>
