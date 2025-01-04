@@ -8,7 +8,7 @@ export const revalidate = 0; // 常に最新データを取得する (＝ no-sto
 
 async function getUsers(): Promise<User[]> {
   // SSRで毎回リクエストを行いたい場合
-  const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}users`, {
+  const response = await fetch(`${process.env.SERVER_API_URL}users`, {
     cache: "no-store",
   });
 
