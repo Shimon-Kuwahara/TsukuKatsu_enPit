@@ -68,13 +68,13 @@ export default function InternDetails({ intern }: InternDetailsProps) {
 
       {/* インターン詳細 */}
       <div>
-        <header className="flex items-center justify-between bg-main-col p-4 text-white rounded-t-lg">
+        <section className="flex items-center justify-between bg-main-col p-4 text-white rounded-t-lg">
           <h1 className="text-xl font-bold">
             {intern.nickname}さんのインターン体験記
           </h1>
-        </header>
+        </section>
         {/* 更新日表示 */}
-        <span className="text-sm block p-4 pt-2 pb-0">
+        <span className="text-sm text-right py-2 block">
           更新日: {intern.updated_at}
         </span>
         {/* コンテンツ本体 */}
