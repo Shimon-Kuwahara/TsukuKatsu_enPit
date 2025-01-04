@@ -7,11 +7,11 @@ type InternDetailsProps = {
 
 export default function InternDetails({ intern }: InternDetailsProps) {
   return (
-    <div className="max-w-3xl mx-auto p-4 space-y-6">
+    <div className="max-w-3xl mx-auto px-4 py-12 space-y-6">
       <div className="flex items-start gap-4">
         <div className="relative w-24 h-24 flex-shrink-0 overflow-hidden rounded-lg">
-          <Image
-            src="/default_profile.png"
+        <Image
+            src={`https://api.dicebear.com/6.x/adventurer/svg?seed=${intern.id}`}
             alt="Profile"
             fill
             className="object-cover"
@@ -32,18 +32,18 @@ export default function InternDetails({ intern }: InternDetailsProps) {
           <h3 className="mb-2 font-semibold">基本データ</h3>
           <dl className="space-y-2">
             <div>
-              <dt className="text-bold inline">学類: </dt>
+              <dt className="font-bold inline">学類: </dt>
               <dd className="inline">
                 {intern.department}
                 {intern.grade}
               </dd>
             </div>
             <div>
-              <dt className="inline">研究室: </dt>
+              <dt className="font-bold inline">研究室: </dt>
               <dd className="inline">{intern.labo}</dd>
             </div>
             <div>
-              <dt className="inline">サークル: </dt>
+              <dt className="font-bold inline">サークル: </dt>
               <dd className="inline">{intern.club}</dd>
             </div>
           </dl>
@@ -152,7 +152,7 @@ export default function InternDetails({ intern }: InternDetailsProps) {
 
           <section>
             <h2 className="text-main-col text-xl font-bold mb-2">
-              会社のぷっちゃけ評価
+              会社のぶっちゃけ評価　<div className="text-gray-700 inline">{intern.evaluation}.0 / 5.0</div>
             </h2>
             <p className="">{intern.evaluation_reason}</p>
           </section>

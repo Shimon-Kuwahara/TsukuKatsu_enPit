@@ -1,6 +1,6 @@
 import React from "react";
 import Image from "next/image";
-import { Intern } from "../types/Intern";
+import { Intern } from "@/types/intern";
 import Link from "next/link"; // Added Link import
 
 type InternCardProps = {
