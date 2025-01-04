@@ -1,8 +1,8 @@
-import { InternFull } from "@/types/intern";
+import { Intern } from "@/types/intern";
 import Image from "next/image";
 
 type InternDetailsProps = {
-  intern: InternFull;
+  intern: Intern;
 };
 
 export default function InternDetails({ intern }: InternDetailsProps) {
@@ -11,7 +11,8 @@ export default function InternDetails({ intern }: InternDetailsProps) {
       <div className="flex items-start gap-4">
         <div className="relative w-24 h-24 flex-shrink-0 overflow-hidden rounded-lg">
         <Image
-            src={`https://api.dicebear.com/6.x/adventurer/svg?seed=${intern.id}`}
+            // src={`https://api.dicebear.com/6.x/adventurer/svg?seed=${intern.id}`}
+            src="/images/profile.png"
             alt="Profile"
             fill
             className="object-cover"
