@@ -1,9 +1,7 @@
-// app/students/page.tsx (例) - サーバーコンポーネント
 import React from "react";
 import { User } from "@/types/user";
 import UserCard from "@/components/UserCard"; // この中で 'use client' が必要であれば書く
 
-// 追加: ISR/SSG ではなく常にSSRしたい場合には
 export const revalidate = 0; // 常に最新データを取得する (＝ no-store 相当)
 
 async function getUsers(): Promise<User[]> {
