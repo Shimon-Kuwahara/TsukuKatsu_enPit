@@ -23,5 +23,5 @@ export type Recruitment = {
   image2?: string;
   image3?: string;
   status: boolean;
-  company?: Company;  // リレーション先として Company を持つ可能性がある
+  company: Company;
 };
