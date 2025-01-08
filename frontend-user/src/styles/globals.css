@@ -45,8 +45,8 @@ body {
 .spinner {
   width: 3rem; /* アイコンのサイズ */
   height: 3rem;
-  border: 4px solid rgba(255, 255, 255, 0.3); /* 外側の薄いボーダー */
-  border-top-color: white; /* 回転する部分の色 */
+  border: 4px solid rgba(0, 0, 0, 0.1); /* 外側の薄いボーダー */
+  border-top-color: #333; /* 回転する部分の色 */
   border-radius: 50%; /* 円形 */
   animation: spin 1s linear infinite; /* アニメーション */
 }
@@ -60,3 +60,23 @@ body {
     transform: rotate(360deg);
   }
 }
+
+/* ロード画面のコンテナ */
+.spinner-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh; /* ビューポート全体に表示 */
+  background-color: white; /* シンプルな白背景 */
+  color: #333; /* テキストカラー */
+  font-family: 'Arial', sans-serif;
+  font-size: 1rem;
+  text-align: center;
+  flex-direction: column;
+}
+
+/* ロード画面のテキスト */
+.spinner-text {
+  margin-top: 1rem; /* スピナーとの間隔 */
+}
+

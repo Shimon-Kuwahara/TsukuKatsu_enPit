@@ -105,7 +105,7 @@ const InternFilter: React.FC<InternFilterProps> = ({
 
           <button
             onClick={onApply}
-            className="text-sm px-4 py-2 bg-main-col-mid text-white rounded"
+            className="text-sm px-4 py-2 bg-main-col text-white rounded"
           >
             適用
           </button>

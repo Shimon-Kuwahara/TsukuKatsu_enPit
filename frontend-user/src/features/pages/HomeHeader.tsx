@@ -73,7 +73,7 @@ export default function HomeHeader({ features, enums }: HomeHeaderProps) {
   };
 
   return (
-    <div>
+    <>
       <InternHeader
         onFilterClick={() => setIsFilterModalOpen(true)}
         features={features}
@@ -89,6 +89,6 @@ export default function HomeHeader({ features, enums }: HomeHeaderProps) {
         onClose={() => setIsFilterModalOpen(false)}
         onReset={resetFilters}
       />
-    </div>
+    </>
   );
 }
