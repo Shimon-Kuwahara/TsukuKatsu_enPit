@@ -3,7 +3,6 @@ import { notFound } from "next/navigation";
 import { Intern } from "@/types/intern";
 import InternDetails from "@/features/interns/id/components/InternDetails";
 import RecruitmentDetails from "@/features/interns/id/components/RecruitmentDetails";
-import ApplicationButton from "@/features/interns/id/components/ApplicationButton";
 
 export const revalidate = 0; 
 
@@ -50,7 +49,7 @@ export default async function InternPage({ params }: InternPageProps) {
     <div className="max-w-6xl mx-auto px-4 pt-12 space-y-6">
       <InternDetails intern={intern} />
       {intern.recruitment && <RecruitmentDetails recruitment={intern.recruitment} />}
-      <ApplicationButton recruitment_id={intern.recruitment?.id} intern_id={intern.id}/>
+      {/* <ApplicationButton recruitment_id={intern.recruitment?.id} intern_id={intern.id}/> */}
     </div>
   );
 }
