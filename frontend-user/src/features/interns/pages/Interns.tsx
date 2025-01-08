@@ -19,7 +19,6 @@ export default function Interns() {
 
 function InternsContent() {
   const [interns, setInterns] = useState<Intern[]>([]);
-  const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
   const [page, setPage] = useState<number>(1);
   const [totalPages, setTotalPages] = useState<number>(1);
@@ -60,7 +59,6 @@ function InternsContent() {
   useEffect(() => {
     const fetchInterns = async () => {
       try {
-        setLoading(true);
         const query = new URLSearchParams(searchParams.toString());
         const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}paginated_interns?${query}`);
         if (!res.ok) {
@@ -72,8 +70,6 @@ function InternsContent() {
         setTotalCount(total);
       } catch (error) {
         setError((error as Error).message);
-      } finally {
-        setLoading(false);
       }
     }
     fetchInterns();
@@ -187,15 +183,6 @@ function InternsContent() {
     router.push(`/interns?${query.toString()}`);
   };
   
-  
-  if (loading) {
-    return (
-      <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-        <div className="spinner"></div>
-      </div>
-    );
-  }
-
   if (error) {
     return <div>Error: {error}</div>;
   }
