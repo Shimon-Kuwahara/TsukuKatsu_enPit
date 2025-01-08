@@ -92,17 +92,17 @@ export default function InternDetails({ intern }: InternDetailsProps) {
           <section>
             <h2 className="text-main-col font-extrabold mb-2 leading-relaxed">勤務期間</h2>
             <p className="">{intern.work_duration_description}</p>
+            {intern.weekly_hours_description}
           </section>
 
-          <section>
-            <h2 className="text-main-col font-extrabold mb-2 leading-relaxed">週勤務時間</h2>
+          {/* <section> */}
+            {/* <h2 className="text-main-col font-extrabold mb-2 leading-relaxed">週勤務時間</h2> */}
             {/* {intern.weeklyHours.map((hours, index) => (
               <p key={index} className="">
                 {hours}
               </p>
             ))} */}
-            {intern.weekly_hours_description}
-          </section>
+          {/* </section> */}
 
           <section>
             <h2 className="text-main-col font-extrabold mb-2">
@@ -126,6 +126,13 @@ export default function InternDetails({ intern }: InternDetailsProps) {
           </section>
 
           <section>
+            <h2 className="text-main-col font-extrabold mb-2">
+              長期インターン内定をもらうためにやったこと
+            </h2>
+            <p className="leading-relaxed">{intern.evaluation_reason}</p>
+          </section>
+
+          <section>
             <h2 className="text-main-col font-extrabold mb-2 leading-relaxed">
               インターンを通して身についたスキル
             </h2>
@@ -135,13 +142,6 @@ export default function InternDetails({ intern }: InternDetailsProps) {
               ))}
             </ul> */}
             {intern.acquired_skill}
-          </section>
-
-          <section>
-            <h2 className="text-main-col font-extrabold mb-2">
-              面接でアピールしたこと
-            </h2>
-            <p className="leading-relaxed">{intern.evaluation_reason}</p>
           </section>
 
           <section>
