@@ -76,6 +76,7 @@ class Intern < ApplicationRecord
     マーケター: 3,
     コンサルタント: 4,
     営業: 5,
-    研究職: 6
+    研究職: 6,
+    メンター: 7,
   }, _prefix: true
 end

@@ -10,7 +10,7 @@ type InternCardProps = {
 const InternCard: React.FC<InternCardProps> = ({ intern }) => {
   return (
     <Link href={`/interns/${intern.id}`}> {/* Added Link tag */}
-      <div className="bg-white shadow-lg rounded-[30px] p-6 w-[360px] h-[300px]">
+      <div className="bg-white shadow-lg rounded-[30px] p-6 w-[360px] h-[320px]">
         <div className="flex items-center gap-2">
           {/* アイコン */}
           <div className="relative w-24 h-24 rounded-full overflow-hidden">
@@ -44,8 +44,8 @@ const InternCard: React.FC<InternCardProps> = ({ intern }) => {
         </div>
         {/* 企業情報 */}
         <div className="mt-2">
-          <div className="text-lg font-bold">{intern.intern_overview}</div>
-          <div className="text-sm font-bold">{intern.company_name}</div>
+          <div className="font-bold">{intern.intern_overview}</div>
+          <div className="text-sm">{intern.company_name}</div>
         </div>
         {/* 条件 */}
         <div className="grid grid-cols-3 gap-2 text-center text-sm mt-2">
