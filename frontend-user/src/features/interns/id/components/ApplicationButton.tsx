@@ -10,7 +10,7 @@ type ApplicationButtonProps = {
 };
 
 export default function ApplicationButton(ids: ApplicationButtonProps) {
-  const [user, setUser] = useState<number>(null);
+  const [user, setUser] = useState<number>();
   useEffect(() => {
     const fetchUserData = async () => {
       try {
@@ -31,11 +31,12 @@ export default function ApplicationButton(ids: ApplicationButtonProps) {
         console.error("ユーザー情報の取得に失敗しました:", error);
       }
     };
+    fetchUserData();
   }, []);
 
   function applyForJob() {
     console.log(ids);
-    console.log(Cookies.get("uid"));
+    console.log(user);
     console.log("応募しました");
   }
 
