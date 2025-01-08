@@ -1,4 +1,6 @@
-
+Intern.delete_all
+Feature.delete_all
+InternFeature.delete_all
 intern2 = Intern.create!(
   {
     nickname: 'K',
