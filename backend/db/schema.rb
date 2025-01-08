@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_12_28_071036) do
+ActiveRecord::Schema[7.0].define(version: 2025_01_07_102702) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -19,6 +19,8 @@ ActiveRecord::Schema[7.0].define(version: 2024_12_28_071036) do
     t.bigint "recruitment_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "interns_id"
+    t.index ["interns_id"], name: "index_applications_on_interns_id"
     t.index ["recruitment_id"], name: "index_applications_on_recruitment_id"
     t.index ["user_id"], name: "index_applications_on_user_id"
   end
@@ -219,6 +221,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_12_28_071036) do
     t.index ["uid", "provider"], name: "index_users_on_uid_and_provider", unique: true
   end
 
+  add_foreign_key "applications", "interns", column: "interns_id"
   add_foreign_key "applications", "recruitments"
   add_foreign_key "applications", "users"
   add_foreign_key "chat_rooms", "companies"

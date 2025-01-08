@@ -46,9 +46,10 @@ export default async function InternPage({ params }: InternPageProps) {
 
   // 正常にデータ取得できたらレンダリング
   return (
-    <>
+    <div className="max-w-6xl mx-auto px-4 pt-12 space-y-6">
       <InternDetails intern={intern} />
       {intern.recruitment && <RecruitmentDetails recruitment={intern.recruitment} />}
-    </>
+      {/* <ApplicationButton recruitment_id={intern.recruitment?.id} intern_id={intern.id}/> */}
+    </div>
   );
 }
