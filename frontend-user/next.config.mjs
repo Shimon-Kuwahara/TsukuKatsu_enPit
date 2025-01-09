@@ -7,6 +7,16 @@ const nextConfig = {
       };
       return config;
     },
+    images: {
+      remotePatterns: [
+        {
+          protocol: 'https',
+          hostname: 'api.dicebear.com',
+          port: '',
+          pathname: '/6.x/**', // バージョンに合わせて調整可能
+        },
+      ],
+    },
   };
   
   export default nextConfig;

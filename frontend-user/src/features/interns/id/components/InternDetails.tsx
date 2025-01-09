@@ -11,11 +11,11 @@ export default function InternDetails({ intern }: InternDetailsProps) {
       <div className="flex items-start gap-4">
         <div className="relative w-24 h-24 flex-shrink-0 overflow-hidden rounded-lg">
           <Image
-            // src={`https://api.dicebear.com/6.x/adventurer/svg?seed=${intern.id}`}
-            src="/images/profile.png"
+            src={`https://api.dicebear.com/6.x/adventurer/png?seed=${intern.nickname}`}
             alt="Profile"
-            fill
-            className="object-cover"
+            width={100}
+            height={100}
+            className="rounded-full object-cover"
           />
         </div>
         <div>
@@ -124,7 +124,10 @@ export default function InternDetails({ intern }: InternDetailsProps) {
             </h2>
             <div className="space-y-1">
               <p className="leading-relaxed"> 時給{intern.hourly_wage}円</p>
-              <p className="leading-relaxed"> {intern.hourly_wage_description}</p>
+              <p className="leading-relaxed">
+                {" "}
+                {intern.hourly_wage_description}
+              </p>
             </div>
           </section>
 

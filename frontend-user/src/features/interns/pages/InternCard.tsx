@@ -15,7 +15,7 @@ const InternCard: React.FC<InternCardProps> = ({ intern }) => {
           {/* アイコン */}
           <div className="relative w-24 h-24 rounded-full overflow-hidden">
             <Image
-              src="/default_profile.png" // プロフィール画像のパス
+              src={`https://api.dicebear.com/6.x/adventurer/png?seed=${intern.nickname}`}
               alt="Profile"
               width={100}
               height={100}
