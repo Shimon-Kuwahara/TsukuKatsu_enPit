@@ -9,13 +9,13 @@ type InternCardProps = {
 
 const InternCard: React.FC<InternCardProps> = ({ intern }) => {
   return (
-    <Link href={`/interns/${intern.id}`}> {/* Added Link tag */}
+    <Link href={`/interns/${intern.id}`}>
       <div className="bg-white shadow-lg rounded-[30px] p-6 w-[360px] h-[320px]">
         <div className="flex items-center gap-2">
           {/* アイコン */}
           <div className="relative w-24 h-24 rounded-full overflow-hidden">
             <Image
-              src="/default_profile.png" // プロフィール画像のパス
+              src={`https://api.dicebear.com/6.x/adventurer/png?seed=${intern.nickname}`}
               alt="Profile"
               width={100}
               height={100}
@@ -44,7 +44,7 @@ const InternCard: React.FC<InternCardProps> = ({ intern }) => {
         </div>
         {/* 企業情報 */}
         <div className="mt-2">
-          <div className="font-bold">{intern.intern_overview}</div>
+          <div className="font-bold line-clamp-2">{intern.intern_overview}</div>
           <div className="text-sm">{intern.company_name}</div>
         </div>
         {/* 条件 */}
@@ -54,12 +54,16 @@ const InternCard: React.FC<InternCardProps> = ({ intern }) => {
             <div className="font-bold mt-2">{intern.hourly_wage}円</div>
           </div>
           <div className="bg-gray-200 rounded-[20px] px-2 py-4">
-            <div className="text-sm">週勤務日数</div>
-            <div className="font-bold mt-2">週{intern.weekly_hours}日</div>
+            <div className="text-sm">週勤務時間</div>
+            <div className="font-bold mt-2">週{intern.weekly_hours}時間</div>
           </div>
           <div className="bg-gray-200 rounded-[20px] px-2 py-4">
             <div className="text-sm">勤務期間</div>
-            <div className="font-bold mt-2">{intern.work_duration}年</div>
+            <div className="font-bold mt-2">
+              {intern.work_duration >= 12
+                ? "1年~"
+                : `${intern.work_duration}ヶ月`}
+            </div>
           </div>
         </div>
       </div>

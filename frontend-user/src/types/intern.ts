@@ -25,7 +25,7 @@ export type Intern = {
   catchphrase: string;
   hourly_wage: number | null;
   weekly_hours: number | null;
-  work_duration: number | null;
+  work_duration: number;
   industry: number;
   occupation: number;
   recruitment_id: number | null;

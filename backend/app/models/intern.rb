@@ -78,5 +78,6 @@ class Intern < ApplicationRecord
     営業: 5,
     研究職: 6,
     メンター: 7,
+    機械学習・AI: 8,
   }, _prefix: true
 end

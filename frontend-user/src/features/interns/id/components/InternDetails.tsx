@@ -10,20 +10,25 @@ export default function InternDetails({ intern }: InternDetailsProps) {
     <div className="space-y-6">
       <div className="flex items-start gap-4">
         <div className="relative w-24 h-24 flex-shrink-0 overflow-hidden rounded-lg">
-        <Image
-            // src={`https://api.dicebear.com/6.x/adventurer/svg?seed=${intern.id}`}
-            src="/images/profile.png"
+          <Image
+            src={`https://api.dicebear.com/6.x/adventurer/png?seed=${intern.nickname}`}
             alt="Profile"
-            fill
-            className="object-cover"
+            width={100}
+            height={100}
+            className="rounded-full object-cover"
           />
         </div>
         <div>
           <h1 className="text-2xl font-extrabold text-main-col">
             {intern.department}
           </h1>
-          <h2 className="text-2xl font-extrabold mb-1 text-main-col">{intern.grade}</h2>
-          <span className="text-2xl font-extrabold text-main-col">{intern.nickname}</span><span className="inline text-xl">さん</span>
+          <h2 className="text-2xl font-extrabold mb-1 text-main-col">
+            {intern.grade}
+          </h2>
+          <span className="text-2xl font-extrabold text-main-col">
+            {intern.nickname}
+          </span>
+          <span className="inline text-xl">さん</span>
         </div>
       </div>
 
@@ -61,7 +66,7 @@ export default function InternDetails({ intern }: InternDetailsProps) {
         </section>
 
         <section className="bg-gray-100 rounded-lg p-4 leading-relaxed">
-          <h3 className="mb-2 font-semibold">インターン応募時の経験</h3>
+          <h3 className="mb-2 font-semibold">インターン応募時の経験・経歴</h3>
           <p>{intern.experience}</p>
         </section>
       </div>
@@ -84,32 +89,45 @@ export default function InternDetails({ intern }: InternDetailsProps) {
               インターン内容
             </h2>
             <div className="space-y-2">
-              <h3 className="font-extrabold">株式会社{intern.company_name}</h3>
+              <h3 className="font-extrabold">{intern.company_name}</h3>
               <p className="leading-relaxed">{intern.intern_detail}</p>
             </div>
           </section>
 
           <section>
-            <h2 className="text-main-col font-extrabold mb-2 leading-relaxed">勤務期間</h2>
-            <p className="">{intern.work_duration_description}</p>
-            {intern.weekly_hours_description}
+            <h2 className="text-main-col font-extrabold mb-2">
+              会社のぶっちゃけ評価　
+              <div className="text-gray-800 font-extrabold inline">
+                {intern.evaluation}.0 / 5.0
+              </div>
+            </h2>
+            <p className="leading-relaxed">{intern.evaluation_reason}</p>
           </section>
 
-          {/* <section> */}
-            {/* <h2 className="text-main-col font-extrabold mb-2 leading-relaxed">週勤務時間</h2> */}
-            {/* {intern.weeklyHours.map((hours, index) => (
-              <p key={index} className="">
-                {hours}
-              </p>
-            ))} */}
-          {/* </section> */}
+          <section>
+            <h2 className="text-main-col font-extrabold mb-2 leading-relaxed">
+              勤務期間
+            </h2>
+            <p className="">{intern.work_duration_description}</p>
+          </section>
+
+          <section>
+            <h2 className="text-main-col font-extrabold mb-2 leading-relaxed">
+              週勤務時間
+            </h2>
+            {intern.weekly_hours_description}
+          </section>
 
           <section>
             <h2 className="text-main-col font-extrabold mb-2">
               {intern.nickname}さんの時給
             </h2>
             <div className="space-y-1">
-              <p className="leading-relaxed">{intern.hourly_wage_description}</p>
+              <p className="leading-relaxed"> 時給{intern.hourly_wage}円</p>
+              <p className="leading-relaxed">
+                {" "}
+                {intern.hourly_wage_description}
+              </p>
             </div>
           </section>
 
@@ -119,9 +137,7 @@ export default function InternDetails({ intern }: InternDetailsProps) {
           </section>
 
           <section>
-            <h2 className="text-main-col font-extrabold mb-2">
-              応募した理由
-            </h2>
+            <h2 className="text-main-col font-extrabold mb-2">応募した理由</h2>
             <p className="leading-relaxed">{intern.application_reason}</p>
           </section>
 
@@ -148,14 +164,9 @@ export default function InternDetails({ intern }: InternDetailsProps) {
             <h2 className="text-main-col font-extrabold mb-2">
               後輩へのアドバイス
             </h2>
-            <p className="leading-relaxed whitespace-pre-line">{intern.advise}</p>
-          </section>
-
-          <section>
-            <h2 className="text-main-col font-extrabold mb-2">
-              会社のぶっちゃけ評価　<div className="text-gray-700 inline">{intern.evaluation}.0 / 5.0</div>
-            </h2>
-            <p className="leading-relaxed">{intern.evaluation_reason}</p>
+            <p className="leading-relaxed whitespace-pre-line">
+              {intern.advise}
+            </p>
           </section>
         </div>
       </div>
